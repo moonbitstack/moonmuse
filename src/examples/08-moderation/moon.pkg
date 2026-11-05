@@ -1,0 +1,10 @@
+
+import {
+  "moonbitstack/moonmuse",
+  "moonbitstack/moonmuse/models",
+  "moonbitlang/async",
+  "moonbitstack/moonmuse/openai",
+  "moonbitstack/moonmuse/fake",
+}
+
+pkgtype(kind: "executable")

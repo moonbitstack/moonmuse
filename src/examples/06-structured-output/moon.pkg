@@ -1,0 +1,11 @@
+
+import {
+  "moonbitstack/moonmuse",
+  "moonbitstack/moonmuse/models",
+  "moonbitstack/moonmuse/toolbox",
+  "moonbitlang/async",
+  "moonbitstack/moonmuse/structured",
+  "moonbitstack/moonmuse/fake",
+}
+
+pkgtype(kind: "executable")

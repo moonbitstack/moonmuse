@@ -1,0 +1,9 @@
+
+import {
+  "moonbitstack/moonmuse",
+  "moonbitstack/moonmuse/models",
+  "moonbitlang/core/json",
+  "moonbitstack/moonmuse/anthropic",
+}
+
+pkgtype(kind: "executable")

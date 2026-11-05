@@ -1,0 +1,8 @@
+// A scripted provider for other libraries' tests.
+
+import {
+  "moonbitstack/moonmuse",
+  "moonbitstack/moonmuse/models",
+  "moonbitstack/moonmuse/toolbox",
+  "moonbitlang/core/json",
+}

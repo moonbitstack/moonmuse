@@ -30,3 +30,7 @@ keywords = [
 description = "Talk to language models from MoonBit: one contract for chat, streaming, tools and embeddings, with a subpackage per provider."
 
 source = "src"
+
+import {
+  "moonbitlang/async@0.22.5",
+}

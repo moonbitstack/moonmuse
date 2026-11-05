@@ -1,1 +1,8 @@
-// The provider contract and the types every provider shares. Providers are subpackages.
+// The types every provider shares and the provider contract. Providers are subpackages.
+
+import {
+  "moonbitstack/moonmuse/models",
+  "moonbitstack/moonmuse/toolbox",
+  "moonbitlang/async",
+  "moonbitlang/core/json",
+}
