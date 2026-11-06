@@ -1,8 +1,6 @@
-// The types every provider shares and the provider contract. Providers are subpackages.
+// The shared vocabulary: messages, requests, replies, the two contracts, and the
+// server-sent-events reader every streaming client needs.
 
 import {
-  "moonbitstack/moonmuse/models",
-  "moonbitstack/moonmuse/toolbox",
-  "moonbitlang/async",
   "moonbitlang/core/json",
 }

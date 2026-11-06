@@ -1,5 +1,0 @@
-// Tool descriptors, the registry, and running tools.
-
-import {
-  "moonbitlang/core/string",
-}

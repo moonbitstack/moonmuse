@@ -1,6 +1,0 @@
-
-import {
-  "moonbitstack/moonmuse/toolbox",
-}
-
-pkgtype(kind: "executable")

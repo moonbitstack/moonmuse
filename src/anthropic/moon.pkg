@@ -1,9 +1,0 @@
-// The Anthropic wire format.
-
-import {
-  "moonbitstack/moonmuse",
-  "moonbitstack/moonmuse/models",
-  "moonbitstack/moonmuse/toolbox",
-  "moonbitlang/async",
-  "moonbitlang/core/json",
-}

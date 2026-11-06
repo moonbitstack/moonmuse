@@ -1,9 +1,0 @@
-
-import {
-  "moonbitstack/moonmuse",
-  "moonbitstack/moonmuse/models",
-  "moonbitstack/moonmuse/toolbox",
-  "moonbitstack/moonmuse/anthropic",
-}
-
-pkgtype(kind: "executable")

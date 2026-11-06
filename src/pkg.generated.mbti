@@ -1,12 +1,366 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "moonbitstack/moonmuse"
 
+import {
+  "moonbitlang/core/debug",
+  "moonbitlang/core/json",
+}
+
 // Values
+pub fn check_vectors(Array[String], Array[Array[Double]]) -> Array[Array[Double]] raise LlmError
+
+pub fn encode_sse(Array[Frame]) -> String
+
+pub fn json_array(@json.Json, String) -> Array[@json.Json]
+
+pub fn json_as_bool(@json.Json) -> Bool?
+
+pub fn json_as_number(@json.Json) -> Double?
+
+pub fn json_as_string(@json.Json) -> String?
+
+pub fn json_bool(@json.Json, String) -> Bool?
+
+pub fn json_field(@json.Json, String) -> @json.Json?
+
+pub fn json_int(@json.Json, String) -> Int32?
+
+pub fn json_number(@json.Json, String) -> Double?
+
+pub fn json_numbers(@json.Json) -> Array[Double]
+
+pub fn json_object(@json.Json, String) -> Map[String, @json.Json]?
+
+pub fn json_string(@json.Json, String) -> String?
+
+pub fn json_string_or(@json.Json, String, String) -> String
+
+pub fn json_strings(@json.Json) -> Array[String]
+
+pub fn merge_json(Map[String, @json.Json], Map[String, @json.Json]) -> Map[String, @json.Json]
+
+pub fn numbers_json(Array[Double]) -> @json.Json
+
+pub fn object_json(Array[(String, @json.Json)]) -> @json.Json
+
+pub fn parse_int_lossy(String) -> Int32
+
+pub fn parse_json_lossy(String) -> @json.Json
+
+pub fn parse_ndjson(StringView) -> Array[Frame]
+
+pub fn parse_sse(StringView) -> Array[Frame]
+
+pub fn strings_json(Array[String]) -> @json.Json
 
 // Errors
+#derive(Eq, @debug.Debug)
+pub(all) suberror LlmError {
+  Status(code~ : Int32, body~ : String, retry_after~ : Int64?)
+  Stream(String)
+  Decode(String)
+  Unsupported(String)
+}
+pub fn LlmError::describe(Self) -> String
+pub fn LlmError::equal(Self, Self) -> Bool
+pub fn LlmError::is_retryable(Self) -> Bool
+pub fn LlmError::not_equal(Self, Self) -> Bool
+pub fn LlmError::retry_after(Self) -> Int64?
+pub fn LlmError::to_repr(Self) -> @debug.Repr
 
 // Types and methods
+#derive(Eq, @debug.Debug)
+pub(all) enum Asked {
+  Chat(Request)
+  Embed(model~ : String, inputs~ : Array[String])
+  Models
+  Count(Request)
+}
+pub fn Asked::equal(Self, Self) -> Bool
+pub fn Asked::not_equal(Self, Self) -> Bool
+pub fn Asked::to_repr(Self) -> @debug.Repr
+
+pub struct Assembly {
+  mut text : String
+  order : Array[String]
+  names : Map[String, String]
+  args : Map[String, String]
+  mut done : Reply?
+}
+pub fn Assembly::new() -> Self
+pub fn Assembly::push(Self, Delta) -> Unit
+pub fn Assembly::reply(Self) -> Reply
+
+#derive(Eq, @debug.Debug)
+pub(all) struct Call {
+  verb : String
+  path : String
+  headers : Array[(String, String)]
+  body : @json.Json
+}
+pub fn Call::equal(Self, Self) -> Bool
+pub fn Call::header(Self, String, String) -> Self
+pub fn Call::new(String, String, @json.Json) -> Self
+pub fn Call::not_equal(Self, Self) -> Bool
+pub fn Call::to_repr(Self) -> @debug.Repr
+
+#derive(Eq, @debug.Debug)
+pub(all) enum Capability {
+  Chat
+  Tools
+  Reasoning
+  Vision
+  Audio
+  Embedding
+  Json
+}
+pub fn Capability::equal(Self, Self) -> Bool
+pub fn Capability::not_equal(Self, Self) -> Bool
+pub fn Capability::to_repr(Self) -> @debug.Repr
+
+#derive(Eq, @debug.Debug)
+pub(all) enum Delta {
+  Text(String)
+  CallStart(id~ : String, name~ : String)
+  CallArgs(id~ : String, chunk~ : String)
+  Done(Reply)
+}
+pub fn Delta::equal(Self, Self) -> Bool
+pub fn Delta::not_equal(Self, Self) -> Bool
+pub fn Delta::to_repr(Self) -> @debug.Repr
+
+#derive(Eq, @debug.Debug)
+pub(all) enum Finish {
+  Stop
+  Length
+  Calls
+  Filtered
+  Other(String)
+}
+pub fn Finish::equal(Self, Self) -> Bool
+pub fn Finish::not_equal(Self, Self) -> Bool
+pub fn Finish::of(String) -> Self
+pub fn Finish::to_repr(Self) -> @debug.Repr
+
+#derive(Eq, @debug.Debug)
+pub(all) struct Frame {
+  event : String?
+  data : String
+}
+pub fn Frame::equal(Self, Self) -> Bool
+pub fn Frame::json(Self) -> @json.Json raise LlmError
+pub fn Frame::named(String, String) -> Self
+pub fn Frame::new(String) -> Self
+pub fn Frame::not_equal(Self, Self) -> Bool
+pub fn Frame::to_repr(Self) -> @debug.Repr
+
+#derive(Eq, @debug.Debug)
+pub(all) struct Message {
+  role : Role
+  parts : Array[Part]
+}
+pub fn Message::assistant(String) -> Self
+pub fn Message::calls(Self) -> Array[Part]
+pub fn Message::equal(Self, Self) -> Bool
+pub fn Message::is_call(Self) -> Bool
+pub fn Message::new(Role, Array[Part]) -> Self
+pub fn Message::not_equal(Self, Self) -> Bool
+pub fn Message::push(Self, Part) -> Self
+pub fn Message::results(Self) -> Array[Part]
+pub fn Message::system(String) -> Self
+pub fn Message::text_content(Self, separator? : String) -> String
+pub fn Message::to_repr(Self) -> @debug.Repr
+pub fn Message::tool(String, id~ : String, error? : Bool) -> Self
+pub fn Message::user(String) -> Self
+
+#derive(Eq, @debug.Debug)
+pub(all) struct ModelInfo {
+  id : String
+  context : Int32?
+  output : Int32?
+  input_price : Double?
+  output_price : Double?
+  capabilities : Array[Capability]
+}
+pub fn ModelInfo::equal(Self, Self) -> Bool
+pub fn ModelInfo::new(String, context? : Int32, output? : Int32, input_price? : Double, output_price? : Double, capabilities? : Array[Capability]) -> Self
+pub fn ModelInfo::not_equal(Self, Self) -> Bool
+pub fn ModelInfo::supports(Self, Capability) -> Bool
+pub fn ModelInfo::to_repr(Self) -> @debug.Repr
+
+#derive(Eq, @debug.Debug)
+pub(all) enum Part {
+  Text(String)
+  Image(url~ : String, media~ : String?)
+  Call(id~ : String, name~ : String, args~ : @json.Json)
+  Result(id~ : String, content~ : String, error~ : Bool)
+}
+pub fn Part::call(String, String, @json.Json) -> Self
+pub fn Part::equal(Self, Self) -> Bool
+pub fn Part::not_equal(Self, Self) -> Bool
+pub fn Part::result(String, String, error? : Bool) -> Self
+pub fn Part::text(String) -> Self
+pub fn Part::text_of(Self) -> String
+pub fn Part::to_repr(Self) -> @debug.Repr
+
+#derive(Eq, @debug.Debug)
+pub(all) struct Reply {
+  message : Message
+  finish : Finish
+  usage : Usage
+  raw : @json.Json
+}
+pub fn Reply::calls(Self) -> Array[Part]
+pub fn Reply::equal(Self, Self) -> Bool
+pub fn Reply::new(Message, finish? : Finish, usage? : Usage, raw? : @json.Json) -> Self
+pub fn Reply::not_equal(Self, Self) -> Bool
+pub fn Reply::text(Self) -> String
+pub fn Reply::to_repr(Self) -> @debug.Repr
+
+#derive(Eq, @debug.Debug)
+pub(all) struct Request {
+  model : String
+  messages : Array[Message]
+  tools : Array[Tool]
+  choice : ToolChoice
+  temperature : Double?
+  max_tokens : Int32?
+  stop : Array[String]
+  extra : Map[String, @json.Json]
+}
+pub fn Request::equal(Self, Self) -> Bool
+pub fn Request::new(String, Array[Message], tools? : Array[Tool], choice? : ToolChoice, temperature? : Double, max_tokens? : Int32, stop? : Array[String], extra? : Map[String, @json.Json]) -> Self
+pub fn Request::not_equal(Self, Self) -> Bool
+pub fn Request::push(Self, Message) -> Self
+pub fn Request::to_repr(Self) -> @debug.Repr
+pub fn Request::with_messages(Self, Array[Message]) -> Self
+
+#derive(Eq, @debug.Debug)
+pub(all) enum Role {
+  System
+  User
+  Assistant
+  Tool
+}
+pub fn Role::code(Self) -> String
+pub fn Role::equal(Self, Self) -> Bool
+pub fn Role::not_equal(Self, Self) -> Bool
+pub fn Role::to_repr(Self) -> @debug.Repr
+
+#derive(Eq, @debug.Debug)
+pub(all) struct Route {
+  kind : RouteKind
+  verb : String
+  path : String
+}
+pub fn Route::equal(Self, Self) -> Bool
+pub fn Route::matches(Self, String, String) -> Bool
+pub fn Route::new(RouteKind, String, String) -> Self
+pub fn Route::not_equal(Self, Self) -> Bool
+pub fn Route::to_repr(Self) -> @debug.Repr
+
+#derive(Eq, @debug.Debug)
+pub(all) enum RouteKind {
+  Chat
+  Complete
+  Responses
+  Embed
+  Models
+  Count
+  Show
+  Version
+  Generate
+}
+pub fn RouteKind::equal(Self, Self) -> Bool
+pub fn RouteKind::not_equal(Self, Self) -> Bool
+pub fn RouteKind::to_repr(Self) -> @debug.Repr
+
+pub struct Sse {
+  mut buf : String
+  mut event : String?
+  mut data : Array[String]
+  mut started : Bool
+}
+pub fn Sse::feed(Self, StringView) -> Array[Frame]
+pub fn Sse::finish(Self) -> Array[Frame]
+pub fn Sse::is_idle(Self) -> Bool
+pub fn Sse::new() -> Self
+
+#derive(Eq, @debug.Debug)
+pub(all) struct Tool {
+  name : String
+  description : String
+  schema : @json.Json
+}
+pub fn Tool::equal(Self, Self) -> Bool
+pub fn Tool::new(String, String, schema? : @json.Json) -> Self
+pub fn Tool::not_equal(Self, Self) -> Bool
+pub fn Tool::to_repr(Self) -> @debug.Repr
+
+#derive(Eq, @debug.Debug)
+pub(all) enum ToolChoice {
+  Auto
+  NoTools
+  Required
+  Named(String)
+}
+pub fn ToolChoice::equal(Self, Self) -> Bool
+pub fn ToolChoice::not_equal(Self, Self) -> Bool
+pub fn ToolChoice::to_repr(Self) -> @debug.Repr
+
+pub struct Turn {
+  mut seq : Int32
+  mut block : Int32
+  slots : Map[String, String]
+  nums : Map[String, Int32]
+}
+pub fn Turn::add_num(Self, String, Int32) -> Int32
+pub fn Turn::add_slot(Self, String, String) -> Unit
+pub fn Turn::has_slot(Self, String) -> Bool
+pub fn Turn::new() -> Self
+pub fn Turn::next_block(Self) -> Int32
+pub fn Turn::num(Self, String) -> Int32
+pub fn Turn::set_num(Self, String, Int32) -> Unit
+pub fn Turn::set_slot(Self, String, String) -> Unit
+pub fn Turn::slot(Self, String) -> String
+pub fn Turn::tick(Self) -> Int32
+
+#derive(Eq, @debug.Debug)
+pub(all) struct Usage {
+  input : Int32?
+  output : Int32?
+  cached : Int32?
+}
+pub fn Usage::equal(Self, Self) -> Bool
+pub fn Usage::new(Int32, Int32, cached? : Int32) -> Self
+pub fn Usage::not_equal(Self, Self) -> Bool
+pub fn Usage::to_repr(Self) -> @debug.Repr
+pub fn Usage::total(Self) -> Int32?
+pub fn Usage::zero() -> Self
 
 // Type aliases
+pub type AnyProvider = &Provider
 
 // Traits
+pub(open) trait Dialect {
+  fn name(Self) -> String
+  fn request(Self, Request) -> Call raise LlmError
+  fn reply(Self, Int32, @json.Json) -> Reply raise LlmError
+  fn delta(Self, Frame, Turn) -> Array[Delta] raise LlmError
+  fn routes(Self) -> Array[Route]
+  fn parse(Self, Route, @json.Json) -> Asked raise LlmError
+  fn answer(Self, Reply) -> @json.Json
+  fn answer_embed(Self, String, Array[Array[Double]]) -> @json.Json
+  fn answer_count(Self, Reply) -> @json.Json
+  fn answer_models(Self, Array[ModelInfo]) -> @json.Json
+  fn answer_at(Self, RouteKind, Reply) -> @json.Json
+  fn frame(Self, Delta, Turn) -> Array[Frame]
+  fn error(Self, LlmError) -> (Int32, @json.Json)
+}
+
+pub(open) trait Provider {
+  async fn chat(Self, Request) -> Reply raise LlmError
+  async fn stream(Self, Request, (Delta) -> Unit) -> Reply raise LlmError
+  async fn embed(Self, String, Array[String]) -> Array[Array[Double]] raise LlmError
+  async fn models(Self) -> Array[ModelInfo] raise LlmError
+}

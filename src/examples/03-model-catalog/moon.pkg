@@ -1,6 +1,0 @@
-
-import {
-  "moonbitstack/moonmuse/models",
-}
-
-pkgtype(kind: "executable")
