@@ -63,4 +63,5 @@ import {
   "moonbitstack/moonasgi@0.10.6",
   "moonbitstack/moonschema@0.2.4",
   "moonbitstack/moonpug@0.1.4",
+  "moonbitstack/mooncat@0.19.5",
 }

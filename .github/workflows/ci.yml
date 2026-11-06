@@ -49,6 +49,9 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           for dir in src/examples/*/; do
+            if grep -q 'long-running' "$dir/moon.pkg"; then
+              continue
+            fi
             if grep -q 'is-main' "$dir/moon.pkg"; then
               moon run "$dir" --target native > /dev/null
             fi
@@ -98,3 +101,32 @@ jobs:
           export OLLAMA_MODEL=qwen2.5:0.5b
           export OLLAMA_EMBED_MODEL=nomic-embed-text
           moon test --target native
+
+  interop:
+    permissions:
+      contents: read
+    runs-on: ubuntu-26.04
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: install moonbit
+        run: |
+          curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash
+          echo "$HOME/.moon/bin" >> $GITHUB_PATH
+
+      - name: registry index
+        run: |
+          moon version --all
+          moon update
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+
+      - name: official client libraries
+        run: pip install openai anthropic ollama
+
+      - name: run the gateway against the official clients
+        run: bash scripts/interop/run.sh

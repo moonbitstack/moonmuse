@@ -1,0 +1,19 @@
+// A gateway on a real port, for the SDK checks in scripts/interop. It is a process, not a
+// script: CI starts it, runs the Python clients against it, and stops it.
+//
+// long-running
+
+import {
+  "moonbitstack/moonmuse",
+  "moonbitstack/moonmuse/serve",
+  "moonbitstack/moonmuse/openai",
+  "moonbitstack/moonmuse/anthropic",
+  "moonbitstack/moonmuse/gemini",
+  "moonbitstack/moonmuse/ollama",
+  "moonbitstack/mooncat",
+  "moonbitlang/async",
+}
+
+pkgtype(kind: "executable")
+
+supported_targets = "native"
