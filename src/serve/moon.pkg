@@ -17,3 +17,12 @@ import {
   "moonbitstack/moonmuse/fake",
   "moonbitlang/async",
 } for "test"
+
+import {
+  "moonbitstack/moonasgi/client",
+  "moonbitstack/moonasgi/testing",
+  "moonbitstack/moonmuse/fake",
+  "moonbitlang/core/encoding/utf8",
+  "moonbitlang/core/json",
+  "moonbitlang/async",
+} for "wbtest"

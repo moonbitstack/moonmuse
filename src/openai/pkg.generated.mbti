@@ -13,6 +13,28 @@ pub fn chat_answer(@moonmuse.Reply) -> @json.Json
 
 pub fn chat_call(@moonmuse.Request) -> @moonmuse.Call
 
+pub let chat_completion_choice_fields : Array[String]
+
+pub let chat_completion_message_fields : Array[String]
+
+pub let chat_completion_request_fields : Array[String]
+
+pub let chat_completion_response_fields : Array[String]
+
+pub let chat_completion_tool_fields : Array[String]
+
+pub let chat_message_assistant_fields : Array[String]
+
+pub let chat_message_function_fields : Array[String]
+
+pub let chat_message_system_fields : Array[String]
+
+pub let chat_message_tool_call_fields : Array[String]
+
+pub let chat_message_tool_fields : Array[String]
+
+pub let chat_message_user_fields : Array[String]
+
 pub fn chat_parse(@json.Json) -> @moonmuse.Request raise @moonmuse.LlmError
 
 pub fn chat_reply(Int32, @json.Json) -> @moonmuse.Reply raise @moonmuse.LlmError
@@ -25,9 +47,19 @@ pub let dialect : Wire
 
 pub fn embed_answer(String, Array[Array[Double]]) -> @json.Json
 
+pub let embedding_fields : Array[String]
+
+pub let embedding_request_fields : Array[String]
+
+pub let embedding_response_fields : Array[String]
+
 pub fn error_json(@moonmuse.LlmError) -> (Int32, @json.Json)
 
 pub fn finish_code(@moonmuse.Finish) -> String
+
+pub let image_request_fields : Array[String]
+
+pub let image_response_fields : Array[String]
 
 pub fn is_stream(@json.Json) -> Bool
 
@@ -37,13 +69,21 @@ pub fn messages_of(@json.Json) -> Array[@moonmuse.Message]
 
 pub fn models_answer(Array[@moonmuse.ModelInfo]) -> @json.Json
 
+pub let moderation_request_fields : Array[String]
+
+pub let moderation_response_fields : Array[String]
+
 pub fn parse_arguments(String) -> @json.Json
 
 pub fn reply_of(@moonmuse.Turn, @moonmuse.Finish) -> @moonmuse.Reply
 
 pub let request_keys : Array[String]
 
+pub let response_request_fields : Array[String]
+
 pub fn responses_answer(@moonmuse.Reply) -> @json.Json
+
+pub let speech_request_fields : Array[String]
 
 pub fn stream_delta(@moonmuse.Frame, @moonmuse.Turn) -> Array[@moonmuse.Delta] raise @moonmuse.LlmError
 
@@ -52,6 +92,8 @@ pub fn stream_frame(@moonmuse.Delta, @moonmuse.Turn) -> Array[@moonmuse.Frame]
 pub fn tool_choice_json(@moonmuse.ToolChoice) -> @json.Json
 
 pub fn tool_json(@moonmuse.Tool) -> @json.Json
+
+pub let transcription_request_fields : Array[String]
 
 pub fn usage_json(@moonmuse.Usage) -> @json.Json
 

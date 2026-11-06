@@ -236,9 +236,12 @@ pub fn stream_frame(
     @moonmuse.Done(reply) =>
       [
         @moonmuse.Frame::new(
+          // The last chunk carries the usage, as the endpoint does with
+          // `stream_options.include_usage`; a client pricing the call reads it there.
           chunk_json(
             Json::empty_object(),
             Json::string(finish_code(reply.finish)),
+            usage=usage_json(reply.usage),
           ),
         ),
         @moonmuse.Frame::new("[DONE]"),
@@ -248,8 +251,8 @@ pub fn stream_frame(
 
 ///|
 /// One chunk object, wrapped in the envelope every chat-completions stream uses.
-fn chunk_json(delta : Json, finish : Json) -> String {
-  @moonmuse.object_json([
+fn chunk_json(delta : Json, finish : Json, usage? : Json) -> String {
+  let fields = [
     ("id", Json::string("chatcmpl-stream")),
     ("object", Json::string("chat.completion.chunk")),
     (
@@ -262,5 +265,10 @@ fn chunk_json(delta : Json, finish : Json) -> String {
         ]),
       ]),
     ),
-  ]).stringify()
+  ]
+  match usage {
+    Some(value) => fields.push(("usage", value))
+    None => ()
+  }
+  @moonmuse.object_json(fields).stringify()
 }
