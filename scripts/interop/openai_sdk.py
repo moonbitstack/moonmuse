@@ -5,6 +5,7 @@ shape the SDK accepts and parses. The provider behind it echoes, so nothing here
 model.
 """
 
+import json
 import sys
 
 from openai import OpenAI
@@ -63,7 +64,8 @@ def main():
     check("tool finish", called.choices[0].finish_reason == "tool_calls")
     call = called.choices[0].message.tool_calls[0]
     check("tool name", call.function.name == "add")
-    check("tool args", '"a": 2' in call.function.arguments, call.function.arguments)
+    arguments = json.loads(call.function.arguments)
+    check("tool args", arguments == {"a": 2, "b": 3}, arguments)
 
     vectors = client.embeddings.create(model="echo-1", input=["a", "abcd"])
     check("embeddings", len(vectors.data) == 2)
