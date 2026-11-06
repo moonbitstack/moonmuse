@@ -1,0 +1,10 @@
+import {
+  "moonbitstack/moonmuse",
+  "moonbitstack/moonmuse/toolbox",
+  "moonbitstack/moonmuse/fake",
+  "moonbitlang/async",
+}
+
+pkgtype(kind: "executable")
+
+supported_targets = "native"

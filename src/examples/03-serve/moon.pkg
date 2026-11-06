@@ -1,0 +1,11 @@
+import {
+  "moonbitstack/moonmuse/serve",
+  "moonbitstack/moonmuse/fake",
+  "moonbitstack/moonasgi/testing",
+  "moonbitlang/core/encoding/utf8",
+  "moonbitlang/async",
+}
+
+pkgtype(kind: "executable")
+
+supported_targets = "native"

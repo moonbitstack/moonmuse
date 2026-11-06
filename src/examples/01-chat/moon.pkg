@@ -1,0 +1,6 @@
+import {
+  "moonbitstack/moonmuse",
+  "moonbitstack/moonmuse/openai",
+}
+
+pkgtype(kind: "executable")
