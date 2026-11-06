@@ -28,7 +28,7 @@ pub fn Template::render(
   self : Template,
   values : Map[String, Json],
 ) -> String raise PromptError {
-  @moonpug.render(self.source, Json::object(values)) catch {
+  @moonpug.render(self.source, Json::object(values), format=@moonpug.text) catch {
     error => raise PromptError::Render(error.to_string())
   }
 }

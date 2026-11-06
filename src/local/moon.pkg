@@ -1,0 +1,12 @@
+// A local model as a provider: a chat template, the text an engine produced, and the tool
+// calls it wrote inside that text. The engine is a contract, so an inference engine can be
+// wired in without this package knowing how weights are read.
+
+import {
+  "moonbitstack/moonmuse",
+  "moonbitstack/moonmuse/prompt",
+}
+
+import {
+  "moonbitlang/async",
+} for "test"

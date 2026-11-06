@@ -1,0 +1,67 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "moonbitstack/moonmuse/local"
+
+import {
+  "moonbitlang/core/debug",
+  "moonbitlang/core/json",
+  "moonbitstack/moonmuse",
+  "moonbitstack/moonmuse/prompt",
+}
+
+// Values
+pub fn chatml() -> @prompt.Template
+
+pub fn context(@moonmuse.Request, add_generation_prompt? : Bool) -> Map[String, @json.Json]
+
+pub fn llama3() -> @prompt.Template
+
+pub fn parse(String, calls? : Calls) -> Parsed
+
+// Errors
+pub(all) suberror LocalError {
+  Engine(String)
+  Template(String)
+  Unsupported(String)
+}
+
+// Types and methods
+#derive(Eq, @debug.Debug)
+pub(all) enum Calls {
+  Tagged
+  Fenced
+  Bare
+}
+pub fn Calls::equal(Self, Self) -> Bool
+pub fn Calls::not_equal(Self, Self) -> Bool
+pub fn Calls::to_repr(Self) -> @debug.Repr
+
+pub struct Local {
+  engine : &Engine
+  template : @prompt.Template
+  model : String
+  calls : Calls
+  info : Array[@moonmuse.ModelInfo]
+  limit : Int32
+}
+pub async fn Local::chat(Self, @moonmuse.Request) -> @moonmuse.Reply raise @moonmuse.LlmError
+pub async fn Local::embed(Self, String, Array[String]) -> Array[Array[Double]] raise @moonmuse.LlmError
+pub async fn Local::models(Self) -> Array[@moonmuse.ModelInfo] raise @moonmuse.LlmError
+pub fn Local::new(&Engine, template? : @prompt.Template, model? : String, calls? : Calls, info? : Array[@moonmuse.ModelInfo], limit? : Int32) -> Self
+pub fn Local::prompt(Self, @moonmuse.Request) -> String raise LocalError
+pub async fn Local::stream(Self, @moonmuse.Request, (@moonmuse.Delta) -> Unit) -> @moonmuse.Reply raise @moonmuse.LlmError
+pub impl @moonmuse.Provider for Local
+
+pub struct Parsed {
+  text : String
+  calls : Array[@moonmuse.Part]
+}
+
+// Type aliases
+
+// Traits
+pub(open) trait Engine {
+  async fn generate(Self, String, Int32) -> String raise LocalError
+  async fn stream(Self, String, Int32, (String) -> Unit) -> String raise LocalError = _
+  async fn embed(Self, String, Array[String]) -> Array[Array[Double]] raise LocalError = _
+  fn models(Self) -> Array[@moonmuse.ModelInfo] = _
+}
