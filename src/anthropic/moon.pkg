@@ -1,0 +1,19 @@
+// Anthropic's Messages API: the system prompt is a top-level field, `max_tokens` is
+// required, tool results ride in user messages as content blocks, and usage names its
+// two counts separately. The dialect keeps all of that in one place, read and written.
+
+import {
+  "moonbitstack/moonmuse",
+  "moonbitstack/moonmuse/transport",
+  "moonbitlang/async",
+  "moonbitlang/core/json",
+}
+
+warnings = "-29"
+
+options(
+  targets: {
+    "client.mbt": [ "native", "wasm" ],
+    "client_wbtest.mbt": [ "native", "wasm" ],
+  },
+)

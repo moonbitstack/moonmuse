@@ -1,0 +1,25 @@
+// Ollama's native API: `/api/chat`, `/api/generate`, `/api/embed`, `/api/tags`,
+// `/api/show` and `/api/version`. Its options live under `options`, its stream is
+// newline-delimited JSON rather than server-sent events, and its tool calls carry no id.
+
+import {
+  "moonbitstack/moonmuse",
+  "moonbitstack/moonmuse/transport",
+  "moonbitlang/async",
+  "moonbitlang/core/json",
+}
+
+warnings = "-29"
+
+options(
+  targets: {
+    "client.mbt": [ "native", "wasm" ],
+    "client_wbtest.mbt": [ "native", "wasm" ],
+    "live_wbtest.mbt": [ "native", "wasm" ],
+  },
+)
+
+import {
+  "moonbitlang/core/env",
+  "moonbitlang/async",
+} for "wbtest"

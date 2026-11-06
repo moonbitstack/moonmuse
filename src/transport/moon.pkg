@@ -1,0 +1,14 @@
+// The one place a dialect's `Call` becomes bytes on a socket. Everything above it is
+// pure, which is what lets the same wire format be tested without a server.
+
+import {
+  "moonbitstack/moonmuse",
+  "moonbitstack/moonfetch",
+  "moonbitlang/core/json",
+}
+
+warnings = "-29"
+
+options(
+  targets: { "send.mbt": [ "native", "wasm" ] },
+)

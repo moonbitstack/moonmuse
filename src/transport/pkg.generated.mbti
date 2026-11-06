@@ -1,0 +1,28 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "moonbitstack/moonmuse/transport"
+
+import {
+  "moonbitlang/core/json",
+  "moonbitstack/moonmuse",
+}
+
+// Values
+pub fn ensure_success(Response) -> Response raise @moonmuse.LlmError
+
+pub async fn send(@moonmuse.Call, base~ : String, headers? : Array[(String, String)], timeout? : Int32) -> Response raise @moonmuse.LlmError
+
+// Errors
+
+// Types and methods
+pub struct Response {
+  status : Int32
+  headers : Array[(String, String)]
+  body : String
+}
+pub fn Response::header(Self, String) -> String?
+pub fn Response::json(Self) -> @json.Json raise @moonmuse.LlmError
+pub fn Response::retry_after(Self) -> Int64?
+
+// Type aliases
+
+// Traits

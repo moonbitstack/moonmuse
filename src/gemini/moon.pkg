@@ -1,0 +1,19 @@
+// Gemini's generateContent shape: the model sits in the path, messages are `contents`
+// with `user` and `model` roles, and a tool call has no id of its own — one is
+// synthesized here so the shared vocabulary can pair calls with results.
+
+import {
+  "moonbitstack/moonmuse",
+  "moonbitstack/moonmuse/transport",
+  "moonbitlang/async",
+  "moonbitlang/core/json",
+}
+
+warnings = "-29"
+
+options(
+  targets: {
+    "client.mbt": [ "native", "wasm" ],
+    "client_wbtest.mbt": [ "native", "wasm" ],
+  },
+)

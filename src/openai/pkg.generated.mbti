@@ -1,0 +1,142 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "moonbitstack/moonmuse/openai"
+
+import {
+  "moonbitlang/core/json",
+  "moonbitstack/moonmuse",
+}
+
+// Values
+pub fn call_part(@json.Json) -> @moonmuse.Part
+
+pub fn chat_answer(@moonmuse.Reply) -> @json.Json
+
+pub fn chat_call(@moonmuse.Request) -> @moonmuse.Call
+
+pub fn chat_parse(@json.Json) -> @moonmuse.Request raise @moonmuse.LlmError
+
+pub fn chat_reply(Int32, @json.Json) -> @moonmuse.Reply raise @moonmuse.LlmError
+
+pub fn complete_answer(@moonmuse.Reply) -> @json.Json
+
+pub fn content_json(@moonmuse.Message) -> @json.Json
+
+pub let dialect : Wire
+
+pub fn embed_answer(String, Array[Array[Double]]) -> @json.Json
+
+pub fn error_json(@moonmuse.LlmError) -> (Int32, @json.Json)
+
+pub fn finish_code(@moonmuse.Finish) -> String
+
+pub fn is_stream(@json.Json) -> Bool
+
+pub fn messages_json(@moonmuse.Message) -> Array[@json.Json]
+
+pub fn messages_of(@json.Json) -> Array[@moonmuse.Message]
+
+pub fn models_answer(Array[@moonmuse.ModelInfo]) -> @json.Json
+
+pub fn parse_arguments(String) -> @json.Json
+
+pub fn reply_of(@moonmuse.Turn, @moonmuse.Finish) -> @moonmuse.Reply
+
+pub let request_keys : Array[String]
+
+pub fn responses_answer(@moonmuse.Reply) -> @json.Json
+
+pub fn stream_delta(@moonmuse.Frame, @moonmuse.Turn) -> Array[@moonmuse.Delta] raise @moonmuse.LlmError
+
+pub fn stream_frame(@moonmuse.Delta, @moonmuse.Turn) -> Array[@moonmuse.Frame]
+
+pub fn tool_choice_json(@moonmuse.ToolChoice) -> @json.Json
+
+pub fn tool_json(@moonmuse.Tool) -> @json.Json
+
+pub fn usage_json(@moonmuse.Usage) -> @json.Json
+
+pub fn usage_of(@json.Json) -> @moonmuse.Usage
+
+// Errors
+
+// Types and methods
+pub(all) struct Batch {
+  id : String
+  status : String
+  input_file : String
+  output_file : String?
+  failed : Int32
+  completed : Int32
+  total : Int32
+}
+
+pub struct Client {
+  base : String
+  key : String?
+  headers : Array[(String, String)]
+  timeout : Int32
+}
+pub fn Client::at(Self, String) -> Self
+pub async fn Client::batch(Self, String) -> Batch raise @moonmuse.LlmError
+pub async fn Client::batches(Self) -> Array[Batch] raise @moonmuse.LlmError
+pub async fn Client::chat(Self, @moonmuse.Request) -> @moonmuse.Reply raise @moonmuse.LlmError
+pub async fn Client::delete_file(Self, String) -> Bool raise @moonmuse.LlmError
+pub async fn Client::embed(Self, String, Array[String]) -> Array[Array[Double]] raise @moonmuse.LlmError
+pub async fn Client::file(Self, String) -> FileInfo raise @moonmuse.LlmError
+pub async fn Client::files(Self) -> Array[FileInfo] raise @moonmuse.LlmError
+pub async fn Client::fine_tune(Self, String) -> FineTune raise @moonmuse.LlmError
+pub async fn Client::fine_tunes(Self) -> Array[FineTune] raise @moonmuse.LlmError
+pub async fn Client::images(Self, String, model? : String, size? : String, count? : Int32) -> Array[Image] raise @moonmuse.LlmError
+pub async fn Client::models(Self) -> Array[@moonmuse.ModelInfo] raise @moonmuse.LlmError
+pub async fn Client::moderate(Self, String, Array[String]) -> Moderation raise @moonmuse.LlmError
+pub fn Client::new(api_key? : String, base? : String, headers? : Array[(String, String)], timeout? : Int32) -> Self
+pub async fn Client::responses(Self, @moonmuse.Request) -> @moonmuse.Reply raise @moonmuse.LlmError
+pub async fn Client::start_batch(Self, String, endpoint? : String, window? : String) -> Batch raise @moonmuse.LlmError
+pub async fn Client::stream(Self, @moonmuse.Request, (@moonmuse.Delta) -> Unit) -> @moonmuse.Reply raise @moonmuse.LlmError
+pub impl @moonmuse.Provider for Client
+
+pub(all) struct FileInfo {
+  id : String
+  filename : String
+  bytes : Int32
+  purpose : String
+}
+
+pub(all) struct FineTune {
+  id : String
+  status : String
+  model : String
+  trained_tokens : Int32?
+}
+
+pub(all) struct Image {
+  url : String?
+  base64 : String?
+  revised_prompt : String?
+}
+
+pub(all) struct Moderation {
+  flagged : Bool
+  flagged_categories : Map[String, Double]
+}
+
+pub struct Wire {
+}
+pub fn Wire::answer(Self, @moonmuse.Reply) -> @json.Json
+pub fn Wire::answer_at(Self, @moonmuse.RouteKind, @moonmuse.Reply) -> @json.Json
+pub fn Wire::answer_count(Self, @moonmuse.Reply) -> @json.Json
+pub fn Wire::answer_embed(Self, String, Array[Array[Double]]) -> @json.Json
+pub fn Wire::answer_models(Self, Array[@moonmuse.ModelInfo]) -> @json.Json
+pub fn Wire::delta(Self, @moonmuse.Frame, @moonmuse.Turn) -> Array[@moonmuse.Delta] raise @moonmuse.LlmError
+pub fn Wire::error(Self, @moonmuse.LlmError) -> (Int32, @json.Json)
+pub fn Wire::frame(Self, @moonmuse.Delta, @moonmuse.Turn) -> Array[@moonmuse.Frame]
+pub fn Wire::name(Self) -> String
+pub fn Wire::parse(Self, @moonmuse.Route, @json.Json) -> @moonmuse.Asked raise @moonmuse.LlmError
+pub fn Wire::reply(Self, Int32, @json.Json) -> @moonmuse.Reply raise @moonmuse.LlmError
+pub fn Wire::request(Self, @moonmuse.Request) -> @moonmuse.Call raise @moonmuse.LlmError
+pub fn Wire::routes(Self) -> Array[@moonmuse.Route]
+pub impl @moonmuse.Dialect for Wire
+
+// Type aliases
+
+// Traits

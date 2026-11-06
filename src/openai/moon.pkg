@@ -1,0 +1,20 @@
+// The OpenAI wire format and its client. The dialect is pure and builds everywhere; the
+// client files are limited to the backends moonfetch has transports for, which is why
+// this package turns off the unused-import warning on the other two.
+
+import {
+  "moonbitstack/moonmuse",
+  "moonbitstack/moonmuse/transport",
+  "moonbitlang/async",
+  "moonbitlang/core/json",
+}
+
+warnings = "-29"
+
+options(
+  targets: {
+    "client.mbt": [ "native", "wasm" ],
+    "extras.mbt": [ "native", "wasm" ],
+    "client_wbtest.mbt": [ "native", "wasm" ],
+  },
+)
