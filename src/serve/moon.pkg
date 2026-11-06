@@ -1,0 +1,19 @@
+// A gateway: any provider, exported in the four formats this library speaks. The wire shapes
+// come from the dialects the client already uses, so a format is written once and both
+// directions are the same code.
+
+import {
+  "moonbitstack/moonmuse",
+  "moonbitstack/moonmuse/openai",
+  "moonbitstack/moonmuse/anthropic",
+  "moonbitstack/moonasgi",
+  "moonbitstack/moonasgi/http",
+  "moonbitlang/core/encoding/utf8",
+  "moonbitlang/core/json",
+}
+
+import {
+  "moonbitstack/moonasgi/testing",
+  "moonbitstack/moonmuse/fake",
+  "moonbitlang/async",
+} for "test"

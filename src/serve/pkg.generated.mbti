@@ -1,0 +1,43 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "moonbitstack/moonmuse/serve"
+
+import {
+  "moonbitlang/core/debug",
+  "moonbitstack/moonasgi/spec",
+  "moonbitstack/moonmuse",
+}
+
+// Values
+pub fn credentials(Array[(String, String)]) -> String?
+
+pub fn default_dialects() -> Array[&@moonmuse.Dialect]
+
+pub fn serve(&@moonmuse.Provider, dialects~ : Array[&@moonmuse.Dialect], keys? : &Keys, limits? : Limits) -> async (@spec.Scope, async () -> @spec.Event, async (@spec.Event) -> Unit) -> Unit
+
+// Errors
+
+// Types and methods
+#derive(Eq, @debug.Debug)
+pub(all) struct Limits {
+  body : Int32
+  max_tokens : Int32
+}
+pub fn Limits::default() -> Self
+pub fn Limits::equal(Self, Self) -> Bool
+pub fn Limits::not_equal(Self, Self) -> Bool
+pub fn Limits::to_repr(Self) -> @debug.Repr
+
+pub struct StaticKeys {
+  keys : Map[String, String]
+}
+pub fn StaticKeys::accepts(Self, Array[(String, String)]) -> Bool
+pub fn StaticKeys::new(Array[String]) -> Self
+pub fn StaticKeys::of(Map[String, String]) -> Self
+pub impl Keys for StaticKeys
+
+// Type aliases
+
+// Traits
+pub(open) trait Keys {
+  fn accepts(Self, Array[(String, String)]) -> Bool
+}
