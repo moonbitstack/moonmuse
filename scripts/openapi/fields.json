@@ -1,0 +1,229 @@
+{
+  "commit": "9752a7f1fc51a0729e8fe544b315ec5018f78ada",
+  "schemas": {
+    "chat_completion_request": [
+      "audio",
+      "frequency_penalty",
+      "function_call",
+      "functions",
+      "logit_bias",
+      "logprobs",
+      "max_completion_tokens",
+      "max_tokens",
+      "messages",
+      "metadata",
+      "modalities",
+      "model",
+      "moderation",
+      "n",
+      "parallel_tool_calls",
+      "prediction",
+      "presence_penalty",
+      "prompt_cache_key",
+      "prompt_cache_options",
+      "prompt_cache_retention",
+      "reasoning_effort",
+      "response_format",
+      "safety_identifier",
+      "seed",
+      "service_tier",
+      "stop",
+      "store",
+      "stream",
+      "stream_options",
+      "temperature",
+      "tool_choice",
+      "tools",
+      "top_logprobs",
+      "top_p",
+      "user",
+      "verbosity",
+      "web_search_options"
+    ],
+    "chat_message_system": [
+      "content",
+      "name",
+      "role"
+    ],
+    "chat_message_user": [
+      "content",
+      "name",
+      "role"
+    ],
+    "chat_message_assistant": [
+      "audio",
+      "content",
+      "function_call",
+      "name",
+      "refusal",
+      "role",
+      "tool_calls"
+    ],
+    "chat_message_tool": [
+      "content",
+      "role",
+      "tool_call_id"
+    ],
+    "chat_completion_tool": [
+      "function",
+      "type"
+    ],
+    "chat_message_tool_call": [
+      "function",
+      "id",
+      "type"
+    ],
+    "chat_message_function": [
+      "description",
+      "name",
+      "parameters",
+      "strict"
+    ],
+    "chat_completion_response": [
+      "choices",
+      "created",
+      "id",
+      "metadata",
+      "model",
+      "moderation",
+      "object",
+      "service_tier",
+      "system_fingerprint",
+      "usage"
+    ],
+    "chat_completion_choice": [
+      "finish_reason",
+      "index",
+      "logprobs",
+      "message"
+    ],
+    "chat_completion_message": [
+      "annotations",
+      "audio",
+      "content",
+      "function_call",
+      "refusal",
+      "role",
+      "tool_calls"
+    ],
+    "embedding_request": [
+      "dimensions",
+      "encoding_format",
+      "input",
+      "model",
+      "user"
+    ],
+    "embedding_response": [
+      "data",
+      "model",
+      "object",
+      "usage"
+    ],
+    "embedding": [
+      "embedding",
+      "index",
+      "object"
+    ],
+    "moderation_request": [
+      "input",
+      "model"
+    ],
+    "moderation_response": [
+      "id",
+      "model",
+      "results"
+    ],
+    "speech_request": [
+      "input",
+      "instructions",
+      "model",
+      "response_format",
+      "speed",
+      "stream_format",
+      "voice"
+    ],
+    "transcription_request": [
+      "chunking_strategy",
+      "file",
+      "include",
+      "keywords",
+      "known_speaker_names",
+      "known_speaker_references",
+      "language",
+      "languages",
+      "model",
+      "prompt",
+      "response_format",
+      "stream",
+      "temperature",
+      "timestamp_granularities"
+    ],
+    "image_request": [
+      "background",
+      "complexity",
+      "frame_count",
+      "frame_duration_ms",
+      "model",
+      "moderation",
+      "n",
+      "output_compression",
+      "output_format",
+      "partial_images",
+      "prompt",
+      "quality",
+      "response_format",
+      "safety_identifier",
+      "size",
+      "stream",
+      "style",
+      "svg",
+      "user"
+    ],
+    "image_response": [
+      "background",
+      "created",
+      "data",
+      "output_format",
+      "quality",
+      "safety_identifier",
+      "size",
+      "svg_usage",
+      "usage"
+    ],
+    "response_request": [
+      "access_programs",
+      "background",
+      "context_management",
+      "conversation",
+      "image",
+      "include",
+      "input",
+      "instructions",
+      "max_output_tokens",
+      "max_tool_calls",
+      "metadata",
+      "model",
+      "moderation",
+      "parallel_tool_calls",
+      "previous_response_id",
+      "prompt",
+      "prompt_cache_key",
+      "prompt_cache_options",
+      "prompt_cache_retention",
+      "reasoning",
+      "safety_identifier",
+      "service_tier",
+      "store",
+      "stream",
+      "stream_options",
+      "temperature",
+      "text",
+      "tool_choice",
+      "tools",
+      "top_logprobs",
+      "top_p",
+      "truncation",
+      "user"
+    ]
+  }
+}

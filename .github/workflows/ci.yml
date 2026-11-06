@@ -65,6 +65,10 @@ jobs:
         run: |
           moon info --target all && git diff --exit-code
 
+      - name: openapi field table is up to date
+        if: runner.os == 'Linux'
+        run: python3 scripts/openapi/gen_fields.py --check
+
   live:
     permissions:
       contents: read
