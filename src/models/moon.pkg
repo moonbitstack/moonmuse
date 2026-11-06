@@ -1,0 +1,6 @@
+// The model catalogue: context windows, output limits, list prices and capabilities, taken
+// from each vendor's published documentation.
+
+import {
+  "moonbitstack/moonmuse",
+}

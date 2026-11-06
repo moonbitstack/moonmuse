@@ -1,0 +1,39 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "moonbitstack/moonmuse/fake"
+
+import {
+  "moonbitlang/core/json",
+  "moonbitstack/moonmuse",
+}
+
+// Values
+
+// Errors
+
+// Types and methods
+pub struct Fake {
+  replies : Array[@moonmuse.Reply]
+  mut next : Int32
+  mut hits : Int32
+  requests : Array[@moonmuse.Request]
+  models : Array[@moonmuse.ModelInfo]
+  dimension : Int32
+  fail_code : Int32
+  mut fail_left : Int32
+}
+pub fn Fake::calls(String, @json.Json, id? : String) -> Self
+pub async fn Fake::chat(Self, @moonmuse.Request) -> @moonmuse.Reply raise @moonmuse.LlmError
+pub async fn Fake::embed(Self, String, Array[String]) -> Array[Array[Double]] raise @moonmuse.LlmError
+pub fn Fake::failing(Int32) -> Self
+pub fn Fake::flaky(Int32, @moonmuse.Reply, code? : Int32) -> Self
+pub fn Fake::hits(Self) -> Int32
+pub async fn Fake::models(Self) -> Array[@moonmuse.ModelInfo] raise @moonmuse.LlmError
+pub fn Fake::new(Array[@moonmuse.Reply], models? : Array[@moonmuse.ModelInfo], dimension? : Int32) -> Self
+pub fn Fake::seen(Self) -> Array[@moonmuse.Request]
+pub async fn Fake::stream(Self, @moonmuse.Request, (@moonmuse.Delta) -> Unit) -> @moonmuse.Reply raise @moonmuse.LlmError
+pub fn Fake::text(String) -> Self
+pub impl @moonmuse.Provider for Fake
+
+// Type aliases
+
+// Traits

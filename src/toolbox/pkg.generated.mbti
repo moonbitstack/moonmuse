@@ -1,0 +1,31 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "moonbitstack/moonmuse/toolbox"
+
+import {
+  "moonbitlang/core/json",
+  "moonbitstack/moonmuse",
+}
+
+// Values
+pub async fn run(&@moonmuse.Provider, @moonmuse.Request, Toolbox, limit? : Int32) -> @moonmuse.Reply raise @moonmuse.LlmError
+
+// Errors
+
+// Types and methods
+pub struct Entry {
+  tool : @moonmuse.Tool
+  run : async (@json.Json) -> String
+}
+
+pub struct Toolbox {
+  mut entries : Array[Entry]
+}
+pub fn Toolbox::add(Self, @moonmuse.Tool, async (@json.Json) -> String) -> Unit
+pub async fn Toolbox::call(Self, @moonmuse.Part) -> @moonmuse.Part
+pub fn Toolbox::has(Self, String) -> Bool
+pub fn Toolbox::new() -> Self
+pub fn Toolbox::tools(Self) -> Array[@moonmuse.Tool]
+
+// Type aliases
+
+// Traits

@@ -1,0 +1,29 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "moonbitstack/moonmuse/prompt"
+
+import {
+  "moonbitlang/core/json",
+  "moonbitstack/moonmuse",
+}
+
+// Values
+pub fn conversation(Array[(@moonmuse.Role, Template)], Map[String, @json.Json]) -> Array[@moonmuse.Message] raise PromptError
+
+pub fn values(Array[(String, @json.Json)]) -> Map[String, @json.Json]
+
+// Errors
+pub(all) suberror PromptError {
+  Render(String)
+}
+
+// Types and methods
+pub struct Template {
+  source : String
+}
+pub fn Template::message(Self, @moonmuse.Role, Map[String, @json.Json]) -> @moonmuse.Message raise PromptError
+pub fn Template::new(String) -> Self
+pub fn Template::render(Self, Map[String, @json.Json]) -> String raise PromptError
+
+// Type aliases
+
+// Traits

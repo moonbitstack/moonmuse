@@ -1,0 +1,12 @@
+// Structured output: ask for a JSON object that matches a schema, validate it, and ask again
+// with the failure in front of the model when it does not.
+
+import {
+  "moonbitstack/moonmuse",
+  "moonbitstack/moonschema",
+}
+
+import {
+  "moonbitstack/moonmuse/fake",
+  "moonbitlang/async",
+} for "test"

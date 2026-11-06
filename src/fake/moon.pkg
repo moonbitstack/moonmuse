@@ -1,0 +1,6 @@
+// A scripted provider. Tests of everything above the wire use it: the tool loop, the
+// layers, the structured-output repair, and the server that exports a provider as an API.
+
+import {
+  "moonbitstack/moonmuse",
+}

@@ -1,0 +1,119 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "moonbitstack/moonmuse/layers"
+
+import {
+  "moonbitlang/core/debug",
+  "moonbitstack/moonmuse",
+}
+
+// Values
+pub fn cached(&@moonmuse.Provider, &Cache) -> &@moonmuse.Provider
+
+pub fn fallback(Array[&@moonmuse.Provider]) -> &@moonmuse.Provider
+
+pub fn limited(&@moonmuse.Provider, Limiter) -> &@moonmuse.Provider
+
+pub let once : Retry
+
+pub fn request_key(@moonmuse.Request) -> String
+
+pub fn retry(&@moonmuse.Provider, policy? : Retry, wait? : async (Int32) -> Unit noraise) -> &@moonmuse.Provider
+
+pub fn routed(Map[String, &@moonmuse.Provider]) -> &@moonmuse.Provider
+
+pub fn should_switch(@moonmuse.LlmError) -> Bool
+
+// Errors
+
+// Types and methods
+pub struct Cached {
+  inner : &@moonmuse.Provider
+  cache : &Cache
+}
+pub async fn Cached::chat(Self, @moonmuse.Request) -> @moonmuse.Reply raise @moonmuse.LlmError
+pub async fn Cached::embed(Self, String, Array[String]) -> Array[Array[Double]] raise @moonmuse.LlmError
+pub async fn Cached::models(Self) -> Array[@moonmuse.ModelInfo] raise @moonmuse.LlmError
+pub async fn Cached::stream(Self, @moonmuse.Request, (@moonmuse.Delta) -> Unit) -> @moonmuse.Reply raise @moonmuse.LlmError
+pub impl @moonmuse.Provider for Cached
+
+pub struct Fallback {
+  providers : Array[&@moonmuse.Provider]
+}
+pub async fn Fallback::chat(Self, @moonmuse.Request) -> @moonmuse.Reply raise @moonmuse.LlmError
+pub async fn Fallback::embed(Self, String, Array[String]) -> Array[Array[Double]] raise @moonmuse.LlmError
+pub async fn Fallback::models(Self) -> Array[@moonmuse.ModelInfo] raise @moonmuse.LlmError
+pub async fn Fallback::stream(Self, @moonmuse.Request, (@moonmuse.Delta) -> Unit) -> @moonmuse.Reply raise @moonmuse.LlmError
+pub impl @moonmuse.Provider for Fallback
+
+pub struct Limited {
+  inner : &@moonmuse.Provider
+  limiter : Limiter
+}
+pub async fn Limited::chat(Self, @moonmuse.Request) -> @moonmuse.Reply raise @moonmuse.LlmError
+pub async fn Limited::embed(Self, String, Array[String]) -> Array[Array[Double]] raise @moonmuse.LlmError
+pub async fn Limited::models(Self) -> Array[@moonmuse.ModelInfo] raise @moonmuse.LlmError
+pub async fn Limited::stream(Self, @moonmuse.Request, (@moonmuse.Delta) -> Unit) -> @moonmuse.Reply raise @moonmuse.LlmError
+pub impl @moonmuse.Provider for Limited
+
+pub struct Limiter {
+  rate : Double
+  burst : Double
+  mut tokens : Double
+  mut at : Int64
+  clock : () -> Int64
+}
+pub fn Limiter::new(Double, burst? : Double, clock? : () -> Int64) -> Self
+
+pub struct Memory {
+  entries : Map[String, @moonmuse.Reply]
+  mut order : Array[String]
+  limit : Int32
+}
+pub fn Memory::get(Self, String) -> @moonmuse.Reply?
+pub fn Memory::new(limit? : Int32) -> Self
+pub fn Memory::put(Self, String, @moonmuse.Reply) -> Unit
+pub fn Memory::size(Self) -> Int32
+pub impl Cache for Memory
+
+#derive(Eq, @debug.Debug)
+pub(all) struct Retry {
+  attempts : Int32
+  base_ms : Int32
+  cap_ms : Int32
+  factor : Double
+}
+pub fn Retry::default() -> Self
+pub fn Retry::delay_ms(Self, Int32) -> Int32
+pub fn Retry::equal(Self, Self) -> Bool
+pub fn Retry::not_equal(Self, Self) -> Bool
+pub fn Retry::to_repr(Self) -> @debug.Repr
+
+pub struct Retrying {
+  inner : &@moonmuse.Provider
+  policy : Retry
+  wait : async (Int32) -> Unit noraise
+}
+pub async fn Retrying::chat(Self, @moonmuse.Request) -> @moonmuse.Reply raise @moonmuse.LlmError
+pub async fn Retrying::embed(Self, String, Array[String]) -> Array[Array[Double]] raise @moonmuse.LlmError
+pub async fn Retrying::models(Self) -> Array[@moonmuse.ModelInfo] raise @moonmuse.LlmError
+pub fn Retrying::policy(Self, Retry) -> Self
+pub async fn Retrying::stream(Self, @moonmuse.Request, (@moonmuse.Delta) -> Unit) -> @moonmuse.Reply raise @moonmuse.LlmError
+pub impl @moonmuse.Provider for Retrying
+
+pub struct Routed {
+  routes : Map[String, &@moonmuse.Provider]
+}
+pub async fn Routed::chat(Self, @moonmuse.Request) -> @moonmuse.Reply raise @moonmuse.LlmError
+pub async fn Routed::embed(Self, String, Array[String]) -> Array[Array[Double]] raise @moonmuse.LlmError
+pub async fn Routed::models(Self) -> Array[@moonmuse.ModelInfo] raise @moonmuse.LlmError
+pub fn Routed::prefixes(Self) -> Array[String]
+pub async fn Routed::stream(Self, @moonmuse.Request, (@moonmuse.Delta) -> Unit) -> @moonmuse.Reply raise @moonmuse.LlmError
+pub impl @moonmuse.Provider for Routed
+
+// Type aliases
+
+// Traits
+pub(open) trait Cache {
+  fn get(Self, String) -> @moonmuse.Reply?
+  fn put(Self, String, @moonmuse.Reply) -> Unit
+}

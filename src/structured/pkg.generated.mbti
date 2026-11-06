@@ -1,0 +1,24 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "moonbitstack/moonmuse/structured"
+
+import {
+  "moonbitlang/core/json",
+  "moonbitstack/moonmuse",
+}
+
+// Values
+pub async fn[T] ask(&@moonmuse.Provider, @moonmuse.Request, name~ : String, schema~ : @json.Json, decode~ : (@json.Json) -> T?, fixes? : Int32) -> T raise @moonmuse.LlmError
+
+pub fn extract_object(String) -> String?
+
+pub fn instruction(String, @json.Json) -> String
+
+pub fn repair(String) -> String
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits

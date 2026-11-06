@@ -1,0 +1,6 @@
+// Prompt templates, rendered by moonpug: the same Jinja syntax a web template uses.
+
+import {
+  "moonbitstack/moonmuse",
+  "moonbitstack/moonpug",
+}
