@@ -431,3 +431,117 @@ fn fine_tune_of(item : Json) -> FineTune {
     trained_tokens: @moonmuse.json_int(item, "trained_tokens"),
   }
 }
+
+///|
+/// Synthesise speech. The answer is audio bytes, not JSON, so it comes back as bytes.
+pub async fn Client::speech(
+  self : Client,
+  text : String,
+  model~ : String = "gpt-4o-mini-tts",
+  voice~ : String = "alloy",
+  format~ : String = "mp3",
+) -> Bytes raise @moonmuse.LlmError {
+  let body = @moonmuse.object_json([
+    ("model", Json::string(model)),
+    ("input", Json::string(text)),
+    ("voice", Json::string(voice)),
+    ("response_format", Json::string(format)),
+  ])
+  let response = self.send(@moonmuse.Call::new("POST", "/audio/speech", body))
+  if response.status >= 400 {
+    raise @moonmuse.Status(
+      code=response.status,
+      body=response.body,
+      retry_after=response.retry_after(),
+    )
+  }
+  response.raw
+}
+
+///|
+/// Transcribe an audio file. The file travels as a form, which is the only shape this endpoint
+/// accepts; `language` narrows the decoder when the audio is known.
+pub async fn Client::transcribe(
+  self : Client,
+  audio : Bytes,
+  filename~ : String = "audio.mp3",
+  model~ : String = "whisper-1",
+  language? : String,
+) -> String raise @moonmuse.LlmError {
+  let fields = [("model", model)]
+  match language {
+    Some(code) => fields.push(("language", code))
+    None => ()
+  }
+  let body = @transport.form(
+    fields,
+    file=(filename, audio_type(filename), audio),
+  )
+  let response = @transport.send_form(
+    body,
+    base=self.base,
+    path="/audio/transcriptions",
+    headers=self.auth(),
+    timeout=self.timeout,
+  )
+  if response.status >= 400 {
+    raise @moonmuse.Status(
+      code=response.status,
+      body=response.body,
+      retry_after=response.retry_after(),
+    )
+  }
+  @moonmuse.json_string_or(response.json(), "text", "")
+}
+
+///|
+/// Upload a file for a batch or a fine-tuning job.
+pub async fn Client::upload_file(
+  self : Client,
+  data : Bytes,
+  filename~ : String,
+  purpose~ : String = "batch",
+) -> FileInfo raise @moonmuse.LlmError {
+  let body = @transport.form(
+    [("purpose", purpose)],
+    file=(filename, audio_type(filename), data),
+  )
+  let response = @transport.send_form(
+    body,
+    base=self.base,
+    path="/files",
+    headers=self.auth(),
+    timeout=self.timeout,
+  )
+  if response.status >= 400 {
+    raise @moonmuse.Status(
+      code=response.status,
+      body=response.body,
+      retry_after=response.retry_after(),
+    )
+  }
+  file_of(response.json())
+}
+
+///|
+/// A media type from a file name, for the part of a form that carries it. Only the types these
+/// endpoints accept are named; anything else is `application/octet-stream`, which a server will
+/// sniff or refuse rather than misread.
+fn audio_type(filename : String) -> String {
+  let lower = filename.to_lower()
+  if lower.has_suffix(".mp3") {
+    "audio/mpeg"
+  } else if lower.has_suffix(".wav") {
+    "audio/wav"
+  } else if lower.has_suffix(".m4a") {
+    "audio/mp4"
+  } else if lower.has_suffix(".webm") {
+    "audio/webm"
+  } else if lower.has_suffix(".flac") {
+    "audio/flac"
+  } else if lower.has_suffix(".jsonl") {
+    "application/jsonl"
+  } else {
+    "application/octet-stream"
+  }
+}

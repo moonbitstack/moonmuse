@@ -91,8 +91,11 @@ pub async fn Client::models(Self) -> Array[@moonmuse.ModelInfo] raise @moonmuse.
 pub async fn Client::moderate(Self, String, Array[String]) -> Moderation raise @moonmuse.LlmError
 pub fn Client::new(api_key? : String, base? : String, headers? : Array[(String, String)], timeout? : Int32) -> Self
 pub async fn Client::responses(Self, @moonmuse.Request) -> @moonmuse.Reply raise @moonmuse.LlmError
+pub async fn Client::speech(Self, String, model? : String, voice? : String, format? : String) -> Bytes raise @moonmuse.LlmError
 pub async fn Client::start_batch(Self, String, endpoint? : String, window? : String) -> Batch raise @moonmuse.LlmError
 pub async fn Client::stream(Self, @moonmuse.Request, (@moonmuse.Delta) -> Unit) -> @moonmuse.Reply raise @moonmuse.LlmError
+pub async fn Client::transcribe(Self, Bytes, filename? : String, model? : String, language? : String) -> String raise @moonmuse.LlmError
+pub async fn Client::upload_file(Self, Bytes, filename~ : String, purpose? : String) -> FileInfo raise @moonmuse.LlmError
 pub impl @moonmuse.Provider for Client
 
 pub(all) struct FileInfo {

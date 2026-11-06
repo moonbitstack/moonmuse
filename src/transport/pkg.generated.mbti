@@ -9,15 +9,29 @@ import {
 // Values
 pub fn ensure_success(Response) -> Response raise @moonmuse.LlmError
 
+pub fn form(Array[(String, String)], file? : (String, String, Bytes)) -> Form
+
 pub async fn send(@moonmuse.Call, base~ : String, headers? : Array[(String, String)], timeout? : Int32) -> Response raise @moonmuse.LlmError
+
+pub async fn send_binary(String, base~ : String, path~ : String, content_type~ : String, data~ : Bytes, headers? : Array[(String, String)], timeout? : Int32) -> Response raise @moonmuse.LlmError
+
+pub async fn send_form(Form, base~ : String, path~ : String, headers? : Array[(String, String)], timeout? : Int32) -> Response raise @moonmuse.LlmError
 
 // Errors
 
 // Types and methods
+pub struct Form {
+  content_type : String
+  body : Bytes
+}
+pub fn Form::body(Self) -> Bytes
+pub fn Form::content_type(Self) -> String
+
 pub struct Response {
   status : Int32
   headers : Array[(String, String)]
   body : String
+  raw : Bytes
 }
 pub fn Response::header(Self, String) -> String?
 pub fn Response::json(Self) -> @json.Json raise @moonmuse.LlmError

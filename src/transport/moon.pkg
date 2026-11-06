@@ -4,6 +4,7 @@
 import {
   "moonbitstack/moonmuse",
   "moonbitstack/moonfetch",
+  "moonbitlang/core/encoding/utf8",
   "moonbitlang/core/json",
 }
 
@@ -12,3 +13,7 @@ warnings = "-29"
 options(
   targets: { "send.mbt": [ "native", "wasm" ] },
 )
+
+import {
+  "moonbitlang/core/encoding/utf8",
+} for "wbtest"

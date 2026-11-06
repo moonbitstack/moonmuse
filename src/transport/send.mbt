@@ -7,7 +7,10 @@
 pub struct Response {
   status : Int32
   headers : Array[(String, String)]
+  /// The body as text; an endpoint that answers with audio leaves this empty.
   body : String
+  /// The body as it arrived.
+  raw : Bytes
 }
 
 ///|
@@ -101,7 +104,12 @@ pub async fn send(
       }
     other => raise @moonmuse.Decode("unknown HTTP verb: " + other)
   }
-  { status: response.status, headers: response.headers, body: response.text(), }
+  {
+    status: response.status,
+    headers: response.headers,
+    body: response.text(),
+    raw: response.body,
+  }
 }
 
 ///|
@@ -127,4 +135,71 @@ pub fn ensure_success(response : Response) -> Response raise @moonmuse.LlmError 
     )
   }
   response
+}
+
+///|
+/// Send a form body, for the endpoints that take a file.
+pub async fn send_form(
+  body : Form,
+  base~ : String,
+  path~ : String,
+  headers~ : Array[(String, String)] = [],
+  timeout? : Int32,
+) -> Response raise @moonmuse.LlmError {
+  let response = @moonfetch.post(
+    join(base, path),
+    body=@moonfetch.Body::Bytes(body.body()),
+    headers=[..headers, ("content-type", body.content_type())],
+    timeout?,
+  ) catch {
+    error => raise @moonmuse.Stream(error.to_string())
+  }
+  {
+    status: response.status,
+    headers: response.headers,
+    body: @utf8.decode_lossy(response.body[:]),
+    raw: response.body,
+  }
+}
+
+///|
+/// Send a body this library did not encode as JSON: a file, an audio payload.
+pub async fn send_binary(
+  verb : String,
+  base~ : String,
+  path~ : String,
+  content_type~ : String,
+  data~ : Bytes,
+  headers~ : Array[(String, String)] = [],
+  timeout? : Int32,
+) -> Response raise @moonmuse.LlmError {
+  let url = join(base, path)
+  let all_headers = [..headers, ("content-type", content_type)]
+  let response = match verb {
+    "POST" =>
+      @moonfetch.post(
+        url,
+        body=@moonfetch.Body::Bytes(data),
+        headers=all_headers,
+        timeout?,
+      ) catch {
+        error => raise @moonmuse.Stream(error.to_string())
+      }
+    "PUT" =>
+      @moonfetch.put(
+        url,
+        body=@moonfetch.Body::Bytes(data),
+        headers=all_headers,
+        timeout?,
+      ) catch {
+        error => raise @moonmuse.Stream(error.to_string())
+      }
+    other => raise @moonmuse.Decode("unknown HTTP verb: " + other)
+  }
+  {
+    status: response.status,
+    headers: response.headers,
+    body: @utf8.decode_lossy(response.body[:]),
+    raw: response.body,
+  }
 }
