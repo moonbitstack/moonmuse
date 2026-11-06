@@ -220,6 +220,16 @@ What is checked, and how:
 - **Official client libraries.** `scripts/interop` runs the gateway on port 12000 and drives it
   with `openai`, `anthropic` and `ollama` — the real SDKs, not hand-written requests. CI runs
   chat, streaming, tool calls, embeddings, model lists and an error case.
+- **The official field description.** `scripts/openapi/gen_fields.py` reads `openai-openapi` at
+  a pinned commit and writes the field table the tests check bodies against (21 schemas, 182
+  fields). A body that carries a key the description does not have fails the build, and a stale
+  table fails CI before it can pass a wrong body.
+- **LangChain standard tests.** The cases a provider can carry are transcribed in
+  `src/serve/langchain_wbtest.mbt`, keeping the original names: conversation and double-message
+  histories, usage with and without streaming, stop sequences, model override, tool calling with
+  and without arguments, tool choice, tool-result and error histories, image inputs, Unicode tool
+  calls, and sequential calls. The cases that test LangChain's own binding, event graph or
+  timing layer are listed there with why they do not apply.
 
 Not yet checked, and known to be missing:
 
