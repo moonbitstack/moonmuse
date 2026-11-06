@@ -175,15 +175,25 @@ pub fn stream_frame(
   delta : @moonmuse.Delta,
   turn : @moonmuse.Turn,
 ) -> Array[@moonmuse.Frame] {
+  let frames = []
   match delta {
     @moonmuse.Delta::Text(text) => {
-      let index = start_block(turn, "text")
-      [
+      ensure_start(frames, turn)
+      open_block(
+        frames,
+        turn,
+        "text",
+        @moonmuse.object_json([
+          ("type", Json::string("text")),
+          ("text", Json::string("")),
+        ]),
+      )
+      frames.push(
         event(
           "content_block_delta",
           @moonmuse.object_json([
             ("type", Json::string("content_block_delta")),
-            ("index", Json::number(index.to_double())),
+            ("index", Json::number(turn.num("open:index").to_double())),
             (
               "delta",
               @moonmuse.object_json([
@@ -193,34 +203,26 @@ pub fn stream_frame(
             ),
           ]),
         ),
-      ]
+      )
     }
     @moonmuse.Delta::CallStart(id~, name~) => {
-      let index = start_block(turn, "tool_use")
-      turn.set_slot("block:" + index.to_string() + ":id", id)
-      turn.set_slot("id:" + id, index.to_string())
-      [
-        event(
-          "content_block_start",
-          @moonmuse.object_json([
-            ("type", Json::string("content_block_start")),
-            ("index", Json::number(index.to_double())),
-            (
-              "content_block",
-              @moonmuse.object_json([
-                ("type", Json::string("tool_use")),
-                ("id", Json::string(id)),
-                ("name", Json::string(name)),
-                ("input", Json::object(Map([]))),
-              ]),
-            ),
-          ]),
-        ),
-      ]
+      ensure_start(frames, turn)
+      open_block(
+        frames,
+        turn,
+        "tool_use",
+        @moonmuse.object_json([
+          ("type", Json::string("tool_use")),
+          ("id", Json::string(id)),
+          ("name", Json::string(name)),
+          ("input", Json::object(Map([]))),
+        ]),
+      )
+      turn.set_slot("id:" + id, turn.num("open:index").to_string())
     }
     @moonmuse.Delta::CallArgs(id~, chunk~) => {
       let index = @moonmuse.parse_int_lossy(turn.slot("id:" + id))
-      [
+      frames.push(
         event(
           "content_block_delta",
           @moonmuse.object_json([
@@ -235,16 +237,18 @@ pub fn stream_frame(
             ),
           ]),
         ),
-      ]
+      )
     }
     @moonmuse.Delta::Done(reply) => {
+      ensure_start(frames, turn)
+      close_block(frames, turn)
       let usage = []
       match reply.usage.output {
         Some(value) =>
           usage.push(("output_tokens", Json::number(value.to_double())))
         None => ()
       }
-      [
+      frames.push(
         event(
           "message_delta",
           @moonmuse.object_json([
@@ -258,26 +262,96 @@ pub fn stream_frame(
             ("usage", @moonmuse.object_json(usage)),
           ]),
         ),
+      )
+      frames.push(
         event(
           "message_stop",
           @moonmuse.object_json([("type", Json::string("message_stop"))]),
         ),
-      ]
+      )
     }
   }
+  frames
 }
 
 ///|
-/// Start a block of `kind` unless one is already open, and return its ordinal.
-fn start_block(turn : @moonmuse.Turn, kind : String) -> Int32 {
-  let open = turn.slot("open")
-  if open == kind {
-    return @moonmuse.parse_int_lossy(turn.slot("open:index"))
+/// Open the message, once. A client needs the envelope before it can read a block.
+fn ensure_start(frames : Array[@moonmuse.Frame], turn : @moonmuse.Turn) -> Unit {
+  if turn.has_slot("started") {
+    return
   }
+  turn.set_slot("started", "1")
+  frames.push(
+    event(
+      "message_start",
+      @moonmuse.object_json([
+        ("type", Json::string("message_start")),
+        (
+          "message",
+          @moonmuse.object_json([
+            ("id", Json::string("msg_moonmuse")),
+            ("type", Json::string("message")),
+            ("role", Json::string("assistant")),
+            ("model", Json::string("moonmuse")),
+            ("content", Json::array([])),
+            ("stop_reason", Json::null()),
+            (
+              "usage",
+              @moonmuse.object_json([
+                ("input_tokens", Json::number(0.0)),
+                ("output_tokens", Json::number(0.0)),
+              ]),
+            ),
+          ]),
+        ),
+      ]),
+    ),
+  )
+}
+
+///|
+/// Close the open block, if any.
+fn close_block(frames : Array[@moonmuse.Frame], turn : @moonmuse.Turn) -> Unit {
+  if !turn.has_slot("open") {
+    return
+  }
+  frames.push(
+    event(
+      "content_block_stop",
+      @moonmuse.object_json([
+        ("type", Json::string("content_block_stop")),
+        ("index", Json::number(turn.num("open:index").to_double())),
+      ]),
+    ),
+  )
+  turn.set_slot("open", "")
+}
+
+///|
+/// Open a block of `kind`, closing the one before it when the kind changes.
+fn open_block(
+  frames : Array[@moonmuse.Frame],
+  turn : @moonmuse.Turn,
+  kind : String,
+  block : Json,
+) -> Unit {
+  if turn.slot("open") == kind && turn.has_slot("open") {
+    return
+  }
+  close_block(frames, turn)
   let index = turn.next_block()
   turn.set_slot("open", kind)
-  turn.set_slot("open:index", index.to_string())
-  index
+  turn.set_num("open:index", index)
+  frames.push(
+    event(
+      "content_block_start",
+      @moonmuse.object_json([
+        ("type", Json::string("content_block_start")),
+        ("index", Json::number(index.to_double())),
+        ("content_block", block),
+      ]),
+    ),
+  )
 }
 
 ///|
