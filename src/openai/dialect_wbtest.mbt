@@ -245,3 +245,21 @@ test "openai: the model list decodes" {
   let list = models_answer([@moonmuse.ModelInfo::new("gpt-4o")])
   assert_eq(@moonmuse.json_array(list, "data").length(), 1)
 }
+
+///|
+test "openai: a stream cut before its finish still assembles the text it sent" {
+  let turn = @moonmuse.Turn::new()
+  let assembly = @moonmuse.Assembly::new()
+  let cut = [
+    "data: {\"choices\":[{\"index\":0,\"delta\":{\"content\":\"Hel\"},\"finish_reason\":null}]}",
+    "", "data: {\"choices\":[{\"index\":0,\"delta\":{\"content\":\"lo\"},\"finish_reason\":null}]}",
+    "", "",
+  ].join("\n")
+  for frame in @moonmuse.parse_sse(cut) {
+    for delta in stream_delta(frame, turn) {
+      assembly.push(delta)
+    }
+  }
+  // No `Done` ever arrived, so the reply is whatever the deltas accumulated.
+  assert_eq(assembly.reply().message.text_content(separator=""), "Hello")
+}

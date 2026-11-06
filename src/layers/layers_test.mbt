@@ -188,3 +188,46 @@ async test "limited: the bucket lets the burst through without waiting" {
   }
   assert_eq(provider.hits(), 2)
 }
+
+///|
+/// A provider that always fails with a decode error, which no fallback can fix.
+struct Broken {}
+
+///|
+impl @moonmuse.Provider for Broken with fn chat(_self, _request) {
+  raise @moonmuse.Decode("the body was not the shape promised")
+}
+
+///|
+impl @moonmuse.Provider for Broken with fn stream(_self, _request, _on_delta) {
+  raise @moonmuse.Decode("the body was not the shape promised")
+}
+
+///|
+impl @moonmuse.Provider for Broken with fn embed(_self, _model, _inputs) {
+  raise @moonmuse.Decode("the body was not the shape promised")
+}
+
+///|
+impl @moonmuse.Provider for Broken with fn models(_self) {
+  raise @moonmuse.Decode("the body was not the shape promised")
+}
+
+///|
+pub extend Broken with @moonmuse.Provider::{chat, stream, embed, models}
+
+///|
+async test "fallback: a decode failure does not switch" {
+  let second = @fake.Fake::text("second")
+  let broken : &@moonmuse.Provider = Broken::{ }
+  let chain = @layers.fallback([broken, second])
+  let failed = try {
+    let _ = chain.chat(ask("m"))
+    false
+  } catch {
+    @moonmuse.Decode(_) => true
+    _ => false
+  }
+  assert_eq(failed, true)
+  assert_eq(second.hits(), 0)
+}

@@ -274,8 +274,7 @@ fn start_block(turn : @moonmuse.Turn, kind : String) -> Int32 {
   if open == kind {
     return @moonmuse.parse_int_lossy(turn.slot("open:index"))
   }
-  let index = turn.num("blocks")
-  turn.set_num("blocks", index + 1)
+  let index = turn.next_block()
   turn.set_slot("open", kind)
   turn.set_slot("open:index", index.to_string())
   index
