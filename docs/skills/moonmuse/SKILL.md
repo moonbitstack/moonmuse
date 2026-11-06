@@ -102,6 +102,21 @@ let app = @serve.serve(
 `/v1/models` is offered by both formats; the `anthropic-version` header picks the answer. Pass
 `keys=@serve.StaticKeys::new([...])` to require a bearer token.
 
+## A local model
+
+`moonmuse/local` turns an inference engine into a provider. The engine is yours; the chat
+template and the way the model writes tool calls are values.
+
+```
+let model = @local.Local::new(
+  engine,
+  template=@local.chatml(),
+  calls=@local.Tagged,
+  model="qwen2.5-7b",
+)
+let reply = model.chat(request)
+```
+
 ## Rules that are easy to miss
 
 - `Request::new`'s `temperature` and `max_tokens` are optional parameters: pass a value as

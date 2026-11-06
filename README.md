@@ -58,6 +58,7 @@ A `Dialect` is the reason a gateway and a client cannot disagree: the same value
 | `moonmuse/prompt` | Prompt templates, rendered by moonpug |
 | `moonmuse/fake` | A scripted provider, for tests of everything above the wire |
 | `moonmuse/serve` | Export any provider as an OpenAI, Anthropic, Gemini or Ollama API |
+| `moonmuse/local` | A local model as a provider: chat template, tool-call parsing, an engine contract |
 
 ## Chat
 
@@ -167,6 +168,26 @@ same code.
 
 Two formats claim `/v1/models`; the `anthropic-version` header decides which answers.
 
+## Local models
+
+A local model is an inference engine plus the text format it was trained on. The engine is a
+contract here, so `moonmuse/local` does not know how weights are read; the format is data.
+
+<!-- nocheck -->
+```moonbit
+let model = @local.Local::new(
+  engine,                            // your inference engine
+  template=@local.llama3(),          // or @local.chatml()
+  calls=@local.Tagged,               // how it writes a tool call
+  model="qwen2.5-7b",
+)
+let reply = model.chat(request)      // a Provider like any other
+```
+
+The answer is text, and a tool call is a JSON object inside it, so `@local.parse` finds the
+calls, removes them from what the user sees, and numbers them. A template that does not render
+is an error, not a silent empty prompt.
+
 ## Model catalogue
 
 <!-- nocheck -->
@@ -196,6 +217,9 @@ What is checked, and how:
   it is set and the server is missing.
 - **Transport.** `moonmuse/transport` maps a `Call` onto moonfetch, including status and
   `retry-after`; a non-JSON error body is reported as a status, not as a decode failure.
+- **Official client libraries.** `scripts/interop` runs the gateway on port 12000 and drives it
+  with `openai`, `anthropic` and `ollama` — the real SDKs, not hand-written requests. CI runs
+  chat, streaming, tool calls, embeddings, model lists and an error case.
 
 Not yet checked, and known to be missing:
 
@@ -203,12 +227,12 @@ Not yet checked, and known to be missing:
   on a client fetches the whole answer and replays it as deltas: the deltas are correct, the
   timing is not. The `Dialect` side — reading a real stream and writing one — is complete and
   tested.
-- Audio endpoints (`/v1/audio/speech`, `/v1/audio/transcriptions`) take and return binary
-  bodies, which the transport does not carry yet.
 - `/v1/messages/count_tokens` answers `Unsupported`: counting tokens needs a tokenizer, and
   this library does not ship one.
-- The official client SDKs (`openai-python`, `anthropic-sdk-python`, `ollama-python`) are not
-  yet run against `serve` in CI, and the LangChain standard tests are not yet transcribed.
+- The LangChain `standard-tests` transcription and a scripted comparison of `@openai` fields
+  against `openai-openapi` are still owed.
+- `moonmuse/local` ships the template, the call parser and the engine contract; it does not
+  ship an inference engine, so a model has to be wired in.
 
 ## Targets
 
