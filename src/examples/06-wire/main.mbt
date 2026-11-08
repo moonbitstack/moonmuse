@@ -22,7 +22,10 @@ fn canonical(model : String) -> @moonmuse.Request {
 
 ///|
 /// One dialect's call as a JSON object: the path, the query and the body.
-fn dump(dialect : &@moonmuse.Dialect, model : String) -> Json raise @moonmuse.LlmError {
+fn dump(
+  dialect : &@moonmuse.Dialect,
+  model : String,
+) -> Json raise @moonmuse.LlmError {
   let call = @moonmuse.Dialect::request(dialect, canonical(model))
   let query = []
   for pair in call.query {
