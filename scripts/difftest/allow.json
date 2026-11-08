@@ -1,0 +1,44 @@
+[
+  {
+    "format": "anthropic",
+    "path": "messages[0].content",
+    "side": "sdk-only",
+    "reason": "The SDK sends a plain string when the message is one run of text; we always send content blocks. The API accepts both, and a tool result has no string form, so blocks are the shape our reader and writer share."
+  },
+  {
+    "format": "anthropic",
+    "path": "messages[0].content[0].type",
+    "side": "ours-only",
+    "reason": "The other half of the block list: `{type: \"text\"}` is what makes a block a block."
+  },
+  {
+    "format": "anthropic",
+    "path": "messages[0].content[0].text",
+    "side": "ours-only",
+    "reason": "The text inside that block. Same string the SDK sends, one level down."
+  },
+  {
+    "format": "anthropic",
+    "path": "temperature",
+    "side": "ours-only",
+    "reason": "The documented Messages body takes `temperature` at the top level and has for years; anthropic 2.6 moved it under `output_config` in the SDK. Writing the top-level field keeps older endpoints and proxies working. Open question for a live check: whether the API now prefers `output_config`. Worth revisiting, not worth guessing at without a key."
+  },
+  {
+    "format": "anthropic",
+    "path": "output_config.temperature",
+    "side": "sdk-only",
+    "reason": "The other side of the same difference."
+  },
+  {
+    "format": "gemini",
+    "path": "systemInstruction.role",
+    "side": "sdk-only",
+    "reason": "The SDK puts a role on the system instruction object; the documented `systemInstruction` is `{parts: [...]}` and the role there means nothing. We send the documented shape."
+  },
+  {
+    "format": "ollama",
+    "path": "tools",
+    "side": "sdk-only",
+    "reason": "The SDK always sends `tools`, empty when there are none. We omit the key, which the server reads as an empty list."
+  }
+]

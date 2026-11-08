@@ -3,7 +3,7 @@
     "verb": "POST",
     "path": "/v1/chat/completions",
     "headers": {
-      "Host": "127.0.0.1:58024",
+      "Host": "127.0.0.1:56544",
       "Accept-Encoding": "gzip, deflate",
       "Connection": "keep-alive",
       "authorization": "Bearer sk-difftest",
@@ -37,11 +37,50 @@
       "temperature": 0.2
     }
   },
+  "anthropic": {
+    "verb": "POST",
+    "path": "/v1/messages",
+    "headers": {
+      "Host": "127.0.0.1:56544",
+      "Accept-Encoding": "gzip, deflate",
+      "Connection": "keep-alive",
+      "x-stainless-timeout": "600",
+      "x-stainless-retry-count": "0",
+      "x-stainless-read-timeout": "600",
+      "Accept": "application/json",
+      "Content-Type": "application/json",
+      "User-Agent": "Anthropic/Python 2.6.0",
+      "X-Stainless-Lang": "python",
+      "X-Stainless-Package-Version": "2.6.0",
+      "X-Stainless-OS": "Windows",
+      "X-Stainless-Arch": "other:amd64",
+      "X-Stainless-Runtime": "CPython",
+      "X-Stainless-Runtime-Version": "3.13.14",
+      "Authorization": "Bearer sk-ant-difftest",
+      "X-Stainless-Async": "false",
+      "anthropic-version": "2026-10-21",
+      "Content-Length": "186"
+    },
+    "body": {
+      "max_tokens": 256,
+      "messages": [
+        {
+          "role": "user",
+          "content": "Why is the sky blue?"
+        }
+      ],
+      "model": "claude-sonnet-4-20250514",
+      "output_config": {
+        "temperature": 0.2
+      },
+      "system": "Answer in one sentence."
+    }
+  },
   "gemini": {
     "verb": "POST",
     "path": "/v1beta/models/gemini-2.0-flash:generateContent",
     "headers": {
-      "Host": "127.0.0.1:58024",
+      "Host": "127.0.0.1:56544",
       "Accept": "*/*",
       "Accept-Encoding": "gzip, deflate",
       "Connection": "keep-alive",
@@ -80,7 +119,7 @@
     "verb": "POST",
     "path": "/api/chat",
     "headers": {
-      "Host": "127.0.0.1:58024",
+      "Host": "127.0.0.1:56544",
       "Accept-Encoding": "gzip, deflate",
       "Connection": "keep-alive",
       "content-type": "application/json",

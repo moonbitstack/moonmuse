@@ -50,16 +50,25 @@ def take_openai(base):
 
 
 def take_anthropic(base):
+    import inspect
+
     from anthropic import Anthropic
 
     client = Anthropic(api_key="sk-ant-difftest", base_url=base)
-    return client.messages.create(
-        model=MODELS["anthropic"],
-        max_tokens=LIMIT,
-        system=SYSTEM,
-        messages=[{"role": "user", "content": USER}],
-        temperature=TEMPERATURE,
-    )
+    params = {
+        "model": MODELS["anthropic"],
+        "max_tokens": LIMIT,
+        "system": SYSTEM,
+        "messages": [{"role": "user", "content": USER}],
+    }
+    # The 2.6 line of the SDK stopped taking `temperature` at the top level and moved it under
+    # `output_config`. Following whichever shape the installed version offers is what keeps
+    # this recorder usable across versions.
+    if "temperature" in inspect.signature(client.messages.create).parameters:
+        params["temperature"] = TEMPERATURE
+    else:
+        params["output_config"] = {"temperature": TEMPERATURE}
+    return client.messages.create(**params)
 
 
 def take_gemini(base):
