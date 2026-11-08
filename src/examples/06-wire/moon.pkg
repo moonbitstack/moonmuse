@@ -7,7 +7,6 @@ import {
   "moonbitstack/moonmuse/anthropic",
   "moonbitstack/moonmuse/gemini",
   "moonbitstack/moonmuse/ollama",
-  "moonbitlang/async",
 }
 
 pkgtype(kind: "executable")

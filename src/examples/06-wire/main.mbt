@@ -37,7 +37,7 @@ fn dump(dialect : &@moonmuse.Dialect, model : String) -> Json raise @moonmuse.Ll
 }
 
 ///|
-async fn main raise {
+fn main raise {
   let formats : Array[(String, &@moonmuse.Dialect, String)] = [
     ("openai", @openai.dialect, "gpt-4o-mini"),
     ("anthropic", @anthropic.dialect, "claude-sonnet-4-20250514"),
