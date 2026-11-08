@@ -3,6 +3,7 @@ package "moonbitstack/moonmuse/transport"
 
 import {
   "moonbitlang/core/json",
+  "moonbitstack/moonfetch",
   "moonbitstack/moonmuse",
 }
 
@@ -11,11 +12,15 @@ pub fn ensure_success(Response) -> Response raise @moonmuse.LlmError
 
 pub fn form(Array[(String, String)], file? : (String, String, Bytes)) -> Form
 
+pub async fn open(@moonmuse.Call, base~ : String, headers? : Array[(String, String)], timeout? : Int32) -> Streaming raise @moonmuse.LlmError
+
 pub async fn send(@moonmuse.Call, base~ : String, headers? : Array[(String, String)], timeout? : Int32) -> Response raise @moonmuse.LlmError
 
 pub async fn send_binary(String, base~ : String, path~ : String, content_type~ : String, data~ : Bytes, headers? : Array[(String, String)], timeout? : Int32) -> Response raise @moonmuse.LlmError
 
 pub async fn send_form(Form, base~ : String, path~ : String, headers? : Array[(String, String)], timeout? : Int32) -> Response raise @moonmuse.LlmError
+
+pub async fn stream_reply(&@moonmuse.Dialect, Streaming, framing? : Framing, on_delta~ : (@moonmuse.Delta) -> Unit) -> @moonmuse.Reply raise @moonmuse.LlmError
 
 // Errors
 
@@ -27,6 +32,11 @@ pub struct Form {
 pub fn Form::body(Self) -> Bytes
 pub fn Form::content_type(Self) -> String
 
+pub(all) enum Framing {
+  Sse
+  Lines
+}
+
 pub struct Response {
   status : Int32
   headers : Array[(String, String)]
@@ -36,6 +46,23 @@ pub struct Response {
 pub fn Response::header(Self, String) -> String?
 pub fn Response::json(Self) -> @json.Json raise @moonmuse.LlmError
 pub fn Response::retry_after(Self) -> Int64?
+
+pub struct Streaming {
+  status : Int32
+  headers : Array[(String, String)]
+  stream : @moonfetch.Stream
+  client : @moonfetch.Client
+  mut pending : Bytes
+  mut over : Bool
+}
+pub fn Streaming::close(Self) -> Unit
+pub async fn Streaming::ensure_success(Self) -> Unit raise @moonmuse.LlmError
+pub fn Streaming::header(Self, String) -> String?
+pub fn Streaming::is_over(Self) -> Bool
+pub async fn Streaming::next(Self) -> String? raise @moonmuse.LlmError
+pub fn Streaming::retry_after(Self) -> Int64?
+pub fn Streaming::status(Self) -> Int32
+pub async fn Streaming::text(Self, limit? : Int32) -> String raise @moonmuse.LlmError
 
 // Type aliases
 

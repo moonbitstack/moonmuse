@@ -146,6 +146,12 @@ pub fn Assembly::push(self : Assembly, delta : Delta) -> Unit {
 }
 
 ///|
+/// Whether the stream already closed itself with a `Done` reply.
+pub fn Assembly::is_done(self : Assembly) -> Bool {
+  self.done is Some(_)
+}
+
+///|
 /// The assembled reply: the `Done` one when the stream sent it, otherwise one built
 /// from what accumulated.
 pub fn Assembly::reply(self : Assembly) -> Reply {

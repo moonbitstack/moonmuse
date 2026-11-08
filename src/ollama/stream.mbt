@@ -124,9 +124,12 @@ pub fn stream_frame(
   match delta {
     @moonmuse.Delta::Text(text) =>
       [line(@moonmuse.object_json([("content", Json::string(text))]), false)]
-    @moonmuse.Delta::CallStart(id~, ..) => {
+    @moonmuse.Delta::CallStart(id~, name~) => {
       let index = turn.add_num("calls", 1) - 1
       turn.set_slot("id:" + id, index.to_string())
+      // Ollama names a tool call in the same object as its arguments, which arrive on a
+      // later line: the name has to be kept until then.
+      turn.set_slot("call:" + index.to_string() + ":name", name)
       []
     }
     @moonmuse.Delta::CallArgs(id~, chunk~) => {

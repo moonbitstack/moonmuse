@@ -53,18 +53,7 @@ fn Client::call(
 ) -> @moonmuse.Call {
   let call = chat_call(request)
   if stream {
-    let body = match call.body {
-      Object(fields) => {
-        let copy = Map([])
-        for key, value in fields {
-          copy[key] = value
-        }
-        copy["stream"] = Json::boolean(true)
-        Json::object(copy)
-      }
-      other => other
-    }
-    { ..call, body, }
+    call.streaming()
   } else {
     call
   }
@@ -99,26 +88,18 @@ pub impl @moonmuse.Provider for Client with fn chat(self, request) {
 }
 
 ///|
-/// A streamed answer. moonfetch has no streamed response yet, so the answer is fetched
-/// whole and replayed as the deltas it would have produced: the caller's callback sees
-/// the same sequence, at the cost of waiting for the last token before the first event.
+/// A streamed answer, forwarded as the endpoint produces it. The same `Turn` the gateway
+/// writes with reads the stream here, so the deltas a client sees are the ones the frames
+/// carried, not a replay of the finished answer.
 pub impl @moonmuse.Provider for Client with fn stream(self, request, on_delta) {
-  let reply = @moonmuse.Provider::chat(self, request)
-  let text = reply.message.text_content(separator="")
-  if text != "" {
-    on_delta(@moonmuse.Delta::Text(text))
-  }
-  for part in reply.message.calls() {
-    match part {
-      @moonmuse.Part::Call(id~, name~, args~) => {
-        on_delta(@moonmuse.Delta::CallStart(id~, name~))
-        on_delta(@moonmuse.Delta::CallArgs(id~, chunk=args.stringify()))
-      }
-      _ => ()
-    }
-  }
-  on_delta(@moonmuse.Delta::Done(reply))
-  reply
+  let answer = @transport.open(
+    self.call(request, stream=true),
+    base=self.base,
+    headers=self.auth(),
+    timeout=self.timeout,
+  )
+  answer.ensure_success()
+  @transport.stream_reply(dialect, answer, on_delta~)
 }
 
 ///|

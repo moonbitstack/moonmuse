@@ -55,24 +55,17 @@ pub impl @moonmuse.Provider for Client with fn chat(self, request) {
 }
 
 ///|
-/// A streamed answer, replayed from the whole answer until moonfetch can stream.
+/// A streamed answer, forwarded as the endpoint produces it. Ollama delimits its stream with
+/// newlines rather than server-sent events, which is the only difference here.
 pub impl @moonmuse.Provider for Client with fn stream(self, request, on_delta) {
-  let reply = @moonmuse.Provider::chat(self, request)
-  let text = reply.message.text_content(separator="")
-  if text != "" {
-    on_delta(@moonmuse.Delta::Text(text))
-  }
-  for part in reply.message.calls() {
-    match part {
-      @moonmuse.Part::Call(id~, name~, args~) => {
-        on_delta(@moonmuse.Delta::CallStart(id~, name~))
-        on_delta(@moonmuse.Delta::CallArgs(id~, chunk=args.stringify()))
-      }
-      _ => ()
-    }
-  }
-  on_delta(@moonmuse.Delta::Done(reply))
-  reply
+  let answer = @transport.open(
+    chat_call(request).streaming(),
+    base=self.base,
+    headers=self.auth(),
+    timeout=self.timeout,
+  )
+  answer.ensure_success()
+  @transport.stream_reply(dialect, answer, framing=Lines, on_delta~)
 }
 
 ///|

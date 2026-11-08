@@ -4,6 +4,7 @@
 import {
   "moonbitstack/moonmuse",
   "moonbitstack/moonfetch",
+  "moonbitstack/moonhttp/method",
   "moonbitlang/core/encoding/utf8",
   "moonbitlang/core/json",
 }
@@ -11,9 +12,15 @@ import {
 warnings = "-29"
 
 options(
-  targets: { "send.mbt": [ "native", "wasm" ] },
+  targets: {
+    "send.mbt": [ "native", "wasm" ],
+    "stream.mbt": [ "native", "wasm" ],
+    "stream_wbtest.mbt": [ "native" ],
+  },
 )
 
 import {
   "moonbitlang/core/encoding/utf8",
+  "moonbitlang/async",
+  "moonbitstack/moonnet/tcp",
 } for "wbtest"

@@ -8,12 +8,43 @@ pub(all) struct Call {
   path : String
   headers : Array[(String, String)]
   body : Json
+  /// The query string, in the order the endpoint expects it. A streamed Gemini call
+  /// asks for events with `alt=sse`, which is a query parameter and nothing else.
+  query : Array[(String, String)]
+  /// A body that is not JSON: audio, a file, a multipart form. When present it is sent
+  /// as it stands and `body` is ignored.
+  payload : Bytes?
 }
 
 ///|
 /// A call with the provider's JSON content type and no extra header.
 pub fn Call::new(verb : String, path : String, body : Json) -> Call {
-  { verb, path, headers: [("content-type", "application/json")], body, }
+  {
+    verb,
+    path,
+    headers: [("content-type", "application/json")],
+    body,
+    query: [],
+    payload: None,
+  }
+}
+
+///|
+/// A call whose body is bytes rather than JSON: speech, a file, a form.
+pub fn Call::bytes(
+  verb : String,
+  path : String,
+  content_type : String,
+  data : Bytes,
+) -> Call {
+  {
+    verb,
+    path,
+    headers: [("content-type", content_type)],
+    body: Json::null(),
+    query: [],
+    payload: Some(data),
+  }
 }
 
 ///|
@@ -21,6 +52,48 @@ pub fn Call::new(verb : String, path : String, body : Json) -> Call {
 pub fn Call::header(self : Call, name : String, value : String) -> Call {
   let headers = self.headers.filter(pair => pair.0 != name)
   { ..self, headers: [..headers, (name, value)], }
+}
+
+///|
+/// A copy with a query parameter appended.
+pub fn Call::query(self : Call, name : String, value : String) -> Call {
+  { ..self, query: [..self.query, (name, value)], }
+}
+
+///|
+/// A copy that asks the endpoint to stream: the same body with `stream` set true. Every
+/// format this library speaks spells that field the same way, and a streamed request is
+/// otherwise the request it would have been.
+pub fn Call::streaming(self : Call) -> Call {
+  let body = match self.body {
+    Object(fields) => {
+      let copy = Map([])
+      for key, value in fields {
+        copy[key] = value
+      }
+      copy["stream"] = Json::boolean(true)
+      Json::object(copy)
+    }
+    other => other
+  }
+  { ..self, body, }
+}
+
+///|
+/// A copy of the body with one field added or replaced.
+pub fn Call::field(self : Call, name : String, value : Json) -> Call {
+  let body = match self.body {
+    Object(fields) => {
+      let copy = Map([])
+      for key, existing in fields {
+        copy[key] = existing
+      }
+      copy[name] = value
+      Json::object(copy)
+    }
+    _ => Json::object(Map([]))
+  }
+  { ..self, body, }
 }
 
 ///|

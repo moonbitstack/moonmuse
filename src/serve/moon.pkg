@@ -2,6 +2,12 @@
 // come from the dialects the client already uses, so a format is written once and both
 // directions are the same code.
 
+// The streaming test needs the three clients and a socket, which two targets have no
+// transport for, so its file is limited to native and this package tolerates the imports
+// that leaves unused elsewhere.
+
+warnings = "-29"
+
 import {
   "moonbitstack/moonmuse",
   "moonbitstack/moonmuse/openai",
@@ -21,8 +27,18 @@ import {
 import {
   "moonbitstack/moonasgi/client",
   "moonbitstack/moonasgi/testing",
+  "moonbitstack/mooncat",
   "moonbitstack/moonmuse/fake",
+  "moonbitstack/moonmuse/openai",
+  "moonbitstack/moonmuse/anthropic",
+  "moonbitstack/moonmuse/gemini",
+  "moonbitstack/moonmuse/ollama",
+  "moonbitstack/moonnet/tcp",
   "moonbitlang/core/encoding/utf8",
   "moonbitlang/core/json",
   "moonbitlang/async",
 } for "wbtest"
+
+options(
+  targets: { "stream_wbtest.mbt": [ "native" ] },
+)

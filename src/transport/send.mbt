@@ -61,45 +61,34 @@ pub async fn send(
 ) -> Response raise @moonmuse.LlmError {
   let url = join(base, call.path)
   let all_headers = [..headers, ..call.headers]
-  let payload = call.body.stringify()
+  let body = match call.payload {
+    Some(data) => @moonfetch.Body::Bytes(data)
+    None => @moonfetch.Body::Text(call.body.stringify())
+  }
+  let query = if call.query.is_empty() { None } else { Some(call.query) }
   let response = match call.verb {
     "GET" =>
-      @moonfetch.get(url, headers=all_headers, timeout?) catch {
+      @moonfetch.get(url, query?, headers=all_headers, timeout?) catch {
         error => raise @moonmuse.Stream(error.to_string())
       }
     "DELETE" =>
-      @moonfetch.delete(url, headers=all_headers, timeout?) catch {
+      @moonfetch.delete(url, query?, headers=all_headers, timeout?) catch {
         error => raise @moonmuse.Stream(error.to_string())
       }
     "HEAD" =>
-      @moonfetch.head(url, headers=all_headers, timeout?) catch {
+      @moonfetch.head(url, query?, headers=all_headers, timeout?) catch {
         error => raise @moonmuse.Stream(error.to_string())
       }
     "PUT" =>
-      @moonfetch.put(
-        url,
-        body=@moonfetch.Body::Text(payload),
-        headers=all_headers,
-        timeout?,
-      ) catch {
+      @moonfetch.put(url, body~, query?, headers=all_headers, timeout?) catch {
         error => raise @moonmuse.Stream(error.to_string())
       }
     "PATCH" =>
-      @moonfetch.patch(
-        url,
-        body=@moonfetch.Body::Text(payload),
-        headers=all_headers,
-        timeout?,
-      ) catch {
+      @moonfetch.patch(url, body~, query?, headers=all_headers, timeout?) catch {
         error => raise @moonmuse.Stream(error.to_string())
       }
     "POST" =>
-      @moonfetch.post(
-        url,
-        body=@moonfetch.Body::Text(payload),
-        headers=all_headers,
-        timeout?,
-      ) catch {
+      @moonfetch.post(url, body~, query?, headers=all_headers, timeout?) catch {
         error => raise @moonmuse.Stream(error.to_string())
       }
     other => raise @moonmuse.Decode("unknown HTTP verb: " + other)
@@ -146,20 +135,12 @@ pub async fn send_form(
   headers~ : Array[(String, String)] = [],
   timeout? : Int32,
 ) -> Response raise @moonmuse.LlmError {
-  let response = @moonfetch.post(
-    join(base, path),
-    body=@moonfetch.Body::Bytes(body.body()),
-    headers=[..headers, ("content-type", body.content_type())],
+  send(
+    @moonmuse.Call::bytes("POST", path, body.content_type(), body.body()),
+    base~,
+    headers~,
     timeout?,
-  ) catch {
-    error => raise @moonmuse.Stream(error.to_string())
-  }
-  {
-    status: response.status,
-    headers: response.headers,
-    body: @utf8.decode_lossy(response.body[:]),
-    raw: response.body,
-  }
+  )
 }
 
 ///|
@@ -173,33 +154,10 @@ pub async fn send_binary(
   headers~ : Array[(String, String)] = [],
   timeout? : Int32,
 ) -> Response raise @moonmuse.LlmError {
-  let url = join(base, path)
-  let all_headers = [..headers, ("content-type", content_type)]
-  let response = match verb {
-    "POST" =>
-      @moonfetch.post(
-        url,
-        body=@moonfetch.Body::Bytes(data),
-        headers=all_headers,
-        timeout?,
-      ) catch {
-        error => raise @moonmuse.Stream(error.to_string())
-      }
-    "PUT" =>
-      @moonfetch.put(
-        url,
-        body=@moonfetch.Body::Bytes(data),
-        headers=all_headers,
-        timeout?,
-      ) catch {
-        error => raise @moonmuse.Stream(error.to_string())
-      }
-    other => raise @moonmuse.Decode("unknown HTTP verb: " + other)
-  }
-  {
-    status: response.status,
-    headers: response.headers,
-    body: @utf8.decode_lossy(response.body[:]),
-    raw: response.body,
-  }
+  send(
+    @moonmuse.Call::bytes(verb, path, content_type, data),
+    base~,
+    headers~,
+    timeout?,
+  )
 }

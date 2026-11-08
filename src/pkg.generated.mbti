@@ -87,6 +87,7 @@ pub struct Assembly {
   args : Map[String, String]
   mut done : Reply?
 }
+pub fn Assembly::is_done(Self) -> Bool
 pub fn Assembly::new() -> Self
 pub fn Assembly::push(Self, Delta) -> Unit
 pub fn Assembly::reply(Self) -> Reply
@@ -97,11 +98,17 @@ pub(all) struct Call {
   path : String
   headers : Array[(String, String)]
   body : @json.Json
+  query : Array[(String, String)]
+  payload : Bytes?
 }
+pub fn Call::bytes(String, String, String, Bytes) -> Self
 pub fn Call::equal(Self, Self) -> Bool
+pub fn Call::field(Self, String, @json.Json) -> Self
 pub fn Call::header(Self, String, String) -> Self
 pub fn Call::new(String, String, @json.Json) -> Self
 pub fn Call::not_equal(Self, Self) -> Bool
+pub fn Call::query(Self, String, String) -> Self
+pub fn Call::streaming(Self) -> Self
 pub fn Call::to_repr(Self) -> @debug.Repr
 
 #derive(Eq, @debug.Debug)
