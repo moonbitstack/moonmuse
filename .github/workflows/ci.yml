@@ -103,8 +103,16 @@ jobs:
           moon version --all
           moon update
 
+      # The installer pulls its binary from the release host, which answers 504 under load.
       - name: install ollama
-        run: curl -fsSL https://ollama.com/install.sh | sh
+        run: |
+          for attempt in 1 2 3; do
+            if curl -fsSL --retry 5 --retry-all-errors https://ollama.com/install.sh | sh; then
+              exit 0
+            fi
+            sleep 15
+          done
+          exit 1
 
       - name: model server and live tests
         run: |
@@ -144,6 +152,8 @@ jobs:
           moon update
 
       - name: run the live check
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: bash scripts/otel-live-check.sh
 
   interop:
