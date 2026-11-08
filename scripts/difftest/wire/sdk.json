@@ -1,0 +1,111 @@
+{
+  "openai": {
+    "verb": "POST",
+    "path": "/v1/chat/completions",
+    "headers": {
+      "Host": "127.0.0.1:58024",
+      "Accept-Encoding": "gzip, deflate",
+      "Connection": "keep-alive",
+      "authorization": "Bearer sk-difftest",
+      "accept": "application/json",
+      "content-type": "application/json",
+      "user-agent": "OpenAI/Python 3.46.0",
+      "x-stainless-lang": "python",
+      "x-stainless-package-version": "3.46.0",
+      "x-stainless-os": "Windows",
+      "x-stainless-arch": "other:amd64",
+      "x-stainless-runtime": "CPython",
+      "x-stainless-runtime-version": "3.13.14",
+      "x-stainless-async": "false",
+      "x-stainless-retry-count": "0",
+      "x-stainless-read-timeout": "600",
+      "Content-Length": "174"
+    },
+    "body": {
+      "model": "gpt-4o-mini",
+      "messages": [
+        {
+          "role": "system",
+          "content": "Answer in one sentence."
+        },
+        {
+          "role": "user",
+          "content": "Why is the sky blue?"
+        }
+      ],
+      "max_tokens": 256,
+      "temperature": 0.2
+    }
+  },
+  "gemini": {
+    "verb": "POST",
+    "path": "/v1beta/models/gemini-2.0-flash:generateContent",
+    "headers": {
+      "Host": "127.0.0.1:58024",
+      "Accept": "*/*",
+      "Accept-Encoding": "gzip, deflate",
+      "Connection": "keep-alive",
+      "Content-Type": "application/json",
+      "x-goog-api-key": "difftest",
+      "user-agent": "google-genai-sdk/3.0.0 gl-python/3.13.14",
+      "x-goog-api-client": "google-genai-sdk/3.0.0 gl-python/3.13.14",
+      "Content-Length": "230"
+    },
+    "body": {
+      "contents": [
+        {
+          "parts": [
+            {
+              "text": "Why is the sky blue?"
+            }
+          ],
+          "role": "user"
+        }
+      ],
+      "systemInstruction": {
+        "parts": [
+          {
+            "text": "Answer in one sentence."
+          }
+        ],
+        "role": "user"
+      },
+      "generationConfig": {
+        "temperature": 0.2,
+        "maxOutputTokens": 256
+      }
+    }
+  },
+  "ollama": {
+    "verb": "POST",
+    "path": "/api/chat",
+    "headers": {
+      "Host": "127.0.0.1:58024",
+      "Accept-Encoding": "gzip, deflate",
+      "Connection": "keep-alive",
+      "content-type": "application/json",
+      "accept": "application/json",
+      "user-agent": "ollama-python/0.6.3 (AMD64 windows) Python/3.13.14",
+      "Content-Length": "209"
+    },
+    "body": {
+      "model": "qwen2.5",
+      "stream": false,
+      "options": {
+        "temperature": 0.2,
+        "num_predict": 256
+      },
+      "messages": [
+        {
+          "role": "system",
+          "content": "Answer in one sentence."
+        },
+        {
+          "role": "user",
+          "content": "Why is the sky blue?"
+        }
+      ],
+      "tools": []
+    }
+  }
+}

@@ -1,0 +1,15 @@
+// One canonical chat written by all four dialects, printed as JSON. The differential test
+// reads this and compares it with what the official client libraries send.
+
+import {
+  "moonbitstack/moonmuse",
+  "moonbitstack/moonmuse/openai",
+  "moonbitstack/moonmuse/anthropic",
+  "moonbitstack/moonmuse/gemini",
+  "moonbitstack/moonmuse/ollama",
+  "moonbitlang/async",
+}
+
+pkgtype(kind: "executable")
+
+supported_targets = "native"
