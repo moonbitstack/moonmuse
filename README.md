@@ -14,13 +14,16 @@ data centre or on the laptop, and whether the caller speaks OpenAI's JSON or Ant
 detail of the wire — not of the code that asks. This library puts that detail in one place and
 leaves one contract above it.
 
-<!-- nocheck -->
-```moonbit
-let provider = @openai.Client::new(api_key="sk-...")
-let reply = provider.chat(
-  @moonmuse.Request::new("gpt-4o-mini", [@moonmuse.Message::user("Why is the sky blue?")]),
+```mbt native
+let provider : &@moonmuse.Provider = @openai.Client::new(api_key="sk-test")
+let request = @moonmuse.Request::new(
+  "gpt-4o-mini",
+  [@moonmuse.Message::user("Why is the sky blue?")],
+  temperature=0.2,
+  max_tokens=256,
 )
-println(reply.text())
+let reply = provider.chat(request)
+let answer = reply.text()
 ```
 
 Swap the constructor for `@anthropic.Client::new(...)`, `@gemini.Client::new(...)` or
@@ -47,7 +50,7 @@ A `Dialect` is the reason a gateway and a client cannot disagree: the same value
 | Package | What it adds |
 |:--|:--|
 | `moonmuse` | Messages, requests, replies, the two contracts, the server-sent-events reader |
-| `moonmuse/openai` | OpenAI's format, plus every endpoint that speaks it — DeepSeek, Kimi, Qwen, vLLM, OpenRouter, DashScope, Mistral — and the Responses, moderation, image, file, batch and fine-tuning calls |
+| `moonmuse/openai` | OpenAI's format, plus every endpoint that speaks it — DeepSeek, Kimi, Qwen, vLLM, OpenRouter, DashScope, Mistral — and the Responses, moderation, image, file, batch, fine-tuning and audio calls |
 | `moonmuse/anthropic` | The Messages API, its event stream, and its token counter |
 | `moonmuse/gemini` | `generateContent`, `streamGenerateContent`, `embedContent` |
 | `moonmuse/ollama` | The native `/api` endpoints, including the newline-delimited stream |
@@ -59,95 +62,108 @@ A `Dialect` is the reason a gateway and a client cannot disagree: the same value
 | `moonmuse/fake` | A scripted provider, for tests of everything above the wire |
 | `moonmuse/serve` | Export any provider as an OpenAI, Anthropic, Gemini or Ollama API |
 | `moonmuse/local` | A local model as a provider: chat template, tool-call parsing, an engine contract |
+| `moonmuse/count` | Token counting over a moontoken vocabulary, for `count_tokens` |
+| `moonmuse/otel` | Traces and metrics by the OpenTelemetry GenAI conventions |
 
 ## Chat
-
-<!-- nocheck -->
-```moonbit
-let request = @moonmuse.Request::new(
-  "claude-sonnet-4-20250514",
-  [
-    @moonmuse.Message::system("Answer in one sentence."),
-    @moonmuse.Message::user("Why is the sky blue?"),
-  ],
-  temperature=0.2,
-  max_tokens=256,
-  stop=["\n\n"],
-)
-let reply = provider.chat(request)
-let (text, usage) = (reply.text(), reply.usage.total())
-```
 
 `Request.extra` is merged into the body last, so a vendor's own field — `reasoning_effort`, a
 beta switch — reaches the wire without this library modelling it. `Reply.raw` keeps the body
 that came back for the fields the shared vocabulary does not hold.
 
+```mbt native
+let with_system = @moonmuse.Request::new(
+  "claude-sonnet-4-20250514",
+  [
+    @moonmuse.Message::system("Answer in one sentence."),
+    @moonmuse.Message::user("Why is the sky blue?"),
+  ],
+  stop=["\n\n"],
+)
+let priced = @models.estimate_cost("claude-sonnet-4-20250514", reply.usage)
+```
+
 ## Streaming
 
-<!-- nocheck -->
-```moonbit
-let reply = provider.stream(request, delta => {
+`stream` calls the callback for each delta as it arrives off the socket, and returns the reply
+the events assemble — the same value `chat` returns, so a caller that ignores the deltas still
+gets the whole answer. The text of a character split across two reads is held back until its
+remaining bytes arrive, so a callback never sees half of one.
+
+```mbt native
+let streamed = provider.stream(request, delta => {
   match delta {
-    Text(chunk) => print(chunk)
-    CallStart(_, name~) => println("\ncall " + name)
-    CallArgs(_, chunk~) => print(chunk)
-    Done(_) => println("")
+    @moonmuse.Text(chunk) => println(chunk)
+    @moonmuse.CallStart(name~, ..) => println("call " + name)
+    @moonmuse.CallArgs(chunk~, ..) => println(chunk)
+    @moonmuse.Done(_) => println("")
   }
 })
 ```
 
-The returned reply is the same value `chat` would have returned, so a caller that ignores the
-deltas still gets the whole answer.
+Each format streams from its own place: OpenAI's and Anthropic's bodies carry a `stream` flag,
+Ollama's answer is newline-delimited, and Gemini streams from `:streamGenerateContent` with
+`alt=sse`. A gateway in front of any of them passes each event on as it arrives.
 
 ## Tools
 
-<!-- nocheck -->
-```moonbit
+A tool is a schema plus a function. `Toolbox::call` is the only place a call becomes a result,
+so a framework with its own loop uses it directly and gets the same behaviour — including the
+rule that a failing tool produces an error result rather than an exception.
+
+```mbt native
 let tools = @toolbox.Toolbox::new()
 tools.add(@moonmuse.Tool::new("add", "Add two integers"), args => {
-  (json_int(args, "a").unwrap_or(0) + json_int(args, "b").unwrap_or(0)).to_string()
+  let a = @moonmuse.json_int(args, "a").unwrap_or(0)
+  let b = @moonmuse.json_int(args, "b").unwrap_or(0)
+  (a + b).to_string()
 })
-let reply = @toolbox.run(provider, request, tools, limit=10)
+let looped = @toolbox.run(provider, request, tools, limit=10)
 ```
-
-`Toolbox::call` is the only place a call becomes a result, so a framework with its own loop
-uses it directly and gets the same behaviour — including the rule that a failing tool produces
-an error result rather than an exception.
 
 ## Layers
 
-<!-- nocheck -->
-```moonbit
+Every layer is a `Provider`, so they compose in any order. Retry honours `retry-after` and only
+retries failures that could pass on a second try; fallback switches on the same classification;
+the cache key covers every field that decides an answer.
+
+```mbt native
+let secondary : &@moonmuse.Provider = @ollama.Client::new()
 let gateway = @layers.cached(
-  @layers.retry(@layers.fallback([primary, secondary])),
+  @layers.retry(@layers.fallback([provider, secondary])),
   @layers.Memory::new(limit=512),
 )
+let served = gateway.chat(request)
 ```
 
-Every layer is a `Provider`, so they compose in any order. Retry honours `retry-after` and
-only retries failures that could pass on a second try; fallback switches on the same
-classification; the cache key covers every field that decides an answer.
+`@layers.routed({"claude-": provider, "local/": secondary})` picks a provider by a model-name
+prefix instead, which is what a gateway over several vendors is.
 
 ## Structured output
 
-<!-- nocheck -->
-```moonbit
-let answer = @structured.ask(
+The schema is stated in the prompt and the reply is checked against it with moonschema; a reply
+that does not fit goes back with the reason, up to a budget, and the last failure is raised.
+
+```mbt native
+let weather = @moonmuse.parse_json_lossy(
+  "{\"type\":\"object\",\"properties\":{\"celsius\":{\"type\":\"number\"}}}",
+)
+let celsius = @structured.ask(
   provider,
   request,
   name="weather",
-  schema=my_schema,
-  decode=json => json_int(json, "celsius"),
+  schema=weather,
+  decode=json => @moonmuse.json_int(json, "celsius"),
 )
 ```
 
-The schema is stated in the prompt and checked against the reply with moonschema; a reply that
-does not fit goes back with the reason, up to a budget, and the last failure is raised.
-
 ## Serve
 
-<!-- nocheck -->
-```moonbit
+`serve` returns an `AsgiApp`: run it with any ASGI server, or mount it under a framework. The
+endpoints are the dialects' own, so a format added once is served, called and parsed by the
+same code.
+
+```mbt native
 let app = @serve.serve(
   provider,
   dialects=[@openai.dialect, @anthropic.dialect, @gemini.dialect, @ollama.dialect],
@@ -155,49 +171,86 @@ let app = @serve.serve(
 )
 ```
 
-`serve` returns an `AsgiApp`: run it with any ASGI server, or mount it under a framework. The
-endpoints are the dialects' own, so a format added once is served, called and parsed by the
-same code.
-
 | Format | Endpoints |
 |:--|:--|
 | OpenAI | `/v1/chat/completions`, `/v1/completions`, `/v1/responses`, `/v1/embeddings`, `/v1/models` |
 | Anthropic | `/v1/messages`, `/v1/messages/count_tokens`, `/v1/models` |
 | Ollama | `/api/chat`, `/api/generate`, `/api/embed`, `/api/tags`, `/api/show`, `/api/version` |
-| Gemini | `/v1beta/models/*:generateContent`, `:streamGenerateContent`, `:embedContent` |
+| Gemini | `/v1beta/models/*:generateContent`, `:streamGenerateContent`, `:embedContent`, `:batchEmbedContents` |
 
 Two formats claim `/v1/models`; the `anthropic-version` header decides which answers.
+`count_tokens` needs a vocabulary, which is one argument away:
+
+<!-- nocheck -->
+```mbt native
+let ranks = @vocab.Ranks::from_tiktoken(vocabulary_text)   // a tiktoken table, read once
+let tokenizer = @moontoken.Tokenizer::cl100k(ranks~)
+let counted = @serve.serve(provider, dialects=[@anthropic.dialect], counter=@count.Tokens::new(tokenizer~))
+```
 
 ## Local models
 
 A local model is an inference engine plus the text format it was trained on. The engine is a
 contract here, so `moonmuse/local` does not know how weights are read; the format is data.
 
-<!-- nocheck -->
-```moonbit
-let model = @local.Local::new(
-  engine,                            // your inference engine
-  template=@local.llama3(),          // or @local.chatml()
-  calls=@local.Tagged,               // how it writes a tool call
+```mbt native
+struct Echo {
+}
+
+impl @local.Engine for Echo with fn generate(_self, prompt, _limit) {
+  prompt
+}
+
+pub extend Echo with @local.Engine::{generate}
+```
+
+```mbt native
+let local : &@moonmuse.Provider = @local.Local::new(
+  Echo::{},
+  template=@local.llama3(),
+  calls=@local.Tagged,
   model="qwen2.5-7b",
 )
-let reply = model.chat(request)      // a Provider like any other
+let answered = local.chat(request)
 ```
 
 The answer is text, and a tool call is a JSON object inside it, so `@local.parse` finds the
 calls, removes them from what the user sees, and numbers them. A template that does not render
 is an error, not a silent empty prompt.
 
-## Model catalogue
+## Observation
 
-<!-- nocheck -->
-```moonbit
-let info = @models.find("gpt-4o-mini")
-let cost = @models.estimate_cost("gpt-4o-mini", reply.usage)
+`moonmuse/otel` wraps a provider: one client span per call, named after the operation and the
+model, carrying what was asked and what came back, plus duration and token metrics. The
+attribute and instrument names come from `moontel/semconv`, generated from a pinned upstream
+commit, so a backend matches on the same keys it matches for any other client.
+
+```mbt native
+let recorder = @trace.Recorder::new()
+let rand = width => Bytes::make(width, b'\x01')
+let tracer = @trace.Tracer::new(
+  rand~,
+  sink=recorder,
+  sampler=@trace.parent_based(root=@trace.always),
+)
+let observed = @otel.traced(provider, tracer)
+let measured = @otel.metered(provider, @moonp8s.Registry::new())
 ```
 
-Prices are US dollars per million tokens as published by each vendor, and change without
-notice; the reply's own usage is what a call actually cost.
+Message bodies are not recorded unless `content=true` is passed: a trace list is a place data
+leaks from, and the convention makes the same distinction.
+
+## Binary endpoints
+
+Speech, transcription and file upload travel as bytes or as multipart forms, not as JSON, so
+they are methods on the client rather than part of `Provider`. `Call` carries a payload for the
+same reason, which is how an endpoint this library has no method for is still reachable.
+
+```mbt native
+let client = @openai.Client::new(api_key="sk-test")
+let audio = client.speech("Read this aloud.")
+let said = client.transcribe(audio, filename="out.mp3")
+```
 
 ## Consistency
 
@@ -210,16 +263,20 @@ What is checked, and how:
   newline stream are replayed through the reader; the assembled reply must match the
   non-streamed one. The OpenAI stream is also cut at every byte offset, to prove the reader
   never depends on where the transport splits a frame.
+- **A stream off a socket.** A server writes one frame and withholds the next until the caller
+  has it, which is the only way to show that a frame arrives before the body ends; another cuts
+  a character across two writes, so a decoder working per read would show the break.
+- **One answer, four formats.** An Ollama-format streaming request is served in all four
+  formats and each answer is read back with its own reader: the pieces must be the same pieces,
+  in the same order, and a tool call split across frames must arrive as one call.
 - **The stream writer against the reader.** The frames a gateway writes are read back by the
   client reader, and must produce the same deltas.
 - **A real server.** The Ollama client is exercised against a live server in CI: chat, a tool
   declaration, and embeddings. Those tests run when `MOONMUSE_LIVE` is set, and fail loudly if
   it is set and the server is missing.
-- **Transport.** `moonmuse/transport` maps a `Call` onto moonfetch, including status and
-  `retry-after`; a non-JSON error body is reported as a status, not as a decode failure.
 - **Official client libraries.** `scripts/interop` runs the gateway on port 12000 and drives it
-  with `openai`, `anthropic` and `ollama` — the real SDKs, not hand-written requests. CI runs
-  chat, streaming, tool calls, embeddings, model lists and an error case.
+  with `openai`, `anthropic`, `ollama` and `google-genai` — the real SDKs, not hand-written
+  requests. CI runs chat, streaming, tool calls, embeddings, model lists and an error case.
 - **The official field description.** `scripts/openapi/gen_fields.py` reads `openai-openapi` at
   a pinned commit and writes the field table the tests check bodies against (21 schemas, 182
   fields). A body that carries a key the description does not have fails the build, and a stale
@@ -231,25 +288,19 @@ What is checked, and how:
   calls, and sequential calls. The cases that test LangChain's own binding, event graph or
   timing layer are listed there with why they do not apply.
 
-Not yet checked, and known to be missing:
+Known gaps, stated rather than hidden:
 
-- Streamed answers from a client. moonfetch has no streamed response yet, so `Provider::stream`
-  on a client fetches the whole answer and replays it as deltas: the deltas are correct, the
-  timing is not. The `Dialect` side — reading a real stream and writing one — is complete and
-  tested.
-- `/v1/messages/count_tokens` answers `Unsupported`: counting tokens needs a tokenizer, and
-  this library does not ship one.
-- The LangChain `standard-tests` transcription and a scripted comparison of `@openai` fields
-  against `openai-openapi` are still owed.
 - `moonmuse/local` ships the template, the call parser and the engine contract; it does not
   ship an inference engine, so a model has to be wired in.
+- Token counts are the vocabulary's count plus a framing amount the caller sets. The endpoint's
+  own number is the authority; this one is for budgeting before the call.
 
 ## Targets
 
 `moonmuse` and its pure subpackages build for `wasm`, `wasm-gc`, `js` and `native`. The four
-provider clients need a transport, which moonfetch provides on `native` and `wasm` only; the
-other two targets still have the dialects, so a gateway can be written and tested without a
-socket.
+provider clients and the streaming transport need a socket, which moonfetch provides on `native`
+and `wasm` only; the other two targets still have the dialects, so a gateway can be written and
+tested without one.
 
 ## License
 

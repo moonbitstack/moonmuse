@@ -104,12 +104,14 @@ pub impl @moonmuse.Dialect for Wire with fn parse(_self, route, body) {
       @moonmuse.Asked::Chat(generate_parse(body, model_of(route.path)))
     @moonmuse.Embed => {
       let model = model_of(route.path)
-      let inputs = match @moonmuse.json_object(body, "requests") {
-        Some(_) =>
-          @moonmuse.json_array(body, "requests").map(request => {
-            part_text(request)
-          })
-        None => [part_text(body)]
+      // `batchEmbedContents` wraps each input in its own request; `embedContent` is one.
+      // The first is an array at `requests`, not an object, so the test is on what the
+      // array holds rather than on the field's own kind.
+      let requests = @moonmuse.json_array(body, "requests")
+      let inputs = if requests.is_empty() {
+        [part_text(body)]
+      } else {
+        requests.map(request => part_text(request))
       }
       @moonmuse.Asked::Embed(model~, inputs~)
     }

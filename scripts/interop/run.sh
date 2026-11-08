@@ -20,3 +20,4 @@ done
 python3 scripts/interop/openai_sdk.py
 python3 scripts/interop/anthropic_sdk.py
 python3 scripts/interop/ollama_sdk.py
+python3 scripts/interop/gemini_sdk.py
