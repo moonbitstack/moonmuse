@@ -9,6 +9,9 @@
 
 </div>
 
+**[四种 API 规范的字段对照 →](https://moonbitstack.github.io/moonmuse/)** — 同一个请求在
+OpenAI、Anthropic、Gemini、Ollama 里各长什么样，一屏看完。
+
 A model endpoint is a request and an answer. Which vendor answers it, whether it runs in a
 data centre or on the laptop, and whether the caller speaks OpenAI's JSON or Anthropic's is a
 detail of the wire — not of the code that asks. This library puts that detail in one place and
