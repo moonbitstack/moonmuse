@@ -163,6 +163,33 @@ jobs:
       - name: compare with what we write
         run: python scripts/difftest/compare.py
 
+  # The page's converter is a build artifact, so a broken export or a dialect that stops
+  # reading a body has to fail here rather than in a browser.
+  site:
+    permissions:
+      contents: read
+    runs-on: ubuntu-26.04
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: install moonbit
+        run: |
+          curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash
+          echo "$HOME/.moon/bin" >> $GITHUB_PATH
+
+      - name: registry index
+        run: |
+          moon version --all
+          moon update
+
+      - name: build the converter
+        run: moon build src/examples/07-convert --target js --release
+
+      - name: the converter agrees with the dialects
+        run: node scripts/check-convert.mjs
+
   semantic-conventions:
     permissions:
       contents: read

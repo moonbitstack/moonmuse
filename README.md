@@ -10,7 +10,9 @@
 </div>
 
 **[A field-by-field comparison of the four API specs →](https://moonbitstack.github.io/moonmuse/)**
-— the same request as OpenAI, Anthropic, Gemini and Ollama each put it on the wire.
+— the same request as OpenAI, Anthropic, Gemini and Ollama each put it on the wire. The four
+bodies on that page are written by this library, compiled to JavaScript and running in the
+browser: edit one and the other three are rewritten from it.
 
 A model endpoint is a request and an answer. Which vendor answers it, whether it runs in a
 data centre or on the laptop, and whether the caller speaks OpenAI's JSON or Anthropic's is a

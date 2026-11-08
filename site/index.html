@@ -166,20 +166,11 @@
 
   .bodies{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
   .bodies>*{min-width:0}
-  .card{position:relative;display:flex;flex-direction:column;background:var(--tint,var(--card));border:1px solid var(--line);border-radius:8px;padding:18px 16px}
-  .card-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
-  .card h3{margin:0 0 3px;font:700 25px/1.2 var(--hand);letter-spacing:.2px}
-  .card .head{font:11px/1.6 var(--mono);color:var(--muted);margin:0 0 12px;word-break:break-word;white-space:pre-line}
-  pre{margin:0;background:var(--paper);padding:15px 16px;overflow-x:auto;overscroll-behavior-x:contain;font:13px/1.7 var(--mono);color:var(--ink);border-radius:4px;max-width:100%}
-  .card pre{flex:1;padding:13px 14px;font-size:12.5px;border-left:3px solid var(--line)}
-  /* Two bodies side by side are worth more than an unwrapped line: below the width where both
-     fit, a long line wraps rather than hiding behind a scrollbar. */
-  @media (max-width:1150px){
-    .card pre{white-space:pre-wrap;overflow-wrap:break-word}
-  }
-  .k{color:var(--jade)} .s{color:#A9702F} .n{color:var(--red)}
-  [data-theme="dark"] .s{color:#D2A05E}
-
+  .pane{display:flex;flex-direction:column;gap:9px;background:var(--tint,var(--card));border:1px solid var(--line);border-radius:8px;padding:15px 15px 14px}
+  .pane-head{display:flex;align-items:center;gap:8px}
+  .pane h3{margin:0;font:700 24px/1.15 var(--hand);letter-spacing:.2px}
+  .pane-head .spacer{flex:1}
+  .chip{font:500 9.5px/1 var(--text);letter-spacing:.14em;text-transform:uppercase;color:var(--jade);border:1px solid var(--jade);border-radius:999px;padding:4px 7px;opacity:.85}
   .copy{
     flex:none;cursor:pointer;background:transparent;border:1px solid var(--line);border-radius:5px;
     color:var(--muted);font:500 10.5px/1 var(--text);letter-spacing:.12em;text-transform:uppercase;padding:6px 9px;
@@ -187,6 +178,40 @@
   }
   .copy:hover{color:var(--ink);border-color:var(--ink)}
   .copy.done{color:var(--jade);border-color:var(--jade)}
+  .mini{
+    flex:none;cursor:pointer;background:transparent;border:1px solid var(--line);border-radius:5px;
+    color:var(--muted);font:400 13px/1 var(--text);padding:5px 7px;line-height:0;transition:color .15s,border-color .15s;
+  }
+  .mini svg{width:14px;height:14px;display:block}
+  .mini:hover{color:var(--jade);border-color:var(--jade)}
+  .pane-path{font:10.5px/1.6 var(--mono);color:var(--muted);margin:0;word-break:break-word;white-space:pre-line}
+  /* A highlighted copy sits behind a transparent textarea, so the JSON stays coloured while
+     remaining editable. Both boxes take the same font, padding and wrapping, which is what
+     keeps the two layers on top of each other. */
+  .pane-body{position:relative;flex:1;display:flex;min-height:0;background:var(--paper);border-left:3px solid var(--line);border-radius:0 4px 4px 0}
+  .pane-body .hl{
+    position:absolute;inset:0;margin:0;padding:13px 14px;overflow:hidden;pointer-events:none;
+    font:12.5px/1.7 var(--mono);color:var(--ink);white-space:pre-wrap;overflow-wrap:break-word;
+  }
+  .pane-body textarea{
+    position:relative;display:block;flex:1;width:100%;margin:0;padding:13px 14px;border:0;border-radius:0;
+    background:transparent;color:transparent;caret-color:var(--ink);
+    font:12.5px/1.7 var(--mono);white-space:pre-wrap;overflow-wrap:break-word;
+    resize:none;overflow:hidden;tab-size:2;
+  }
+  .pane-body textarea:focus{outline:none}
+  .pane-body:focus-within{box-shadow:0 0 0 2px var(--jade);border-radius:0 4px 4px 0}
+  .pane-body textarea::selection{background:rgba(31,111,79,.24);color:transparent}
+  [data-theme="dark"] .pane-body textarea::selection{background:rgba(111,201,162,.24)}
+  .pane-error{margin:0;font:12px/1.5 var(--mono);color:var(--red)}
+  .pane-status{margin:16px 0 0;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .pane-status p{margin:0;font-size:13px;color:var(--muted)}
+  .pane-note{margin:9px 0 0;font-size:12.5px;color:var(--muted);max-width:800px}
+  .reset{
+    cursor:pointer;background:transparent;border:1px solid var(--line);border-radius:5px;padding:6px 10px;
+    color:var(--muted);font:500 10.5px/1 var(--text);letter-spacing:.12em;text-transform:uppercase;
+  }
+  .reset:hover{color:var(--ink);border-color:var(--ink)}
 
   .rules{list-style:none;padding:0;margin:0;display:grid;gap:10px}
   .rules li{background:var(--paper);border:1px solid var(--line);border-left:3px solid var(--red);border-radius:4px;padding:14px 17px;font-size:14.5px;line-height:1.65;text-wrap:pretty}
@@ -392,9 +417,11 @@
   <section id="bodies">
     <p class="eyebrow">02 · Four bodies</p>
     <h2>The same conversation, four complete requests</h2>
-    <p class="sub">System prompt “Answer in one sentence.”, user asks “Why is the sky blue?”, temperature 0.2, cap 256, no streaming. Every one of the four can be sent as it stands.</p>
+    <p class="sub">System prompt “Answer in one sentence.”, user asks “Why is the sky blue?”, temperature 0.2, cap 256, no streaming. Edit any body and the other three are rewritten from it — read and written by the library, not by this page.</p>
     <noscript><p class="sub">The four bodies and the copy buttons are drawn by a small script; with scripting off, the field map above already holds every key they would show.</p></noscript>
     <div class="bodies" id="bodies-grid"></div>
+    <div class="pane-status"><p id="pane-status" role="status"></p></div>
+    <p class="pane-note">The model travels with the request: convert a body and the same model name appears where the target format keeps it — for Gemini, in the URL.</p>
   </section>
 
   <section id="rules">
@@ -539,7 +566,7 @@ let done = @toolbox.run(provider, request, tools, limit=10)</pre>
 
 <footer class="wrap">
   <span>moonmuse — one contract, four wire formats · <a href="https://github.com/moonbitstack/moonmuse">github.com/moonbitstack/moonmuse</a></span>
-  <span>Table and bodies transcribed from what the four dialects put on the wire.</span>
+  <span>Bodies written by the library itself, running in this page · the field map above is read off what it writes.</span>
 </footer>
 
 <button class="totop" id="totop" type="button" aria-label="Back to top">
@@ -548,9 +575,10 @@ let done = @toolbox.run(provider, request, tools, limit=10)</pre>
 </button>
 
 <script>
-const BODIES = [
+const FORMATS = [
   {
-    name:"OpenAI", tint:"--ivory", head:"POST /v1/chat/completions\nauthorization: Bearer sk-…",
+    id:"openai", name:"OpenAI", tint:"--ivory", base:"/v1", rel:"/chat/completions",
+    auth:"authorization: Bearer sk-…",
     json:`{
   "model": "gpt-4o-mini",
   "messages": [
@@ -562,7 +590,8 @@ const BODIES = [
 }`
   },
   {
-    name:"Anthropic", tint:"--blossom", head:"POST /v1/messages\nx-api-key: sk-ant-…\nanthropic-version: 2023-06-01",
+    id:"anthropic", name:"Anthropic", tint:"--blossom", base:"/v1", rel:"/messages",
+    auth:"x-api-key: sk-ant-…\nanthropic-version: 2023-06-01",
     json:`{
   "model": "claude-sonnet-4-20250514",
   "max_tokens": 256,
@@ -576,7 +605,9 @@ const BODIES = [
 }`
   },
   {
-    name:"Gemini", tint:"--sky", head:"POST /v1beta/models/gemini-2.0-flash:generateContent\nx-goog-api-key: AIza…",
+    id:"gemini", name:"Gemini", tint:"--sky", base:"/v1beta",
+    rel:"/models/gemini-2.0-flash:generateContent",
+    auth:"x-goog-api-key: AIza…",
     json:`{
   "systemInstruction": {
     "parts": [{"text": "Answer in one sentence."}]
@@ -591,7 +622,8 @@ const BODIES = [
 }`
   },
   {
-    name:"Ollama", tint:"--sage", head:"POST /api/chat\n(no auth on localhost)",
+    id:"ollama", name:"Ollama", tint:"--sage", base:"", rel:"/api/chat",
+    auth:"(no auth on localhost)",
     json:`{
   "model": "qwen2.5",
   "messages": [
@@ -606,6 +638,55 @@ const BODIES = [
 }`
   }
 ];
+
+/* A body written by `JSON.stringify(value, null, 2)` is correct and reads badly: a message with
+   one text block becomes eight lines. This lays a value out the way the samples in the source
+   are laid out — a short object stays on one line, a long one breaks — so the panes keep their
+   shape when a conversion rewrites them. */
+let charWidth = 0;
+
+/* How many characters a pane holds, measured from the pane itself: the same page is read on a
+   phone and on a wide monitor, and a body formatted for one wraps in the other. */
+function columns(pane){
+  if(!charWidth){
+    const probe = document.createElement("span");
+    probe.textContent = "0123456789";
+    probe.style.cssText = "position:absolute;visibility:hidden;font:12.5px/1.7 var(--mono);white-space:pre";
+    document.body.appendChild(probe);
+    charWidth = probe.getBoundingClientRect().width / 10 || 7.5;
+    probe.remove();
+  }
+  const width = pane.clientWidth - 28;
+  return Math.max(28, Math.floor(width / charWidth));
+}
+
+function quote(value){
+  return JSON.stringify(value);
+}
+
+function compact(value){
+  if(Array.isArray(value)) return "[" + value.map(compact).join(", ") + "]";
+  if(value && typeof value === "object"){
+    return "{" + Object.keys(value).map(key => quote(key) + ": " + compact(value[key])).join(", ") + "}";
+  }
+  return quote(value);
+}
+
+function layout(value, depth, line){
+  const pad = "  ".repeat(depth);
+  const flat = compact(value);
+  if(pad.length + flat.length <= line || !value || typeof value !== "object"){
+    return flat;
+  }
+  const step = "  ".repeat(depth + 1);
+  if(Array.isArray(value)){
+    return "[\n" + value.map(item => step + layout(item, depth + 1, line)).join(",\n") + "\n" + pad + "]";
+  }
+  const keys = Object.keys(value);
+  return "{\n" +
+    keys.map(key => step + quote(key) + ": " + layout(value[key], depth + 1, line)).join(",\n") +
+    "\n" + pad + "}";
+}
 
 function esc(t){return t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
 
@@ -679,23 +760,185 @@ function fallback(text, done){
 }
 
 const grid = document.getElementById("bodies-grid");
-BODIES.forEach(body => {
-  const card = document.createElement("article");
-  card.className = "card";
-  card.style.setProperty("--tint", "var(" + body.tint + ")");
+const status = document.getElementById("pane-status");
+const resetButton = document.createElement("button");
+resetButton.type = "button";
+resetButton.className = "reset";
+resetButton.hidden = true;
+resetButton.textContent = "Reset the samples";
+resetButton.addEventListener("click", () => reset());
+const views = [];
+let converter = null;
+let timer = 0;
+
+/* The box is as tall as its text: a min-height rather than a height, so a pane that shares a
+   row with a longer one still fills the space it is given. */
+function fit(area){
+  area.style.minHeight = "0px";
+  area.style.minHeight = area.scrollHeight + "px";
+}
+
+/* The highlighted layer and the textarea have to hold the same text and measure the same, or
+   the colours drift away from the characters underneath. */
+function setBody(view, text){
+  view.area.value = text;
+  view.hl.textContent = "";
+  view.hl.innerHTML = paint(text) + "\n";
+  fit(view.area);
+}
+
+function setPath(view, verb, rel){
+  if(rel) view.rel = rel;
+  const line = (verb || "POST") + " " + view.format.base + view.rel;
+  view.path.textContent = line + "\n" + view.format.auth;
+}
+
+function buildPane(format){
+  const pane = document.createElement("article");
+  pane.className = "pane";
+  pane.style.setProperty("--tint", "var(" + format.tint + ")");
+
   const head = document.createElement("div");
-  head.className = "card-head";
-  const h = document.createElement("h3");
-  h.textContent = body.name;
-  const pre = document.createElement("pre");
-  pre.innerHTML = paint(body.json);
-  head.append(h, copyButton(() => pre.textContent));
-  const endpoint = document.createElement("p");
-  endpoint.className = "head";
-  endpoint.textContent = body.head;
-  card.append(head, endpoint, pre);
-  grid.appendChild(card);
-});
+  head.className = "pane-head";
+  const name = document.createElement("h3");
+  name.textContent = format.name;
+  const chip = document.createElement("span");
+  chip.className = "chip";
+  chip.textContent = "source";
+  chip.hidden = true;
+  const spacer = document.createElement("span");
+  spacer.className = "spacer";
+
+  const body = document.createElement("div");
+  body.className = "pane-body";
+  const hl = document.createElement("pre");
+  hl.className = "hl";
+  hl.setAttribute("aria-hidden", "true");
+  const area = document.createElement("textarea");
+  area.spellcheck = false;
+  area.setAttribute("aria-label", format.name + " request body");
+  body.append(hl, area);
+
+  const path = document.createElement("p");
+  path.className = "pane-path";
+
+  const error = document.createElement("p");
+  error.className = "pane-error";
+  error.hidden = true;
+
+  const view = { pane, format, path, hl, area, error, chip, rel: format.rel };
+
+  const again = document.createElement("button");
+  again.type = "button";
+  again.className = "mini";
+  again.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 12a8.5 8.5 0 1 1-2.7-6.2"/><path d="M20.5 3.5v5h-5"/></svg>';
+  again.title = "Rewrite the other three bodies from this one";
+  again.setAttribute("aria-label", "Rewrite the other three bodies from " + format.name);
+  again.addEventListener("click", () => convertFrom(view));
+
+  head.append(name, chip, spacer, again, copyButton(() => area.value));
+  pane.append(head, path, body, error);
+
+  area.addEventListener("input", () => {
+    view.hl.innerHTML = paint(area.value) + "\n";
+    fit(area);
+    markSource(view);
+    clearTimeout(timer);
+    timer = setTimeout(() => convertFrom(view), 260);
+  });
+
+  return view;
+}
+
+function markSource(view){
+  views.forEach(other => {
+    other.chip.hidden = other !== view;
+    if(other !== view){
+      other.error.hidden = true;
+      other.error.textContent = "";
+    }
+  });
+}
+
+function say(text){
+  status.firstChild && status.firstChild.nodeType === 3
+    ? (status.firstChild.nodeValue = text)
+    : status.prepend(document.createTextNode(text));
+}
+
+function reset(){
+  views.forEach(view => {
+    setBody(view, view.format.json);
+    view.rel = view.format.rel;
+    setPath(view, "POST");
+    view.error.hidden = true;
+    view.chip.hidden = true;
+  });
+  say("Four samples, one per format. Edit a body — or press ↻ — and the other three are rewritten from it.");
+  resetButton.hidden = true;
+}
+
+/* One pane is the source; the other three are whatever the library makes of it. */
+function convertFrom(view){
+  markSource(view);
+  if(!converter){
+    view.error.textContent = "the converter is still loading";
+    view.error.hidden = false;
+    return;
+  }
+  let failed = null;
+  views.forEach(other => {
+    if(other === view) return;
+    let result;
+    try {
+      result = JSON.parse(converter.convert(view.format.id, other.format.id, view.rel, view.area.value));
+    } catch (error) {
+      failed = String(error);
+      return;
+    }
+    if(!result.ok){
+      failed = result.error;
+      return;
+    }
+    setBody(other, layout(result.body, 0, columns(other.hl)));
+    setPath(other, result.verb, result.path);
+    other.error.hidden = true;
+  });
+  if(failed){
+    view.error.textContent = failed;
+    view.error.hidden = false;
+    say("That body could not be read as " + view.format.name + ".");
+  } else {
+    view.error.hidden = true;
+    say("Rewritten from the " + view.format.name + " body.");
+    resetButton.hidden = false;
+  }
+}
+
+views.push(...FORMATS.map(format => {
+  const view = buildPane(format);
+  grid.appendChild(view.pane);
+  return view;
+}));
+reset();
+
+resetButton.addEventListener("click", () => reset());
+status.parentNode.appendChild(resetButton);
+
+/* The converter is the library compiled to JavaScript: the same dialect code, run in the page.
+   It is fetched only when the page is served over http, which is how it is published. */
+if(location.protocol === "http:" || location.protocol === "https:"){
+  import("./convert.js").then(module => {
+    converter = module;
+    if(!views.some(view => view.chip.hidden === false)){
+      say("Four samples, one per format. Edit a body — or press ↻ — and the other three are rewritten from it.");
+    }
+  }).catch(() => {
+    say("The four samples are shown as recorded; the converter itself did not load.");
+  });
+} else {
+  say("Open this page over http to convert: a module cannot be imported from a file.");
+}
 
 document.querySelectorAll(".code").forEach(code => {
   const pre = code.querySelector("pre");
