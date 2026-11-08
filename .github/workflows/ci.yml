@@ -121,6 +121,31 @@ jobs:
           export OLLAMA_EMBED_MODEL=nomic-embed-text
           moon test --target native
 
+  # The telemetry this library emits, judged by the semantic conventions project's own tool:
+  # a span goes over OTLP to a live checker, which matches every attribute against the GenAI
+  # registry. A name that is misspelled, unknown or retired fails here.
+  semantic-conventions:
+    permissions:
+      contents: read
+    runs-on: ubuntu-26.04
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: install moonbit
+        run: |
+          curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash
+          echo "$HOME/.moon/bin" >> $GITHUB_PATH
+
+      - name: registry index
+        run: |
+          moon version --all
+          moon update
+
+      - name: run the live check
+        run: bash scripts/otel-live-check.sh
+
   interop:
     permissions:
       contents: read

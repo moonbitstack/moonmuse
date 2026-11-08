@@ -1,0 +1,17 @@
+// One traced call, exported as OTLP JSON or over OTLP/gRPC. The semantic-conventions checker
+// listens on the second; a person reads the first.
+
+import {
+  "moonbitstack/moonmuse",
+  "moonbitstack/moonmuse/fake",
+  "moonbitstack/moonmuse/otel",
+  "moonbitstack/moontel/otlp",
+  "moonbitstack/moontel/otlp/grpc",
+  "moonbitstack/moontel/trace",
+  "moonbitlang/async",
+  "moonbitlang/core/env",
+}
+
+pkgtype(kind: "executable")
+
+supported_targets = "native"

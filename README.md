@@ -281,6 +281,10 @@ What is checked, and how:
   a pinned commit and writes the field table the tests check bodies against (21 schemas, 182
   fields). A body that carries a key the description does not have fails the build, and a stale
   table fails CI before it can pass a wrong body.
+- **The semantic conventions.** A span the library emits is sent over OTLP to the
+  conventions project's own checker, which matches every attribute against the GenAI
+  registry. An attribute that is unknown, misspelled or retired fails the build; the run is
+  `scripts/otel-live-check.sh`.
 - **LangChain standard tests.** The cases a provider can carry are transcribed in
   `src/serve/langchain_wbtest.mbt`, keeping the original names: conversation and double-message
   histories, usage with and without streaming, stop sequences, model override, tool calling with
