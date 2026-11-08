@@ -21,10 +21,18 @@ port="${WEAVER_PORT:-4317}"
 if [ ! -x "tools/$target/weaver" ]; then
   mkdir -p tools
   # The release CDN answers 504 under load often enough that a single attempt is a flaky job.
-  curl -fsSL --retry 6 --retry-delay 3 --retry-all-errors -o "tools/weaver.tar.xz" \
-    "https://github.com/open-telemetry/weaver/releases/download/$version/$target.tar.xz"
-  curl -fsSL --retry 6 --retry-delay 3 --retry-all-errors -o "tools/weaver.sha256" \
-    "https://github.com/open-telemetry/weaver/releases/download/$version/$target.tar.xz.sha256"
+  # The API is a second host for the same bytes, and it is the one that stays up when the
+  # download host does not, so a failed download falls back to it.
+  fetch() {
+    curl -fsSL --retry 6 --retry-delay 3 --retry-all-errors -o "$2" \
+      "https://github.com/open-telemetry/weaver/releases/download/$version/$1" && return 0
+    echo "the release host refused $1; asking the API for it"
+    id="$(gh api "repos/open-telemetry/weaver/releases/tags/$version" \
+      --jq ".assets[] | select(.name==\"$1\") | .id")"
+    gh api "repos/open-telemetry/weaver/releases/assets/$id" > "$2"
+  }
+  fetch "$target.tar.xz" "tools/weaver.tar.xz"
+  fetch "$target.tar.xz.sha256" "tools/weaver.sha256"
   # The release publishes the digest beside the archive; a download that does not match it is
   # not the tool this script runs.
   (cd tools && printf '%s  weaver.tar.xz\n' "$(cut -d' ' -f1 weaver.sha256)" | sha256sum -c -)
