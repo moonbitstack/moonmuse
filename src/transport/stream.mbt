@@ -164,6 +164,34 @@ async fn Streaming::take(self : Streaming) -> String? raise @moonmuse.LlmError {
 }
 
 ///|
+/// The next piece of the body as it arrived, without decoding. A binary framing — AWS's
+/// event stream, a media container — is read this way; `next` is the text one.
+pub async fn Streaming::next_bytes(
+  self : Streaming,
+) -> Bytes? raise @moonmuse.LlmError {
+  if self.over {
+    return None
+  }
+  let chunk = self.stream.next() catch {
+    error => {
+      self.over = true
+      raise @moonmuse.Stream(error.to_string())
+    }
+  }
+  match chunk {
+    None => {
+      self.over = true
+      None
+    }
+    Some(@moonfetch.Chunk::End(_)) => {
+      self.over = true
+      None
+    }
+    Some(@moonfetch.Chunk::Data(data)) => Some(data)
+  }
+}
+
+///|
 /// Whether the body has been read to its end.
 pub fn Streaming::is_over(self : Streaming) -> Bool {
   self.over

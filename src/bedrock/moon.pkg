@@ -1,0 +1,35 @@
+// AWS Bedrock as a provider. Its API signs every request with SigV4, which is an HMAC chain
+// over the canonical form of the request, and streams answers in the binary `vnd.amazon.eventstream`
+// framing rather than in server-sent events. Both are why this is a package of its own rather
+// than a dialect: a `Dialect` maps JSON, and neither of these is JSON.
+
+import {
+  "moonbitstack/moonmuse",
+  "moonbitstack/moonmuse/transport",
+  "moonbitstack/mooncrypt/hash/sha2",
+  "moonbitstack/mooncrypt/mac/hmac",
+  "moonbitlang/async",
+  "moonbitlang/core/debug",
+  "moonbitlang/core/encoding/utf8",
+  "moonbitlang/core/json",
+}
+
+warnings = "-29"
+
+import {
+  "moonbitstack/moonmuse/fake",
+  "moonbitlang/async",
+  "moonbitlang/core/encoding/utf8",
+  "moonbitlang/core/json",
+} for "test"
+
+import {
+  "moonbitstack/moonmuse",
+  "moonbitstack/moonnet/tcp",
+  "moonbitlang/async",
+  "moonbitlang/core/encoding/utf8",
+} for "wbtest"
+
+options(
+  targets: { "client.mbt": [ "native" ], "client_wbtest.mbt": [ "native" ] },
+)

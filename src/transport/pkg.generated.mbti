@@ -60,6 +60,7 @@ pub async fn Streaming::ensure_success(Self) -> Unit raise @moonmuse.LlmError
 pub fn Streaming::header(Self, String) -> String?
 pub fn Streaming::is_over(Self) -> Bool
 pub async fn Streaming::next(Self) -> String? raise @moonmuse.LlmError
+pub async fn Streaming::next_bytes(Self) -> Bytes? raise @moonmuse.LlmError
 pub fn Streaming::retry_after(Self) -> Int64?
 pub fn Streaming::status(Self) -> Int32
 pub async fn Streaming::text(Self, limit? : Int32) -> String raise @moonmuse.LlmError
