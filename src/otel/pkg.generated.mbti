@@ -1,0 +1,44 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "moonbitstack/moonmuse/otel"
+
+import {
+  "moonbitstack/moonmuse",
+  "moonbitstack/moonp8s/metric",
+  "moonbitstack/moontel/trace",
+}
+
+// Values
+pub fn metered(&@moonmuse.Provider, @metric.Registry) -> &@moonmuse.Provider
+
+pub fn traced(&@moonmuse.Provider, @trace.Tracer, content? : Bool) -> &@moonmuse.Provider
+
+// Errors
+
+// Types and methods
+pub struct Metered {
+  inner : &@moonmuse.Provider
+  duration : @metric.Family[@metric.Histogram]
+  input : @metric.Family[@metric.Counter]
+  output : @metric.Family[@metric.Counter]
+  first : @metric.Family[@metric.Histogram]
+}
+pub async fn Metered::chat(Self, @moonmuse.Request) -> @moonmuse.Reply raise @moonmuse.LlmError
+pub async fn Metered::embed(Self, String, Array[String]) -> Array[Array[Double]] raise @moonmuse.LlmError
+pub async fn Metered::models(Self) -> Array[@moonmuse.ModelInfo] raise @moonmuse.LlmError
+pub async fn Metered::stream(Self, @moonmuse.Request, (@moonmuse.Delta) -> Unit) -> @moonmuse.Reply raise @moonmuse.LlmError
+pub impl @moonmuse.Provider for Metered
+
+pub struct Traced {
+  inner : &@moonmuse.Provider
+  tracer : @trace.Tracer
+  content : Bool
+}
+pub async fn Traced::chat(Self, @moonmuse.Request) -> @moonmuse.Reply raise @moonmuse.LlmError
+pub async fn Traced::embed(Self, String, Array[String]) -> Array[Array[Double]] raise @moonmuse.LlmError
+pub async fn Traced::models(Self) -> Array[@moonmuse.ModelInfo] raise @moonmuse.LlmError
+pub async fn Traced::stream(Self, @moonmuse.Request, (@moonmuse.Delta) -> Unit) -> @moonmuse.Reply raise @moonmuse.LlmError
+pub impl @moonmuse.Provider for Traced
+
+// Type aliases
+
+// Traits
