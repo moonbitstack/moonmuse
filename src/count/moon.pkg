@@ -1,0 +1,15 @@
+// Counting tokens needs a vocabulary, which is a large table most callers never load. It
+// lives here rather than in the root package so that a gateway without a vocabulary does
+// not download one, and the contract it fills is `@moonmuse.Counter`.
+
+import {
+  "moonbitstack/moonmuse",
+  "moonbitstack/moontoken",
+  "moonbitstack/moontoken/refused",
+}
+
+import {
+  "moonbitstack/moonmuse",
+  "moonbitstack/moontoken",
+  "moonbitstack/moontoken/vocab",
+} for "test"

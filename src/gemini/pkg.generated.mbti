@@ -55,7 +55,7 @@ pub struct Wire {
 }
 pub fn Wire::answer(Self, @moonmuse.Reply) -> @json.Json
 pub fn Wire::answer_at(Self, @moonmuse.RouteKind, @moonmuse.Reply) -> @json.Json
-pub fn Wire::answer_count(Self, @moonmuse.Reply) -> @json.Json
+pub fn Wire::answer_count(Self, Int32) -> @json.Json
 pub fn Wire::answer_embed(Self, String, Array[Array[Double]]) -> @json.Json
 pub fn Wire::answer_models(Self, Array[@moonmuse.ModelInfo]) -> @json.Json
 pub fn Wire::delta(Self, @moonmuse.Frame, @moonmuse.Turn) -> Array[@moonmuse.Delta] raise @moonmuse.LlmError

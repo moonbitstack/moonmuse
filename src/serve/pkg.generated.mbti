@@ -12,7 +12,7 @@ pub fn credentials(Array[(String, String)]) -> String?
 
 pub fn default_dialects() -> Array[&@moonmuse.Dialect]
 
-pub fn serve(&@moonmuse.Provider, dialects~ : Array[&@moonmuse.Dialect], keys? : &Keys, limits? : Limits) -> async (@spec.Scope, async () -> @spec.Event, async (@spec.Event) -> Unit) -> Unit
+pub fn serve(&@moonmuse.Provider, dialects~ : Array[&@moonmuse.Dialect], keys? : &Keys, limits? : Limits, counter? : &@moonmuse.Counter) -> async (@spec.Scope, async () -> @spec.Event, async (@spec.Event) -> Unit) -> Unit
 
 // Errors
 

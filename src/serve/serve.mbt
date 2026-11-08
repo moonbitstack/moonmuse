@@ -87,6 +87,7 @@ pub fn serve(
   dialects~ : Array[&@moonmuse.Dialect],
   keys? : &Keys,
   limits~ : Limits = Limits::default(),
+  counter? : &@moonmuse.Counter,
 ) -> @moonasgi.AsgiApp {
   (scope, receive, send) => {
     match scope {
@@ -111,6 +112,7 @@ pub fn serve(
           dialects,
           keys,
           limits,
+          counter,
           hs.http_method,
           hs.path,
           hs.query_string,
@@ -148,6 +150,7 @@ async fn respond(
   dialects : Array[&@moonmuse.Dialect],
   keys : &Keys?,
   limits : Limits,
+  counter : &@moonmuse.Counter?,
   verb : String,
   path : String,
   query : Bytes,
@@ -244,13 +247,22 @@ async fn respond(
       }
       json_response(@moonmuse.Dialect::answer_models(dialect, models))
     }
-    @moonmuse.Asked::Count(_) =>
-      error_response(
-        @moonmuse.Unsupported(
-          "counting tokens needs a tokenizer, which this gateway has not",
-        ),
-        dialect,
-      )
+    @moonmuse.Asked::Count(request) =>
+      match counter {
+        Some(counter) => {
+          let count = counter.count(request) catch {
+            error => return error_response(error, dialect)
+          }
+          json_response(@moonmuse.Dialect::answer_count(dialect, count))
+        }
+        None =>
+          error_response(
+            @moonmuse.Unsupported(
+              "counting tokens needs a tokenizer, which this gateway has not",
+            ),
+            dialect,
+          )
+      }
   }
 }
 

@@ -144,10 +144,8 @@ pub impl @moonmuse.Dialect for Wire with fn answer_embed(_self, model, vectors) 
 }
 
 ///|
-pub impl @moonmuse.Dialect for Wire with fn answer_count(_self, reply) {
-  @moonmuse.object_json([
-    ("input_tokens", Json::number(reply.usage.input.unwrap_or(0).to_double())),
-  ])
+pub impl @moonmuse.Dialect for Wire with fn answer_count(_self, count) {
+  @moonmuse.object_json([("input_tokens", Json::number(count.to_double()))])
 }
 
 ///|

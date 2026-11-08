@@ -83,9 +83,8 @@ pub impl @moonmuse.Dialect for Wire with fn answer_embed(
 }
 
 ///|
-pub impl @moonmuse.Dialect for Wire with fn answer_count(_self, reply) {
-  let input = reply.usage.input.unwrap_or(0)
-  @moonmuse.object_json([("input_tokens", Json::number(input.to_double()))])
+pub impl @moonmuse.Dialect for Wire with fn answer_count(_self, count) {
+  @moonmuse.object_json([("input_tokens", Json::number(count.to_double()))])
 }
 
 ///|

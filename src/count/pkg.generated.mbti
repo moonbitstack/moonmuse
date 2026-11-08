@@ -1,0 +1,26 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "moonbitstack/moonmuse/count"
+
+import {
+  "moonbitstack/moonmuse",
+  "moonbitstack/moontoken",
+}
+
+// Values
+
+// Errors
+
+// Types and methods
+pub struct Tokens {
+  tokenizer : @moontoken.Tokenizer
+  overhead : Int32
+  image : Int32
+}
+pub fn Tokens::count(Self, @moonmuse.Request) -> Int32 raise @moonmuse.LlmError
+pub fn Tokens::new(tokenizer~ : @moontoken.Tokenizer, overhead? : Int32, image? : Int32) -> Self
+pub fn Tokens::text(Self, StringView) -> Int32 raise @moonmuse.LlmError
+pub impl @moonmuse.Counter for Tokens
+
+// Type aliases
+
+// Traits

@@ -20,7 +20,11 @@ import {
 
 import {
   "moonbitstack/moonasgi/testing",
+  "moonbitstack/moonmuse/count",
   "moonbitstack/moonmuse/fake",
+  "moonbitstack/moontoken",
+  "moonbitstack/moontoken/refused",
+  "moonbitstack/moontoken/vocab",
   "moonbitlang/async",
 } for "test"
 

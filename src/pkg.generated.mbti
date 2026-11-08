@@ -349,6 +349,10 @@ pub fn Usage::zero() -> Self
 pub type AnyProvider = &Provider
 
 // Traits
+pub(open) trait Counter {
+  fn count(Self, Request) -> Int32 raise LlmError
+}
+
 pub(open) trait Dialect {
   fn name(Self) -> String
   fn request(Self, Request) -> Call raise LlmError
@@ -358,7 +362,7 @@ pub(open) trait Dialect {
   fn parse(Self, Route, @json.Json) -> Asked raise LlmError
   fn answer(Self, Reply) -> @json.Json
   fn answer_embed(Self, String, Array[Array[Double]]) -> @json.Json
-  fn answer_count(Self, Reply) -> @json.Json
+  fn answer_count(Self, Int32) -> @json.Json
   fn answer_models(Self, Array[ModelInfo]) -> @json.Json
   fn answer_at(Self, RouteKind, Reply) -> @json.Json
   fn frame(Self, Delta, Turn) -> Array[Frame]

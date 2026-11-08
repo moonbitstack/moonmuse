@@ -291,8 +291,9 @@ pub(open) trait Dialect {
   /// The body that answers an embeddings request. Kept apart from `answer` because the
   /// five endpoints do not share a response shape.
   fn answer_embed(Self, String, Array[Array[Double]]) -> Json
-  /// The body that answers a token-count request.
-  fn answer_count(Self, Reply) -> Json
+  /// The body that answers a token-count request. A count is not a reply, so this is the
+  /// number rather than the assembled answer.
+  fn answer_count(Self, Int32) -> Json
   /// The body that answers a model list.
   fn answer_models(Self, Array[ModelInfo]) -> Json
   /// The body that answers a reply at a particular endpoint. Most formats answer every
