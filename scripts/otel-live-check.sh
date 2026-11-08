@@ -17,6 +17,7 @@ cd "$root"
 version=v0.28.0
 target=weaver-x86_64-unknown-linux-gnu
 port="${WEAVER_PORT:-4317}"
+registry="tools/semconv-genai"
 
 if [ ! -x "tools/$target/weaver" ]; then
   mkdir -p tools
@@ -48,16 +49,38 @@ if [ ! -x "tools/$target/weaver" ]; then
   tar xf "tools/weaver.tar.xz" -C tools
 fi
 
+# The registry is cloned once instead of on every run: weaver fetches it itself when it is
+# given a URL, which puts a git clone between the listener and the span and turns a slow
+# network into "connection refused" a second later.
+if [ ! -f "$registry/model/manifest.yaml" ]; then
+  rm -rf "$registry"
+  for attempt in 1 2 3; do
+    if git clone --depth 1 --quiet \
+      https://github.com/open-telemetry/semantic-conventions-genai.git "$registry"; then
+      break
+    fi
+    echo "cloning the registry failed (attempt $attempt)"
+    sleep 5
+  done
+fi
+[ -f "$registry/model/manifest.yaml" ] || { echo "the registry is not here"; exit 1; }
+
+echo "building the example"
+moon build src/examples/05-observe --target native
+
 rm -f tools/live-check.log
 "tools/$target/weaver" registry live-check \
-  -r 'https://github.com/open-telemetry/semantic-conventions-genai.git[model]' \
+  -r "$registry/model" \
   --input-source otlp \
   --otlp-grpc-port "$port" \
-  --inactivity-timeout 20 \
+  --inactivity-timeout 30 \
   --diagnostic-stdout > tools/live-check.log 2>&1 &
 checker=$!
 
-for _ in $(seq 1 120); do
+# Two waits, because either one alone is a race: the log line says the listener was asked for,
+# the socket says it is there, and a process that died in between fails the check instead of
+# letting the example connect to nothing.
+for _ in $(seq 1 180); do
   if grep -q "OTLP gRPC listener started" tools/live-check.log 2>/dev/null; then
     break
   fi
@@ -68,8 +91,28 @@ for _ in $(seq 1 120); do
   fi
   sleep 1
 done
+if ! grep -q "OTLP gRPC listener started" tools/live-check.log; then
+  tail -30 tools/live-check.log
+  echo "weaver did not listen within three minutes"
+  exit 1
+fi
+for _ in $(seq 1 30); do
+  if (exec 3<>"/dev/tcp/127.0.0.1/$port") 2>/dev/null; then
+    break
+  fi
+  if ! kill -0 "$checker" 2>/dev/null; then
+    cat tools/live-check.log
+    echo "weaver stopped while the port was being waited on"
+    exit 1
+  fi
+  sleep 1
+done
 
-moon run src/examples/05-observe --target native -- "127.0.0.1:$port"
+if ! moon run src/examples/05-observe --target native -- "127.0.0.1:$port"; then
+  echo "the example could not deliver the span"
+  tail -30 tools/live-check.log
+  exit 1
+fi
 
 wait "$checker" || true
 cat tools/live-check.log
