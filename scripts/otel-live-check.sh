@@ -20,9 +20,10 @@ port="${WEAVER_PORT:-4317}"
 
 if [ ! -x "tools/$target/weaver" ]; then
   mkdir -p tools
-  curl -fsSL -o "tools/weaver.tar.xz" \
+  # The release CDN answers 504 under load often enough that a single attempt is a flaky job.
+  curl -fsSL --retry 6 --retry-delay 3 --retry-all-errors -o "tools/weaver.tar.xz" \
     "https://github.com/open-telemetry/weaver/releases/download/$version/$target.tar.xz"
-  curl -fsSL -o "tools/weaver.sha256" \
+  curl -fsSL --retry 6 --retry-delay 3 --retry-all-errors -o "tools/weaver.sha256" \
     "https://github.com/open-telemetry/weaver/releases/download/$version/$target.tar.xz.sha256"
   # The release publishes the digest beside the archive; a download that does not match it is
   # not the tool this script runs.

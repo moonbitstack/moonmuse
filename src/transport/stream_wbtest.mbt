@@ -115,13 +115,24 @@ async test "stream: bytes cut inside a character are rejoined" {
   let wire = Wire::{
     head,
     pieces: [slice(whole, 0, 8), slice(whole, 8, whole.length())],
-    hold: 0,
-    released: true,
+    // The first piece ends inside a character and is all the caller gets until it says so;
+    // without the hold the two writes arrive as one read and there is nothing to test.
+    hold: 1,
+    released: false,
   }
   with_wire(wire, async fn(port) {
     let call = @moonmuse.Call::new("POST", "/stream", Json::object(Map([])))
     let answer = open(call, base="http://127.0.0.1:" + port.to_string())
     let mut seen = ""
+    // The first read ends inside the character, so what it may hand up ends before it.
+    match answer.next() {
+      Some(piece) => {
+        assert_eq(piece, "data: ")
+        seen = seen + piece
+      }
+      None => abort("the first piece must arrive")
+    }
+    wire.released = true
     while true {
       match answer.next() {
         None => break
