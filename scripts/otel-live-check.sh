@@ -29,13 +29,22 @@ if [ ! -x "tools/$target/weaver" ]; then
     echo "the release host refused $1; asking the API for it"
     id="$(gh api "repos/open-telemetry/weaver/releases/tags/$version" \
       --jq ".assets[] | select(.name==\"$1\") | .id")"
-    gh api "repos/open-telemetry/weaver/releases/assets/$id" > "$2"
+    gh api -H "Accept: application/octet-stream" \
+      "repos/open-telemetry/weaver/releases/assets/$id" > "$2"
   }
   fetch "$target.tar.xz" "tools/weaver.tar.xz"
   fetch "$target.tar.xz.sha256" "tools/weaver.sha256"
   # The release publishes the digest beside the archive; a download that does not match it is
   # not the tool this script runs.
-  (cd tools && printf '%s  weaver.tar.xz\n' "$(cut -d' ' -f1 weaver.sha256)" | sha256sum -c -)
+  # The digest file is written in more than one shape across releases; the hash is the same
+  # sixty-four hexadecimal characters in all of them.
+  digest="$(grep -oE '[0-9a-f]{64}' tools/weaver.sha256 | head -1)"
+  if [ -z "$digest" ]; then
+    echo "the digest file does not hold a SHA-256"
+    cat tools/weaver.sha256
+    exit 1
+  fi
+  (cd tools && printf '%s  weaver.tar.xz\n' "$digest" | sha256sum -c -)
   tar xf "tools/weaver.tar.xz" -C tools
 fi
 
