@@ -1,12 +1,13 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>moonmuse — 同一个请求，四种 API 规范</title>
+<meta name="description" content="The same chat request written in the OpenAI, Anthropic, Gemini and Ollama API specifications, compared field by field.">
+<title>moonmuse — one request, four API specs</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&display=swap" rel="stylesheet">
 <style>
   :root{
     --desk:#F2EBDD;
@@ -20,8 +21,8 @@
     --sky:#E4EDF4;
     --blossom:#F5E4DF;
     --sage:#E6ECDC;
-    --sans:"ZCOOL KuaiLe","PingFang SC","Microsoft YaHei",system-ui,sans-serif;
-    --text:"Segoe UI","PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+    --hand:"Caveat","Segoe Script","Bradley Hand",cursive;
+    --text:"Inter","Segoe UI","Helvetica Neue",system-ui,sans-serif;
     --mono:ui-monospace,"Cascadia Code","SFMono-Regular",Menlo,monospace;
     --tear:polygon(
       0 4px,2% 1px,4% 4px,6% 1px,8% 5px,10% 1px,12% 3px,14% 1px,16% 5px,18% 2px,20% 4px,
@@ -56,18 +57,18 @@
   .wrap{max-width:1180px;margin:0 auto;padding:0 26px}
   a{color:var(--jade)}
 
-  header{display:flex;align-items:center;gap:20px;padding:22px 0 6px;flex-wrap:wrap}
-  .logo{position:relative;font:400 26px/1 var(--sans);letter-spacing:.4px}
-  .logo .tape{position:absolute;left:-12px;top:-9px;width:calc(100% + 24px);height:24px;background:rgba(255,255,255,.5);transform:rotate(-1.2deg);z-index:-1}
+  header{display:flex;align-items:center;gap:22px;padding:24px 0 6px;flex-wrap:wrap}
+  .logo{position:relative;font:700 30px/1 var(--hand);letter-spacing:.6px}
+  .logo .tape{position:absolute;left:-12px;top:-8px;width:calc(100% + 24px);height:26px;background:rgba(255,255,255,.5);transform:rotate(-1.2deg);z-index:-1}
   nav{margin-left:auto;display:flex;gap:4px;flex-wrap:wrap}
-  nav a{font:400 14px/1 var(--text);color:var(--muted);text-decoration:none;padding:8px 12px;border-bottom:1.5px solid transparent}
+  nav a{font:500 13.5px/1 var(--text);letter-spacing:.04em;text-transform:uppercase;color:var(--muted);text-decoration:none;padding:9px 12px;border-bottom:1.5px solid transparent}
   nav a:hover{color:var(--ink);border-color:var(--ink)}
 
-  .hero{padding:30px 0 4px}
-  h1{font:400 42px/1.2 var(--sans);margin:0 0 12px;letter-spacing:.5px}
+  .hero{padding:26px 0 4px}
+  h1{font:700 46px/1.15 var(--hand);margin:0 0 10px;letter-spacing:.4px}
   h1 span{position:relative;white-space:nowrap}
-  h1 span::after{content:"";position:absolute;left:0;right:0;bottom:2px;height:3px;background:var(--red);opacity:.55}
-  .lede{max-width:680px;margin:0;color:var(--muted);font-size:16.5px}
+  h1 span::after{content:"";position:absolute;left:0;right:0;bottom:3px;height:3px;background:var(--red);opacity:.5}
+  .lede{max-width:700px;margin:0;color:var(--muted);font-size:16.5px;line-height:1.65}
 
   .figure{margin:34px 0 0}
   .scrollhint{display:none;margin:0 0 8px;font-size:12.5px;color:var(--muted)}
@@ -75,15 +76,15 @@
   table{border-collapse:collapse;width:100%;min-width:1000px;font-size:13.5px}
   thead th{
     position:sticky;top:0;z-index:2;text-align:left;vertical-align:bottom;
-    padding:14px 14px 12px;font:400 15px/1.3 var(--sans);color:var(--ink);
+    padding:14px 14px 12px;font:700 21px/1.2 var(--hand);letter-spacing:.3px;color:var(--ink);
     border-bottom:1.5px solid var(--line);background:var(--tint,var(--paper));
   }
-  thead th .path{display:block;margin-top:5px;font:400 10.5px/1.5 var(--mono);color:var(--muted);letter-spacing:-.2px;word-break:break-all}
-  thead th:first-child{width:112px;background:var(--paper)}
-  thead th.corner{font:400 12px/1 var(--text);color:var(--muted);letter-spacing:2px;vertical-align:bottom}
+  thead th .path{display:block;margin-top:5px;font:400 10.5px/1.5 var(--mono);color:var(--muted);letter-spacing:0;word-break:break-all}
+  thead th:first-child{width:120px;background:var(--paper)}
+  thead th.corner{font:500 11px/1 var(--text);letter-spacing:.18em;text-transform:uppercase;color:var(--muted);vertical-align:bottom}
   tbody th{
-    text-align:left;font:400 14px/1.4 var(--text);color:var(--muted);
-    padding:13px 14px;border-bottom:1px dashed var(--line);position:sticky;left:0;background:var(--paper);width:112px;
+    text-align:left;font:500 13.5px/1.4 var(--text);color:var(--muted);
+    padding:13px 14px;border-bottom:1px dashed var(--line);position:sticky;left:0;background:var(--paper);width:120px;
   }
   tbody td{padding:13px 14px;border-bottom:1px dashed var(--line);vertical-align:top;line-height:1.6}
   tbody tr:last-child th,tbody tr:last-child td{border-bottom:none}
@@ -92,17 +93,17 @@
   td .only{display:block;margin-top:5px;font-size:12px;color:var(--red)}
   td .note{display:block;margin-top:5px;font-size:12px;color:var(--muted)}
 
-  section{padding:52px 0 0}
-  h2{font:400 26px/1.3 var(--sans);margin:0 0 6px;display:inline-block;position:relative}
-  h2 .tape{position:absolute;left:-10px;right:-14px;top:-6px;bottom:-4px;background:rgba(255,255,255,.45);transform:rotate(-.7deg);z-index:-1}
-  .sub{color:var(--muted);font-size:15px;margin:0 0 22px}
+  section{padding:54px 0 0}
+  h2{font:700 30px/1.25 var(--hand);margin:0 0 6px;display:inline-block;position:relative;letter-spacing:.3px}
+  h2 .tape{position:absolute;left:-10px;right:-14px;top:-4px;bottom:-2px;background:rgba(255,255,255,.45);transform:rotate(-.7deg);z-index:-1}
+  .sub{color:var(--muted);font-size:15px;margin:0 0 22px;max-width:760px}
 
   .bodies{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
   .paper{
     background:var(--tint);clip-path:var(--tear);padding:20px 18px 26px;
     filter:drop-shadow(0 1px 0 rgba(60,45,25,.14));
   }
-  .paper h3{margin:0 0 3px;font:400 18px/1.3 var(--sans)}
+  .paper h3{margin:0 0 3px;font:700 24px/1.2 var(--hand);letter-spacing:.3px}
   .paper .head{font:11px/1.6 var(--mono);color:var(--muted);margin:0 0 12px;word-break:break-all;white-space:pre-line}
   pre{margin:0;background:#FFFDF6;padding:14px 14px 16px;overflow-x:auto;font:12.5px/1.65 var(--mono);color:var(--ink);border-left:3px solid rgba(44,39,33,.12)}
   .k{color:var(--jade)}
@@ -111,7 +112,7 @@
 
   .quirks{list-style:none;padding:0;margin:0;display:grid;gap:10px}
   .quirks li{background:var(--paper);border-left:3px solid var(--red);padding:12px 16px;font-size:14.5px}
-  .quirks b{font-weight:400;color:var(--ink)}
+  .quirks b{font-weight:500;color:var(--ink)}
   .quirks span{color:var(--muted)}
 
   footer{margin-top:56px;padding:20px 0 46px;border-top:2px dashed var(--line);color:var(--muted);font-size:13.5px;display:flex;gap:18px;justify-content:space-between;flex-wrap:wrap}
@@ -119,8 +120,8 @@
   @media (max-width:1040px){.scrollhint{display:block}}
   @media (max-width:820px){
     .bodies{grid-template-columns:1fr}
-    h1{font-size:32px}
-    .hero{padding-top:22px}
+    h1{font-size:36px}
+    .hero{padding-top:18px}
   }
 </style>
 </head>
@@ -129,27 +130,27 @@
 <header class="wrap">
   <div class="logo">moonmuse<span class="tape"></span></div>
   <nav>
-    <a href="#table">字段对照</a>
-    <a href="#bodies">完整请求</a>
-    <a href="#quirks">各自的规定</a>
-    <a href="https://github.com/moonbitstack/moonmuse">源码</a>
+    <a href="#table">Field map</a>
+    <a href="#bodies">Full bodies</a>
+    <a href="#quirks">House rules</a>
+    <a href="https://github.com/moonbitstack/moonmuse">Source</a>
   </nav>
 </header>
 
 <main class="wrap">
 
   <div class="hero">
-    <h1>同一个请求，<span>四种 API 规范</span></h1>
-    <p class="lede">一句系统提示、一条用户消息、0.2 的温度、256 的输出上限——放进 OpenAI、Anthropic、Gemini、Ollama，落到线上的样子完全不同。下面这张表按字段横着读。</p>
+    <h1>One request, <span>four API specs</span></h1>
+    <p class="lede">A system prompt, one user message, temperature 0.2, a 256-token cap. Send that to OpenAI, Anthropic, Gemini and Ollama and the wire looks nothing alike. Read the table across, one field at a time.</p>
   </div>
 
-  <section id="table" class="figure" style="padding-top:26px">
-    <p class="scrollhint">四列并排，窄屏请左右滑动 →</p>
+  <section id="table" class="figure" style="padding-top:24px">
+    <p class="scrollhint">Four columns wide — scroll sideways on a narrow screen →</p>
     <div class="scroller">
       <table>
         <thead>
           <tr>
-            <th scope="col" class="corner">字段</th>
+            <th scope="col" class="corner">Field</th>
             <th scope="col" style="--tint:var(--ivory);border-top:4px solid #E0D2AF">OpenAI<span class="path">POST /v1/chat/completions</span></th>
             <th scope="col" style="--tint:var(--blossom);border-top:4px solid #E3BFB4">Anthropic<span class="path">POST /v1/messages</span></th>
             <th scope="col" style="--tint:var(--sky);border-top:4px solid #B4CBDC">Gemini<span class="path">POST /v1beta/models/{model}:generateContent</span></th>
@@ -158,70 +159,70 @@
         </thead>
         <tbody>
           <tr>
-            <th scope="row">模型</th>
+            <th scope="row">Model</th>
             <td><code>"model": "gpt-4o-mini"</code></td>
             <td><code>"model": "claude-sonnet-4-20250514"</code></td>
-            <td>写进 URL：<code>/models/gemini-2.0-flash</code><span class="note">请求体里没有模型字段</span></td>
+            <td>In the URL: <code>/models/gemini-2.0-flash</code><span class="note">no model field in the body</span></td>
             <td><code>"model": "qwen2.5"</code></td>
           </tr>
           <tr>
-            <th scope="row">系统提示</th>
-            <td><code>messages[0]</code>，<code>role: "system"</code></td>
-            <td>顶层 <code>"system": "…"</code><span class="note">不占 messages 的位置</span></td>
+            <th scope="row">System prompt</th>
+            <td><code>messages[0]</code> with <code>role: "system"</code></td>
+            <td>top-level <code>"system": "…"</code><span class="note">kept out of the message list</span></td>
             <td><code>"systemInstruction": {"parts": [{"text": …}]}</code></td>
-            <td><code>messages[0]</code>，<code>role: "system"</code></td>
+            <td><code>messages[0]</code> with <code>role: "system"</code></td>
           </tr>
           <tr>
-            <th scope="row">对话</th>
-            <td><code>"messages": [{role, content: "…"}]</code><span class="note">content 是字符串</span></td>
-            <td><code>"messages": [{role, content: [{type:"text", text:"…"}]}]</code><span class="note">content 是内容块数组</span></td>
+            <th scope="row">Messages</th>
+            <td><code>"messages": [{role, content: "…"}]</code><span class="note">content is a string</span></td>
+            <td><code>"messages": [{role, content: [{type:"text", text:"…"}]}]</code><span class="note">content is an array of blocks</span></td>
             <td><code>"contents": [{role:"user", parts:[{text:"…"}]}]</code></td>
             <td><code>"messages": [{role, content: "…"}]</code></td>
           </tr>
           <tr>
-            <th scope="row">角色名</th>
+            <th scope="row">Roles</th>
             <td><code>system</code> / <code>user</code> / <code>assistant</code></td>
-            <td><code>user</code> / <code>assistant</code><span class="note">系统提示不在 messages 里</span></td>
-            <td><code>user</code> / <code>model</code><span class="note">assistant 叫 model</span></td>
+            <td><code>user</code> / <code>assistant</code><span class="note">no system role at all</span></td>
+            <td><code>user</code> / <code>model</code><span class="note">the assistant is called model</span></td>
             <td><code>system</code> / <code>user</code> / <code>assistant</code></td>
           </tr>
           <tr>
-            <th scope="row">温度</th>
+            <th scope="row">Temperature</th>
             <td><code>"temperature": 0.2</code></td>
             <td><code>"temperature": 0.2</code></td>
             <td><code>generationConfig.temperature</code></td>
             <td><code>options.temperature</code></td>
           </tr>
           <tr>
-            <th scope="row">输出上限</th>
+            <th scope="row">Output limit</th>
             <td><code>"max_tokens": 256</code></td>
-            <td><code>"max_tokens": 256</code><span class="only">必填，缺了整个请求被拒</span></td>
+            <td><code>"max_tokens": 256</code><span class="only">required — a request without it is rejected</span></td>
             <td><code>generationConfig.maxOutputTokens</code></td>
             <td><code>options.num_predict</code></td>
           </tr>
           <tr>
-            <th scope="row">停止词</th>
+            <th scope="row">Stop sequences</th>
             <td><code>"stop": ["\n\n"]</code></td>
             <td><code>"stop_sequences": ["\n\n"]</code></td>
             <td><code>generationConfig.stopSequences</code></td>
             <td><code>options.stop</code></td>
           </tr>
           <tr>
-            <th scope="row">流式</th>
+            <th scope="row">Streaming</th>
             <td><code>"stream": true</code></td>
             <td><code>"stream": true</code></td>
-            <td>换方法：<code>:streamGenerateContent?alt=sse</code><span class="note">不是请求体里的开关</span></td>
-            <td><code>"stream": false</code> 才是关<span class="note">默认就开着</span></td>
+            <td>a different method: <code>:streamGenerateContent?alt=sse</code><span class="note">not a flag in the body</span></td>
+            <td><code>"stream": false</code> turns it off<span class="note">on by default</span></td>
           </tr>
           <tr>
-            <th scope="row">用量</th>
+            <th scope="row">Usage</th>
             <td><code>usage.prompt_tokens</code> / <code>completion_tokens</code></td>
             <td><code>usage.input_tokens</code> / <code>output_tokens</code></td>
             <td><code>usageMetadata.promptTokenCount</code> / <code>candidatesTokenCount</code></td>
             <td><code>prompt_eval_count</code> / <code>eval_count</code></td>
           </tr>
           <tr>
-            <th scope="row">结束原因</th>
+            <th scope="row">Finish reason</th>
             <td><code>choices[0].finish_reason</code><span class="note">stop / length / tool_calls</span></td>
             <td><code>stop_reason</code><span class="note">end_turn / max_tokens / tool_use</span></td>
             <td><code>candidates[0].finishReason</code><span class="note">STOP / MAX_TOKENS</span></td>
@@ -233,27 +234,27 @@
   </section>
 
   <section id="bodies">
-    <h2><span class="tape"></span>同一段对话，四份请求体</h2>
-    <p class="sub">系统提示「回答不超过一句话。」，用户问「为什么天空是蓝的？」，温度 0.2，上限 256，不开流式。四份都能直接发。</p>
+    <h2><span class="tape"></span>The same conversation, four complete bodies</h2>
+    <p class="sub">System prompt “Answer in one sentence.”, user asks “Why is the sky blue?”, temperature 0.2, cap 256, no streaming. Every one of the four can be sent as it stands.</p>
     <div class="bodies" id="bodies-grid"></div>
   </section>
 
   <section id="quirks">
-    <h2><span class="tape"></span>四家各自的规定</h2>
-    <p class="sub">不看差异，接第二家最容易栽在这几条上。</p>
+    <h2><span class="tape"></span>House rules</h2>
+    <p class="sub">The four things that break a second integration, in order of how often they do.</p>
     <ul class="quirks">
-      <li><b>Anthropic 的 max_tokens 是必填。</b> <span>不传不会用默认值，直接 400；OpenAI 与 Ollama 都可以不给。</span></li>
-      <li><b>Gemini 的模型在路径里，参数在 generationConfig 里。</b> <span>温度、上限、停止词都不在顶层，改名也改位置。</span></li>
-      <li><b>Ollama 的生成参数收在 options 里，流式默认开着。</b> <span>要一次性拿完整回答，得显式写 <code>"stream": false</code>。</span></li>
-      <li><b>OpenAI 没有顶层 system 字段。</b> <span>系统提示就是 messages 里的第一条，顺序本身带语义。</span></li>
+      <li><b>Anthropic requires max_tokens.</b> <span>Omit it and the request is rejected; there is no default. OpenAI and Ollama will fill one in.</span></li>
+      <li><b>Gemini puts the model in the path and the knobs under generationConfig.</b> <span>Temperature, output cap and stop sequences are renamed and relocated at the same time.</span></li>
+      <li><b>Ollama nests generation options under options, and streams by default.</b> <span>Ask for one response with <code>"stream": false</code>.</span></li>
+      <li><b>OpenAI has no top-level system field.</b> <span>The system prompt is the first message, so order carries meaning.</span></li>
     </ul>
   </section>
 
 </main>
 
 <footer class="wrap">
-  <span>moonmuse · 一个契约，四种线格式 · <a href="https://github.com/moonbitstack/moonmuse">github.com/moonbitstack/moonmuse</a></span>
-  <span>表与请求体按四家方言实际发出的形态抄录；接上 wasm 之后由方言自己算。</span>
+  <span>moonmuse — one contract, four wire formats · <a href="https://github.com/moonbitstack/moonmuse">github.com/moonbitstack/moonmuse</a></span>
+  <span>Table and bodies transcribed from what the four dialects put on the wire; once the page runs a wasm-gc build, the dialects compute them.</span>
 </footer>
 
 <script>
@@ -263,8 +264,8 @@ const BODIES = [
     json:`{
   "model": "gpt-4o-mini",
   "messages": [
-    {"role": "system", "content": "回答不超过一句话。"},
-    {"role": "user", "content": "为什么天空是蓝的？"}
+    {"role": "system", "content": "Answer in one sentence."},
+    {"role": "user", "content": "Why is the sky blue?"}
   ],
   "temperature": 0.2,
   "max_tokens": 256,
@@ -276,10 +277,10 @@ const BODIES = [
     json:`{
   "model": "claude-sonnet-4-20250514",
   "max_tokens": 256,
-  "system": "回答不超过一句话。",
+  "system": "Answer in one sentence.",
   "messages": [
     {"role": "user", "content": [
-      {"type": "text", "text": "为什么天空是蓝的？"}
+      {"type": "text", "text": "Why is the sky blue?"}
     ]}
   ],
   "temperature": 0.2,
@@ -290,10 +291,10 @@ const BODIES = [
     name:"Gemini", tint:"--sky", head:"POST /v1beta/models/gemini-2.0-flash:generateContent\nx-goog-api-key: AIza…",
     json:`{
   "systemInstruction": {
-    "parts": [{"text": "回答不超过一句话。"}]
+    "parts": [{"text": "Answer in one sentence."}]
   },
   "contents": [
-    {"role": "user", "parts": [{"text": "为什么天空是蓝的？"}]}
+    {"role": "user", "parts": [{"text": "Why is the sky blue?"}]}
   ],
   "generationConfig": {
     "temperature": 0.2,
@@ -302,12 +303,12 @@ const BODIES = [
 }`
   },
   {
-    name:"Ollama", tint:"--sage", head:"POST /api/chat\n（本机无需鉴权）",
+    name:"Ollama", tint:"--sage", head:"POST /api/chat\n(no auth on localhost)",
     json:`{
   "model": "qwen2.5",
   "messages": [
-    {"role": "system", "content": "回答不超过一句话。"},
-    {"role": "user", "content": "为什么天空是蓝的？"}
+    {"role": "system", "content": "Answer in one sentence."},
+    {"role": "user", "content": "Why is the sky blue?"}
   ],
   "stream": false,
   "options": {
