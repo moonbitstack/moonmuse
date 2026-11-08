@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en-US" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Not here — moonmuse</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23F6F0E0'/%3E%3Cg stroke-width='2.6' stroke-linecap='round'%3E%3Cpath d='M8 10h16' stroke='%232C2721'/%3E%3Cpath d='M8 16h16' stroke='%232C2721'/%3E%3Cpath d='M8 22h11' stroke='%231F6F4F'/%3E%3C/g%3E%3C/svg%3E">
+<script>
+  // Same key as the page, so a wrong URL does not flash the other theme.
+  (function () {
+    var saved = null;
+    try { saved = localStorage.getItem("moonmuse:theme"); } catch (e) {}
+    var prefers = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    document.documentElement.setAttribute("data-theme", saved || (prefers ? "dark" : "light"));
+  })();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root{--desk:#F2EBDD;--ink:#2C2721;--muted:#6E6559;--line:#D9CDB4;--jade:#1F6F4F}
+  [data-theme="dark"]{--desk:#14110D;--ink:#EDE6D7;--muted:#A2967F;--line:#3A3229;--jade:#6FC9A2}
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;display:grid;place-items:center;background:var(--desk);color:var(--ink);
+    font:400 16px/1.7 "Inter",system-ui,sans-serif;padding:32px;
+    background-image:repeating-linear-gradient(93deg,rgba(120,95,60,.04) 0 1px,transparent 1px 6px);
+  }
+  main{max-width:520px}
+  p.eyebrow{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin:0 0 12px}
+  h1{font:700 56px/1.05 "Caveat","Segoe Script","Bradley Hand",cursive;margin:0 0 12px;letter-spacing:.4px}
+  p{color:var(--muted);margin:0 0 22px}
+  a{color:var(--jade);text-decoration:none;border-bottom:1px solid currentColor;padding-bottom:1px}
+  a:hover{opacity:.8}
+</style>
+</head>
+<body>
+<main>
+  <p class="eyebrow">404</p>
+  <h1>Not here</h1>
+  <p>That path is not part of this page. The comparison itself is one click away.</p>
+  <a href="/moonmuse/">moonmuse — one request, four API specs</a>
+</main>
+</body>
+</html>

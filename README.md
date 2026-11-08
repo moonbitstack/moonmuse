@@ -6,6 +6,7 @@
 
 [![mooncakes](https://img.shields.io/badge/mooncakes-moonbitstack%2Fmoonmuse-2f6f4e)](https://mooncakes.io/docs/moonbitstack/moonmuse)
 [![license](https://img.shields.io/badge/license-Apache--2.0-2f6f4e)](LICENSE)
+[![ci](https://github.com/moonbitstack/moonmuse/actions/workflows/ci.yml/badge.svg)](https://github.com/moonbitstack/moonmuse/actions/workflows/ci.yml)
 
 </div>
 

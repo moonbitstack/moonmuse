@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<!-- The share card. Rendered to site/og.png by scripts/og.mjs: 1200x630 at twice the density,
+     so a feed shows a picture that matches the page rather than a screenshot of it. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --desk:#F2EBDD; --paper:#FFFDF6; --ink:#2C2721; --muted:#6E6559; --line:#D9CDB4; --red:#B4463A;
+    --ivory:#F6F0E0; --blossom:#F5E4DF; --sky:#E4EDF4; --sage:#E6ECDC;
+    --bar-1:#E0D2AF; --bar-2:#E3BFB4; --bar-3:#B4CBDC; --bar-4:#BFCCAB;
+    --hand:"Caveat",cursive; --text:"Inter",system-ui,sans-serif; --mono:ui-monospace,Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;width:1200px;height:630px}
+  body{
+    background:var(--desk);color:var(--ink);
+    background-image:
+      repeating-linear-gradient(93deg,rgba(120,95,60,.045) 0 1px,transparent 1px 6px),
+      repeating-linear-gradient(3deg,rgba(120,95,60,.03) 0 1px,transparent 1px 9px);
+    font:400 22px/1.55 var(--text);
+    padding:56px 64px;
+    display:flex;gap:44px;
+  }
+  .left{flex:1;min-width:0;display:flex;flex-direction:column}
+  .logo{font:700 40px/1 var(--hand);letter-spacing:.5px}
+  h1{font:700 92px/1.02 var(--hand);margin:30px 0 0;letter-spacing:.5px}
+  h1 em{font-style:normal;position:relative;white-space:nowrap}
+  h1 em::after{content:"";position:absolute;left:0;right:0;bottom:8px;height:5px;background:var(--red);opacity:.45}
+  p{margin:24px 0 0;max-width:610px;color:var(--muted);font-size:21px;line-height:1.58}
+  .facts{display:flex;gap:0;margin:32px 0 0;padding:16px 0 0;border-top:1px dashed var(--line);list-style:none;max-width:610px}
+  .facts li{font:500 15px/1.35 var(--text);color:var(--muted);padding:0 28px 0 0}
+  .facts li+li{padding-left:28px;border-left:1px dashed var(--line)}
+  .facts b{display:block;font:700 30px/1.1 var(--hand);color:var(--ink)}
+  .foot{margin-top:auto;font:400 15px/1 var(--mono);color:var(--muted);display:flex;align-items:center;gap:14px}
+  .foot b{font-weight:400;color:var(--ink)}
+  .dot{width:5px;height:5px;border-radius:50%;background:var(--line)}
+
+  .right{width:430px;flex:none;display:grid;grid-template-columns:1fr 1fr;gap:14px;align-content:start;padding-top:96px}
+  .card{
+    background:var(--tint);border:1px solid var(--line);border-radius:8px;padding:16px 15px 15px;
+    border-top:4px solid var(--bar);
+  }
+  .card h2{font:700 30px/1.1 var(--hand);margin:0 0 6px}
+  .card span{display:block;font:400 11.5px/1.45 var(--mono);color:var(--muted);word-break:break-word}
+</style>
+</head>
+<body>
+  <div class="left">
+    <div class="logo">moonmuse</div>
+    <h1>One request,<br><em>four API specs</em></h1>
+    <p>The same chat request as OpenAI, Anthropic, Gemini and Ollama each put it on the wire — compared field by field.</p>
+    <ul class="facts">
+      <li><b>4</b>wire formats</li>
+      <li><b>1</b>request type</li>
+      <li><b>0</b>vendor names</li>
+    </ul>
+    <div class="foot"><b>moonbitstack.github.io/moonmuse</b><span class="dot"></span>MoonBit</div>
+  </div>
+  <div class="right">
+    <div class="card" style="--tint:var(--ivory);--bar:var(--bar-1)"><h2>OpenAI</h2><span>POST /v1/chat/completions</span></div>
+    <div class="card" style="--tint:var(--blossom);--bar:var(--bar-2)"><h2>Anthropic</h2><span>POST /v1/messages</span></div>
+    <div class="card" style="--tint:var(--sky);--bar:var(--bar-3)"><h2>Gemini</h2><span>POST /v1beta/models/{model}:generateContent</span></div>
+    <div class="card" style="--tint:var(--sage);--bar:var(--bar-4)"><h2>Ollama</h2><span>POST /api/chat</span></div>
+  </div>
+</body>
+</html>
