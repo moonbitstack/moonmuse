@@ -99,7 +99,7 @@ async fn export_over_grpc(address : String) -> Unit {
     // attributes: a `service.name` here would be reported as an attribute the registry has
     // never heard of. The JSON form below carries one, because a person is reading that.
     resource=@otlp.Resource::new(attributes=[]),
-    format=@otlp.BodyFormat::Protobuf,
+    encoding=@binary.protobuf,
     now=millis,
     rand=random_bytes,
     attempts=5,
