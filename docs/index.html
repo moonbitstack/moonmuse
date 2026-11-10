@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" id="theme-color" content="#F2EBDD">
+<meta name="description" content="One contract above every model API in MoonBit: one request type, four wire formats, a gateway that serves all four.">
+<title>moonmuse — one request, four API specs</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<meta property="og:type" content="website">
+<meta property="og:title" content="moonmuse — one request, four API specs">
+<meta property="og:description" content="One contract above every model API in MoonBit: one request type, four wire formats, a gateway that serves all four.">
+<meta property="og:url" content="https://moonbitstack.github.io/moonmuse/">
+<meta property="og:image" content="https://moonbitstack.github.io/moonmuse/og.png">
+<meta property="og:image:width" content="2400">
+<meta property="og:image:height" content="1260">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="assets/paper.css">
+<script>
+  (function () {
+    var theme = "light";
+    try {
+      var saved = sessionStorage.getItem("moonmuse:theme");
+      theme = saved || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    } catch (error) {
+      theme = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    document.documentElement.setAttribute("data-theme", theme);
+  })();
+</script>
+</head>
+<body>
+
+<a class="skip" href="#demo">Skip to the four formats</a>
+
+<header class="bar">
+  <div class="wrap bar-in">
+    <a class="brand" href="index.html" aria-label="moonmuse, home">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+        <path d="M4 5.5h16M4 12h16M4 18.5h9"/>
+        <circle cx="18.5" cy="18.5" r="2.4"/>
+      </svg>
+      moonmuse
+    </a>
+    <nav class="nav" aria-label="Site">
+      <a href="guide.html">Guide</a>
+      <a href="formats.html">Formats</a>
+      <a href="api.html">API</a>
+      <button id="theme" type="button" aria-pressed="false" aria-label="Switch the desk">
+        <svg class="theme-icon moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>
+        <svg class="theme-icon sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg>
+        <span class="theme-word">Desk</span>
+      </button>
+      <a class="icon-link" href="https://github.com/moonbitstack/moonmuse" aria-label="The repository on GitHub">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+      </a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+
+    <div class="hero">
+      <div class="hero-split">
+        <div>
+          <h1>One request, <em>four API specs</em></h1>
+          <p class="lede">A system prompt, one user message, temperature 0.2, a 256-token cap. Sent to OpenAI, Anthropic, Gemini and Ollama, that conversation is four different documents. moonmuse gives MoonBit one contract above all four, and reads and writes each of them with the same code.</p>
+          <ul class="facts">
+            <li><b>4</b>wire formats</li>
+            <li><b>1</b>request type</li>
+            <li><b><span data-count="packages">17</span></b>packages</li>
+            <li><b>0</b>vendor names in code</li>
+          </ul>
+          <div class="buttons">
+            <a class="button jade" href="guide.html">Read the guide</a>
+            <a class="button" href="formats.html">Edit all four</a>
+          </div>
+        </div>
+
+        <div class="paper" id="demo">
+          <div class="tabs" role="tablist" aria-label="The same request in four formats" data-tabs>
+            <button role="tab" id="tab-openai" aria-controls="panel-openai" aria-selected="true">OpenAI</button>
+            <button role="tab" id="tab-anthropic" aria-controls="panel-anthropic" aria-selected="false">Anthropic</button>
+            <button role="tab" id="tab-gemini" aria-controls="panel-gemini" aria-selected="false">Gemini</button>
+            <button role="tab" id="tab-ollama" aria-controls="panel-ollama" aria-selected="false">Ollama</button>
+          </div>
+          <div class="tabpanel" id="panel-openai" role="tabpanel" aria-labelledby="tab-openai">
+            <p class="path">POST /v1/chat/completions</p>
+<pre>{
+  "model": "gpt-4o-mini",
+  "messages": [
+    {"role": "system", "content": "Answer in one sentence."},
+    {"role": "user", "content": "Why is the sky blue?"}
+  ],
+  "temperature": 0.2,
+  "max_tokens": 256
+}</pre>
+          </div>
+          <div class="tabpanel" id="panel-anthropic" role="tabpanel" aria-labelledby="tab-anthropic" hidden>
+            <p class="path">POST /v1/messages</p>
+<pre>{
+  "model": "gpt-4o-mini",
+  "max_tokens": 256,
+  "system": "Answer in one sentence.",
+  "messages": [
+    {"role": "user", "content": [
+      {"type": "text", "text": "Why is the sky blue?"}
+    ]}
+  ],
+  "temperature": 0.2
+}</pre>
+          </div>
+          <div class="tabpanel" id="panel-gemini" role="tabpanel" aria-labelledby="tab-gemini" hidden>
+            <p class="path">POST /v1beta/models/gpt-4o-mini:generateContent</p>
+<pre>{
+  "systemInstruction": {
+    "parts": [{"text": "Answer in one sentence."}]
+  },
+  "contents": [
+    {"role": "user", "parts": [{"text": "Why is the sky blue?"}]}
+  ],
+  "generationConfig": {
+    "temperature": 0.2,
+    "maxOutputTokens": 256
+  }
+}</pre>
+          </div>
+          <div class="tabpanel" id="panel-ollama" role="tabpanel" aria-labelledby="tab-ollama" hidden>
+            <p class="path">POST /api/chat</p>
+<pre>{
+  "model": "gpt-4o-mini",
+  "messages": [
+    {"role": "system", "content": "Answer in one sentence."},
+    {"role": "user", "content": "Why is the sky blue?"}
+  ],
+  "stream": false,
+  "options": {
+    "temperature": 0.2,
+    "num_predict": 256
+  }
+}</pre>
+          </div>
+          <p class="muted" id="demo-note" style="margin:12px 0 0;font-size:12.5px">The bodies in these tabs are written by this library, compiled to JavaScript and running on this page.</p>
+        </div>
+      </div>
+    </div>
+
+    <hr class="rule">
+
+    <section id="contract">
+      <div class="section-head">
+        <p class="eyebrow">01 · The idea</p>
+        <h2>Name the vendor once</h2>
+        <p class="sub">A provider is anything that can answer a request. Which vendor, whether it runs in a data centre or on the laptop, and which JSON it speaks are details behind that one value.</p>
+      </div>
+      <div class="grid two">
+        <div class="listing">
+          <div class="listing-bar"><span class="label">MoonBit</span><span class="spacer"></span></div>
+<pre>let provider : &amp;@moonmuse.Provider =
+  @openai.Client::new(api_key="sk-…")
+
+let request = @moonmuse.Request::new(
+  "gpt-4o-mini",
+  [@moonmuse.Message::user("Why is the sky blue?")],
+  temperature=0.2,
+  max_tokens=256,
+)
+
+let reply = provider.chat(request)
+println(reply.text())</pre>
+        </div>
+        <div class="stack">
+          <div class="card">
+            <span class="num">Provider</span>
+            <p>Ask for an answer, a stream, vectors, or the model list. Six implementations ship here, and a layer is a provider too — so retry, fallback, routing and caching wrap in any order.</p>
+          </div>
+          <div class="card">
+            <span class="num">Dialect</span>
+            <p>One vendor's wire format, read <em>and</em> written. The client and the gateway use the same value, which is why they cannot disagree about a field.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="what">
+      <div class="section-head">
+        <p class="eyebrow">02 · What it does</p>
+        <h2>Everything around one call</h2>
+        <p class="sub">The request is the small part. These are the parts a second integration usually has to write again.</p>
+      </div>
+      <div class="features">
+        <div class="feature">
+          <span class="k">Streaming</span>
+          <h3>One callback</h3>
+          <p>Text, a tool call starting, its arguments arriving in pieces, then done — the same four deltas from a JSON chunk, seven named events, a candidate array or a line of NDJSON.</p>
+        </div>
+        <div class="feature">
+          <span class="k">Tools</span>
+          <h3>A schema and a function</h3>
+          <p><code>Toolbox::call</code> is the only place a call becomes a result, and a tool that fails produces an error result rather than an exception.</p>
+        </div>
+        <div class="feature">
+          <span class="k">Layers</span>
+          <h3>Retry, fall back, cache</h3>
+          <p>Only failures another attempt could avoid are retried. Fallback switches on the same classification; the cache key covers every field that decides an answer.</p>
+        </div>
+        <div class="feature">
+          <span class="k">Structure</span>
+          <h3>An answer that fits</h3>
+          <p>Ask for JSON against a schema, check the reply, and send it back with the reason when it does not fit — up to a budget.</p>
+        </div>
+        <div class="feature">
+          <span class="k">Serving</span>
+          <h3>Four APIs out of one</h3>
+          <p>Point <code>serve</code> at any provider and it answers as OpenAI, Anthropic, Gemini or Ollama. The official client libraries cannot tell it from the vendor.</p>
+        </div>
+        <div class="feature">
+          <span class="k">Observation</span>
+          <h3>Traces under the conventions</h3>
+          <p>One client span per call and token metrics, under the OpenTelemetry GenAI names. Message bodies stay out unless asked for.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="packages">
+      <div class="section-head">
+        <p class="eyebrow">03 · The module</p>
+        <h2>One package per concern</h2>
+        <p class="sub">A package that is not imported is not compiled or linked, so the local-model and serving halves cost nothing to a program that only asks for a completion.</p>
+      </div>
+      <div class="packages">
+        <div class="row"><code>moonmuse</code><span>Messages, requests, replies, the two contracts, the event-stream reader</span></div>
+        <div class="row"><code>openai</code><span>The chat format and every endpoint that speaks it</span></div>
+        <div class="row"><code>anthropic</code><span>The Messages API, its event stream, its token counter</span></div>
+        <div class="row"><code>gemini</code><span>generateContent, streamGenerateContent, embeddings</span></div>
+        <div class="row"><code>ollama</code><span>The native <code>/api</code> endpoints and the newline-delimited stream</span></div>
+        <div class="row"><code>bedrock</code><span>SigV4 signing and the Converse API, event-stream framing included</span></div>
+        <div class="row"><code>layers</code><span>Retry, fallback, rate limiting, caching, routing</span></div>
+        <div class="row"><code>toolbox</code><span>Tool execution and the tool loop</span></div>
+        <div class="row"><code>structured</code><span>A JSON answer that fits a schema, with a repair loop</span></div>
+        <div class="row"><code>prompt</code><span>Prompt templates, rendered against a value map</span></div>
+        <div class="row"><code>models</code><span>Context windows, output limits, prices, capabilities</span></div>
+        <div class="row"><code>count</code><span>Token counting over a vocabulary</span></div>
+        <div class="row"><code>serve</code><span>Any provider exported as four APIs</span></div>
+        <div class="row"><code>transport</code><span>The one place a call becomes bytes on a socket</span></div>
+        <div class="row"><code>local</code><span>A local engine behind the same contract</span></div>
+        <div class="row"><code>otel</code><span>Traces and metrics by the GenAI conventions</span></div>
+        <div class="row"><code>fake</code><span>A scripted provider, for tests above the wire</span></div>
+      </div>
+    </section>
+
+    <section id="next">
+      <div class="section-head">
+        <p class="eyebrow">04 · Where to go</p>
+        <h2>Read it in the order you write it</h2>
+      </div>
+      <div class="grid three">
+        <a class="card" href="guide.html">
+          <h3>Guide</h3>
+          <p>From <code>moon add</code> to a gateway, with the output each step prints.</p>
+        </a>
+        <a class="card" href="formats.html">
+          <h3>Formats</h3>
+          <p>The four bodies side by side, editable: change one and the other three are rewritten by the library in the page.</p>
+        </a>
+        <a class="card" href="api.html">
+          <h3>API reference</h3>
+          <p>Every public type, function and trait, grouped by package and generated from the source.</p>
+        </a>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="foot wrap">
+  <span>moonmuse · Apache-2.0</span>
+  <span class="links">
+    <a href="guide.html">Guide</a>
+    <a href="formats.html">Formats</a>
+    <a href="api.html">API</a>
+    <a href="https://mooncakes.io/docs/moonbitstack/moonmuse">mooncakes</a>
+    <a href="https://github.com/moonbitstack/moonmuse">Repository</a>
+  </span>
+  <span class="spacer">No trackers, no cookies, no analytics</span>
+</footer>
+
+<button class="totop" id="totop" type="button" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
+</button>
+
+<script src="assets/paper.js"></script>
+<script>
+/* The home page's four tabs are rewritten by the converter when it loads: the OpenAI body is
+   read by the library and the other three are written from it, so the demonstration is the
+   dialect code itself rather than four recordings of it. */
+(function () {
+  var source = "openai";
+  var paths = {
+    openai: "/v1/chat/completions",
+    anthropic: "/v1/messages",
+    gemini: "/v1beta/models/gpt-4o-mini:generateContent",
+    ollama: "/api/chat",
+  };
+
+  function bodyOf(name) {
+    var panel = document.getElementById("panel-" + name);
+    return panel ? panel.querySelector("pre").textContent : "";
+  }
+
+  function put(name, text, path) {
+    var panel = document.getElementById("panel-" + name);
+    if (!panel) return;
+    panel.querySelector("pre").textContent = text;
+    if (path) panel.querySelector(".path").textContent = "POST " + path;
+  }
+
+  if (location.protocol !== "http:" && location.protocol !== "https:") return;
+
+  import("./engine/convert.js").then(function (module) {
+    var note = document.getElementById("demo-note");
+    var opened = bodyOf(source);
+    var done = 0;
+    ["anthropic", "gemini", "ollama"].forEach(function (name) {
+      try {
+        var answer = JSON.parse(module.convert(source, name, paths[source], opened));
+        if (answer.ok) {
+          put(name, JSON.stringify(answer.body, null, 2), answer.path);
+          done += 1;
+        }
+      } catch (error) {}
+    });
+    if (note && done === 3) {
+      note.textContent = "The three other bodies were just written from the OpenAI one by the library, compiled to JavaScript and running on this page.";
+    }
+  }).catch(function () {
+    var note = document.getElementById("demo-note");
+    if (note) note.textContent = "The four bodies are shown as samples; the converter did not load.";
+  });
+})();
+</script>
+</body>
+</html>

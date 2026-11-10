@@ -1,4 +1,4 @@
-// Render scripts/og.html to site/og.png, the image a feed shows when the page is shared.
+// Render scripts/og.html to docs/og.png, the image a feed shows when the page is shared.
 //
 //     node scripts/og.mjs
 //
@@ -78,5 +78,5 @@ const shot = await send("Page.captureScreenshot", { format: "png", captureBeyond
 writeFileSync(join(root, "site", "og.png"), Buffer.from(shot.data, "base64"));
 socket.close();
 chrome.kill();
-console.log("wrote site/og.png");
+console.log("wrote docs/og.png");
 process.exit(0);

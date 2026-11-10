@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" id="theme-color" content="#F2EBDD">
+<meta name="description" content="A progressive guide to moonmuse: one request, streaming, tools, layers, structured output, a gateway, observation, and a local model behind the same contract.">
+<title>Guide — moonmuse</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/paper.css">
+<script>
+  (function () {
+    var theme = "light";
+    try {
+      var saved = sessionStorage.getItem("moonmuse:theme");
+      theme = saved || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    } catch (error) {
+      theme = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    document.documentElement.setAttribute("data-theme", theme);
+  })();
+</script>
+</head>
+<body>
+
+<a class="skip" href="#install">Skip to the guide</a>
+
+<header class="bar">
+  <div class="wrap bar-in">
+    <a class="brand" href="index.html" aria-label="moonmuse, home">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M4 5.5h16M4 12h16M4 18.5h9"/><circle cx="18.5" cy="18.5" r="2.4"/></svg>
+      moonmuse
+    </a>
+    <nav class="nav" aria-label="Site">
+      <a href="guide.html" aria-current="page">Guide</a>
+      <a href="formats.html">Formats</a>
+      <a href="api.html">API</a>
+      <button id="theme" type="button" aria-pressed="false" aria-label="Switch the desk">
+        <svg class="theme-icon moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>
+        <svg class="theme-icon sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg>
+        <span class="theme-word">Desk</span>
+      </button>
+      <a class="icon-link" href="https://github.com/moonbitstack/moonmuse" aria-label="The repository on GitHub">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+      </a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <div class="head-page">
+      <p class="eyebrow">Guide</p>
+      <h1>From a first answer to a gateway</h1>
+      <p class="lede">Eleven steps, each one runnable on its own. Under every listing is what that listing printed when it ran against this checkout — the scripted provider stands in for a model, so the output is the same on any machine.</p>
+    </div>
+
+    <div class="doc-shell">
+      <aside class="rail" aria-label="Contents">
+        <div class="rail-title">Contents</div>
+        <ol>
+          <li><a href="#install"><span class="n">01</span>Install</a></li>
+          <li><a href="#request"><span class="n">02</span>One request</a></li>
+          <li><a href="#vendors"><span class="n">03</span>A provider per vendor</a></li>
+          <li><a href="#stream"><span class="n">04</span>Streaming</a></li>
+          <li><a href="#tools"><span class="n">05</span>Tools</a></li>
+          <li><a href="#layers"><span class="n">06</span>Retry, fall back, cache</a></li>
+          <li><a href="#structured"><span class="n">07</span>Structured output</a></li>
+          <li><a href="#serve"><span class="n">08</span>A gateway</a></li>
+          <li><a href="#observe"><span class="n">09</span>Observation</a></li>
+          <li><a href="#local"><span class="n">10</span>A local model</a></li>
+          <li><a href="#targets"><span class="n">11</span>Targets</a></li>
+        </ol>
+      </aside>
+
+      <article class="prose">
+
+        <h2 id="install">Install</h2>
+        <p>Add the module once. It brings the contract, the event-stream reader and the wire formats; the subpackages you import decide what else is compiled, so a program that only asks for a completion does not carry the gateway.</p>
+        <div class="listing">
+          <div class="listing-bar"><span class="label">shell</span><span class="spacer"></span></div>
+<pre>moon add moonbitstack/moonmuse</pre>
+        </div>
+        <p>A package is imported by its path under the module. The aliases below are the ones this guide uses:</p>
+        <div class="listing">
+          <div class="listing-bar"><span class="label">moon.pkg</span><span class="spacer"></span></div>
+<pre>import {
+  "moonbitstack/moonmuse",
+  "moonbitstack/moonmuse/openai",
+  "moonbitstack/moonmuse/fake",
+}</pre>
+        </div>
+
+        <h2 id="request">One request</h2>
+        <p>A <code>Request</code> is a model name, the messages, and the knobs that change the answer. A field left out is left out of the wire body rather than sent as a default — the vendors do not agree on defaults, so guessing one would make the same request mean different things.</p>
+        <p>The scripted provider answers from a list, which is how the rest of this guide runs without a key or a network.</p>
+        <div class="listing">
+          <div class="listing-bar"><span class="label">MoonBit</span><span class="spacer"></span></div>
+<pre data-lang="mbt">let provider : &amp;@moonmuse.Provider = @fake.Fake::new([
+  @moonmuse.Reply::new(
+    @moonmuse.Message::assistant(
+      "Air scatters blue light more than red, so the sky looks blue.",
+    ),
+    usage=@moonmuse.Usage::new(18, 14),
+  ),
+])
+let request = @moonmuse.Request::new(
+  "gpt-4o-mini",
+  [@moonmuse.Message::user("Why is the sky blue?")],
+  temperature=0.2,
+  max_tokens=256,
+)
+let reply = provider.chat(request)
+println("said: " + reply.text())
+println("tokens: " + reply.usage.total().unwrap_or(0).to_string())</pre>
+        </div>
+        <div class="said output"><b>printed</b>said: Air scatters blue light more than red, so the sky looks blue.
+tokens: 32</div>
+        <p>A <code>Reply</code> carries the message, a <code>Finish</code> reason, a <code>Usage</code> and the body that came back as <code>raw</code>. The three fields of <code>Usage</code> are optional because an endpoint that reports nothing is not the same as one that reports zero.</p>
+
+        <h2 id="vendors">A provider per vendor</h2>
+        <p>Each wire format is a package with a client. Only the constructor changes; the request and everything below it stay the same.</p>
+        <div class="scroller" style="margin:16px 0">
+          <table class="sheet" style="min-width:600px">
+            <thead><tr><th scope="col">Package</th><th scope="col">Constructor</th><th scope="col">What it speaks</th></tr></thead>
+            <tbody>
+              <tr><th scope="row"><code>openai</code></th><td><code>@openai.Client::new(api_key=…, base=…)</code></td><td>The chat format and every endpoint that copies it</td></tr>
+              <tr><th scope="row"><code>anthropic</code></th><td><code>@anthropic.Client::new(api_key=…)</code></td><td>The Messages API and its event stream</td></tr>
+              <tr><th scope="row"><code>gemini</code></th><td><code>@gemini.Client::new(api_key=…)</code></td><td>generateContent and embeddings</td></tr>
+              <tr><th scope="row"><code>ollama</code></th><td><code>@ollama.Client::new()</code></td><td>The native <code>/api</code> endpoints on localhost</td></tr>
+              <tr><th scope="row"><code>bedrock</code></th><td><code>@bedrock.Client::new(credential=…, region=…)</code></td><td>The Converse API, signed with SigV4</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p><code>base</code> is what points a client at a compatible endpoint instead of the vendor's own: a proxy, a gateway built with this library, a local server that speaks the same JSON. <code>headers</code> adds what an installation needs — a tenant tag, a beta switch — and <code>extra</code> on the request adds a field the shared vocabulary does not model.</p>
+        <div class="listing">
+          <div class="listing-bar"><span class="label">MoonBit</span><span class="spacer"></span></div>
+<pre data-lang="mbt">let provider : &amp;@moonmuse.Provider = @openai.Client::new(
+  api_key="sk-…",
+  base="http://127.0.0.1:12000/v1",
+  headers=[("x-tenant", "acme")],
+)
+let request = @moonmuse.Request::new(
+  "gpt-4o-mini",
+  [@moonmuse.Message::user("Why is the sky blue?")],
+  extra={ "reasoning_effort": Json::string("low") },
+)</pre>
+        </div>
+        <div class="note"><b>The clients need a socket.</b> They build for <code>native</code> and <code>wasm</code>; the dialects themselves are pure, so a gateway can be written and tested on the other two targets.</div>
+
+        <h2 id="stream">Streaming</h2>
+        <p><code>stream</code> calls back for each delta as it comes off the socket, then returns the reply those deltas assemble — the same value <code>chat</code> returns. A caller that ignores the callback still gets the whole answer, and the <code>Done</code> delta carries it too.</p>
+        <div class="listing">
+          <div class="listing-bar"><span class="label">MoonBit</span><span class="spacer"></span></div>
+<pre data-lang="mbt">let provider : &amp;@moonmuse.Provider = @fake.Fake::text(
+  "Air scatters blue light more than red, so the sky looks blue.",
+)
+let request = @moonmuse.Request::new(
+  "gpt-4o-mini",
+  [@moonmuse.Message::user("Why is the sky blue?")],
+)
+let pieces = []
+let reply = provider.stream(request, delta => {
+  match delta {
+    @moonmuse.Text(chunk) => pieces.push(chunk)
+    @moonmuse.CallStart(name~, ..) => println("call " + name)
+    @moonmuse.CallArgs(chunk~, ..) => println(chunk)
+    @moonmuse.Done(_) => ()
+  }
+})
+println("pieces: " + pieces.length().to_string())
+println("whole answer: " + reply.text())</pre>
+        </div>
+        <div class="said output"><b>printed</b>pieces: 13
+whole answer: Air scatters blue light more than red, so the sky looks blue.</div>
+        <p>The four deltas are what every format reduces to: text, a call beginning, the arguments of that call arriving in pieces, and the end. A character split across two reads is held back until its remaining bytes arrive, so a callback never sees half of one.</p>
+
+        <h2 id="tools">Tools</h2>
+        <p>A tool is a schema plus a function. <code>Toolbox::call</code> is the only place a call becomes a result, so a framework with its own loop uses it directly and gets the same behaviour — including the rule that a failing tool produces an error result rather than an exception.</p>
+        <div class="listing">
+          <div class="listing-bar"><span class="label">MoonBit</span><span class="spacer"></span></div>
+<pre data-lang="mbt">let provider = @fake.Fake::new([
+  @moonmuse.Reply::new(
+    @moonmuse.Message::new(@moonmuse.Assistant, [
+      @moonmuse.Part::call(
+        "c1",
+        "add",
+        @moonmuse.parse_json_lossy("{\"a\":2,\"b\":40}"),
+      ),
+    ]),
+    finish=@moonmuse.Calls,
+  ),
+  @moonmuse.Reply::new(@moonmuse.Message::assistant("The sum is 42.")),
+])
+let tools = @toolbox.Toolbox::new()
+tools.add(@moonmuse.Tool::new("add", "Add two integers"), args => {
+  let a = @moonmuse.json_int(args, "a").unwrap_or(0)
+  let b = @moonmuse.json_int(args, "b").unwrap_or(0)
+  (a + b).to_string()
+})
+let reply = @toolbox.run(
+  provider,
+  @moonmuse.Request::new("fake", [@moonmuse.Message::user("What is 2 + 40?")]),
+  tools,
+)
+println("answer: " + reply.text())
+println("provider calls: " + provider.hits().to_string())</pre>
+        </div>
+        <div class="said output"><b>printed</b>answer: The sum is 42.
+provider calls: 2</div>
+        <p><code>run</code> owns the loop: it sends each result back as a tool message and stops at <code>limit</code> rounds, which defaults to ten. A tool that raises, or one that was never registered, becomes a result with <code>error</code> set, because the model is the party that has to see it.</p>
+
+        <h2 id="layers">Retry, fall back, cache</h2>
+        <p>Every layer is a provider around a provider, so they compose in any order. Retry honours <code>retry-after</code> and only retries what a second attempt could pass; fallback switches on the same classification; the cache key covers every field that decides an answer.</p>
+        <div class="listing">
+          <div class="listing-bar"><span class="label">MoonBit</span><span class="spacer"></span></div>
+<pre data-lang="mbt">let primary = @fake.Fake::failing(503)
+let secondary = @fake.Fake::text("Answered by the second provider.")
+let gateway : &amp;@moonmuse.Provider = @layers.cached(
+  @layers.fallback([primary, secondary]),
+  @layers.Memory::new(limit=16),
+)
+let request = @moonmuse.Request::new(
+  "gpt-4o-mini",
+  [@moonmuse.Message::user("Why is the sky blue?")],
+)
+let first = gateway.chat(request)
+let second = gateway.chat(request)
+println("answer: " + first.text())
+println("primary attempts: " + primary.hits().to_string())
+println("secondary attempts: " + secondary.hits().to_string())
+println("second answer: " + second.text())</pre>
+        </div>
+        <div class="said output"><b>printed</b>answer: Answered by the second provider.
+primary attempts: 1
+secondary attempts: 1
+second answer: Answered by the second provider.</div>
+        <p>The second call never reached either provider: the answer was in the cache. <code>@layers.routed({"claude-": a, "local/": b})</code> picks by model-name prefix instead, which is what a gateway over several vendors is.</p>
+
+        <h2 id="structured">Structured output</h2>
+        <p>The schema is stated in the prompt and the reply is checked against it; a reply that does not fit goes back with the reason, up to a budget, and the last failure is raised rather than returned as a silent <code>None</code>.</p>
+        <div class="listing">
+          <div class="listing-bar"><span class="label">MoonBit</span><span class="spacer"></span></div>
+<pre data-lang="mbt">let provider = @fake.Fake::text("{\"celsius\": 21}")
+let schema = @moonmuse.parse_json_lossy(
+  "{\"type\":\"object\",\"properties\":{\"celsius\":{\"type\":\"number\"}},\"required\":[\"celsius\"]}",
+)
+let celsius = @structured.ask(
+  provider,
+  @moonmuse.Request::new("fake", [
+    @moonmuse.Message::user("How warm is it in Lisbon?"),
+  ]),
+  name="weather",
+  schema~,
+  decode=json => @moonmuse.json_int(json, "celsius"),
+)
+println("celsius: " + celsius.to_string())</pre>
+        </div>
+        <div class="said output"><b>printed</b>celsius: 21</div>
+        <p>The extractor finds the first balanced object in the answer, so a model that wraps its JSON in a sentence or a code fence still passes. <code>fixes</code> is the number of repair rounds; the default is two.</p>
+
+        <h2 id="serve">A gateway</h2>
+        <p><code>serve</code> returns an ASGI application. List the formats to offer and the endpoints come from the dialects, so a format written once is served, called and parsed by the same code.</p>
+        <div class="listing">
+          <div class="listing-bar"><span class="label">MoonBit</span><span class="spacer"></span></div>
+<pre data-lang="mbt">let provider = @fake.Fake::text("Hello from the gateway.")
+let app = @serve.serve(provider, dialects=@serve.default_dialects())
+let client = @testing.Client::new(app)
+let response = client.post(
+  "/v1/chat/completions",
+  body=@utf8.encode(
+    "{\"model\":\"demo\",\"messages\":[{\"role\":\"user\",\"content\":\"hi\"}]}",
+  ),
+)
+println("status " + response.status.to_string())
+println(response.text())</pre>
+        </div>
+        <div class="said output"><b>printed</b>status 200
+{"id":"chatcmpl-23","object":"chat.completion","choices":[{"index":0,"message":{"role":"assistant","content":"Hello from the gateway."},"finish_reason":"stop"}],"usage":{}}</div>
+        <p>Pass <code>keys=@serve.StaticKeys::new([...])</code> to require a credential, and <code>counter=</code> to answer <code>count_tokens</code>. The application runs under any ASGI server, or mounted below a framework.</p>
+        <p>The same server answers as Anthropic, Gemini and Ollama when those dialects are listed — the endpoint table is on the <a href="formats.html#serving">formats page</a>.</p>
+
+        <h2 id="observe">Observation</h2>
+        <p>One wrapper records a client span per call and another records duration and tokens, both under the OpenTelemetry GenAI names. Message bodies stay out of the span unless <code>content=true</code> is passed.</p>
+        <div class="listing">
+          <div class="listing-bar"><span class="label">MoonBit</span><span class="spacer"></span></div>
+<pre data-lang="mbt">let provider : &amp;@moonmuse.Provider = @fake.Fake::text("Air scatters blue light.")
+let recorder = @trace.Recorder::new()
+let tracer = @trace.Tracer::new(
+  rand=width => Bytes::make(width, b'\x01'),
+  sink=recorder,
+  sampler=@trace.parent_based(root=@trace.always),
+)
+let observed = @otel.traced(provider, tracer)
+let request = @moonmuse.Request::new(
+  "gpt-4o-mini",
+  [@moonmuse.Message::user("Why is the sky blue?")],
+)
+let reply = observed.chat(request)
+println("answer: " + reply.text())
+println("spans: " + recorder.len().to_string())
+for span in recorder.spans() {
+  println("span: " + span.name)
+}</pre>
+        </div>
+        <div class="said output"><b>printed</b>answer: Air scatters blue light.
+spans: 1
+span: chat gpt-4o-mini</div>
+        <p><code>@otel.metered(provider, registry)</code> adds the token and duration instruments to a Prometheus registry; the names are the ones the convention fixes, so a dashboard matches them for this client as it would for any other.</p>
+
+        <h2 id="local">A local model</h2>
+        <p>An inference engine is a contract, and the text format the model was trained on is data. Nothing here reads weights: an engine turns a prompt into a continuation, and this package turns a request into the prompt and the answer back into text and calls.</p>
+        <div class="listing">
+          <div class="listing-bar"><span class="label">MoonBit</span><span class="spacer"></span></div>
+<pre data-lang="mbt">struct Echo {
+}
+
+impl @local.Engine for Echo with fn generate(_self, prompt, _limit) {
+  prompt
+}
+
+pub extend Echo with @local.Engine::{generate}
+
+async fn main {
+  let engine : &amp;@moonmuse.Provider = @local.Local::new(
+    Echo::{},
+    template=@local.llama3(),
+    calls=@local.Tagged,
+    model="qwen2.5-7b",
+  )
+  let reply = engine.chat(@moonmuse.Request::new(
+    "qwen2.5-7b",
+    [@moonmuse.Message::user("Why is the sky blue?")],
+  ))
+  println(reply.text())
+}</pre>
+        </div>
+        <div class="said output"><b>printed</b>&lt;|start_header_id|&gt;user&lt;|end_header_id|&gt;
+
+Why is the sky blue?&lt;|eot_id|&gt;&lt;|start_header_id|&gt;assistant&lt;|end_header_id|&gt;</div>
+        <p>This engine echoes its prompt, which is why the answer is the template itself. A real one returns a continuation; the rest is unchanged.</p>
+        <p>An answer holds its calls as JSON inside the text, so <code>@local.parse</code> finds them, removes them from what the user sees, and numbers them:</p>
+        <div class="listing">
+          <div class="listing-bar"><span class="label">MoonBit</span><span class="spacer"></span></div>
+<pre data-lang="mbt">let parsed = @local.parse(
+  "It is 42. &lt;tool_call&gt;{\"name\":\"add\",\"arguments\":{\"a\":2,\"b\":40}}&lt;/tool_call&gt;",
+)
+println("text: " + parsed.text)
+for part in parsed.calls {
+  match part {
+    @moonmuse.Part::Call(id~, name~, args~) =>
+      println("call " + id + ": " + name + " " + args.stringify())
+    _ => ()
+  }
+}</pre>
+        </div>
+        <div class="said output"><b>printed</b>text: It is 42.
+call call_0: add {"a":2,"b":40}</div>
+        <p><code>@local.Tagged</code> is the Qwen and Hermes format; <code>Fenced</code> and <code>Bare</code> cover the other two ways a model writes a call.</p>
+
+        <h2 id="targets">Targets</h2>
+        <p>The contract, the dialects, the layers, the toolbox and the gateway build for <code>native</code>, <code>wasm</code>, <code>wasm-gc</code> and <code>js</code>. The clients and the streaming transport need a socket, which the HTTP library provides on <code>native</code> and <code>wasm</code> only; a program on the other two targets still has every wire format, which is what makes the four-pane page on this site possible.</p>
+        <p>Where to go next: the <a href="formats.html">formats page</a> for the field-by-field view, the <a href="api.html">API reference</a> for every public name, and the repository for the examples under <code>src/examples</code>.</p>
+
+      </article>
+    </div>
+  </div>
+</main>
+
+<footer class="foot wrap">
+  <span>moonmuse · Apache-2.0</span>
+  <span class="links">
+    <a href="guide.html">Guide</a>
+    <a href="formats.html">Formats</a>
+    <a href="api.html">API</a>
+    <a href="https://mooncakes.io/docs/moonbitstack/moonmuse">mooncakes</a>
+    <a href="https://github.com/moonbitstack/moonmuse">Repository</a>
+  </span>
+  <span class="spacer">No trackers, no cookies, no analytics</span>
+</footer>
+
+<button class="totop" id="totop" type="button" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
+</button>
+
+<script src="assets/paper.js"></script>
+</body>
+</html>

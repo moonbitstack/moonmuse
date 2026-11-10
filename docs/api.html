@@ -1,0 +1,1418 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" id="theme-color" content="#F2EBDD">
+<meta name="description" content="Every public type, function, value and trait in moonmuse, grouped by package and generated from the source.">
+<title>API reference — moonmuse</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/paper.css">
+<script>
+  (function () {
+    var theme = "light";
+    try {
+      var saved = sessionStorage.getItem("moonmuse:theme");
+      theme = saved || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    } catch (error) {
+      theme = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    document.documentElement.setAttribute("data-theme", theme);
+  })();
+</script>
+</head>
+<body>
+
+<a class="skip" href="#pkg-root">Skip to the reference</a>
+
+<header class="bar">
+  <div class="wrap bar-in">
+    <a class="brand" href="index.html" aria-label="moonmuse, home">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M4 5.5h16M4 12h16M4 18.5h9"/><circle cx="18.5" cy="18.5" r="2.4"/></svg>
+      moonmuse
+    </a>
+    <nav class="nav" aria-label="Site">
+      <a href="guide.html">Guide</a>
+      <a href="formats.html">Formats</a>
+      <a href="api.html" aria-current="page">API</a>
+      <button id="theme" type="button" aria-pressed="false" aria-label="Switch the desk">
+        <svg class="theme-icon moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>
+        <svg class="theme-icon sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg>
+        <span class="theme-word">Desk</span>
+      </button>
+      <a class="icon-link" href="https://github.com/moonbitstack/moonmuse" aria-label="The repository on GitHub">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+      </a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <div class="head-page">
+      <p class="eyebrow">Reference</p>
+      <h1>Every package, in order</h1>
+      <p class="lede">Generated from each package's interface file and the comments above its declarations: 468 public declarations across 17 packages. A type is followed by its methods, because that is where a reader looks for them.</p>
+    </div>
+
+    <div class="doc-shell api">
+      <aside class="rail" aria-label="Contents">
+        <div class="rail-title">Packages</div>
+        <ol>
+          <li><a href="#group-contract"><span class="n">›</span>The contract</a></li>
+          <li><a href="#pkg-root" style="padding-left:22px">moonmuse</a></li>
+          <li><a href="#group-formats"><span class="n">›</span>Wire formats</a></li>
+          <li><a href="#pkg-openai" style="padding-left:22px">openai</a></li>
+          <li><a href="#pkg-anthropic" style="padding-left:22px">anthropic</a></li>
+          <li><a href="#pkg-gemini" style="padding-left:22px">gemini</a></li>
+          <li><a href="#pkg-ollama" style="padding-left:22px">ollama</a></li>
+          <li><a href="#pkg-bedrock" style="padding-left:22px">bedrock</a></li>
+          <li><a href="#group-around"><span class="n">›</span>Around one call</a></li>
+          <li><a href="#pkg-toolbox" style="padding-left:22px">toolbox</a></li>
+          <li><a href="#pkg-structured" style="padding-left:22px">structured</a></li>
+          <li><a href="#pkg-prompt" style="padding-left:22px">prompt</a></li>
+          <li><a href="#pkg-layers" style="padding-left:22px">layers</a></li>
+          <li><a href="#pkg-models" style="padding-left:22px">models</a></li>
+          <li><a href="#pkg-count" style="padding-left:22px">count</a></li>
+          <li><a href="#pkg-fake" style="padding-left:22px">fake</a></li>
+          <li><a href="#group-serving"><span class="n">›</span>Serving</a></li>
+          <li><a href="#pkg-serve" style="padding-left:22px">serve</a></li>
+          <li><a href="#pkg-transport" style="padding-left:22px">transport</a></li>
+          <li><a href="#group-local"><span class="n">›</span>A local engine</a></li>
+          <li><a href="#pkg-local" style="padding-left:22px">local</a></li>
+          <li><a href="#group-observation"><span class="n">›</span>Observation</a></li>
+          <li><a href="#pkg-otel" style="padding-left:22px">otel</a></li>
+        </ol>
+      </aside>
+
+      <div class="prose">
+<div class="group" id="group-contract"><div class="group-head"><h2>The contract</h2></div><p class="pkg-note">The request, the reply, the two traits, and the event stream reader.</p>
+<section class="pkg" id="pkg-root">
+<div class="pkg-head"><h3>moonmuse</h3><span class="path">moonbitstack/moonmuse</span></div><p class="pkg-ref">The shared vocabulary: messages, requests, replies, the two contracts, and the server-sent-events reader every streaming client needs.</p>
+<div class="item" id="Counter">
+<div class="name"><span class="kind">trait</span>Counter</div>
+<div class="body"><div class="sig">pub(open) trait Counter {
+  fn count(Self, Request) -&gt; Int32 raise LlmError
+}</div><p>How many tokens a request costs, before anyone answers it. A tokenizer is a large table that most callers do not need, so the contract lives here and the implementation that loads a vocabulary lives in <code>moonmuse/count</code>: a gateway is handed a counter, and a deployment that has no vocabulary says so instead of inventing a number.</p></div>
+</div>
+<div class="item" id="Dialect">
+<div class="name"><span class="kind">trait</span>Dialect</div>
+<div class="body"><div class="sig">pub(open) trait Dialect {
+  fn name(Self) -&gt; String
+  fn request(Self, Request) -&gt; Call raise LlmError
+  fn reply(Self, Int32, @json.Json) -&gt; Reply raise LlmError
+  fn delta(Self, Frame, Turn) -&gt; Array[Delta] raise LlmError
+  fn routes(Self) -&gt; Array[Route]
+  fn parse(Self, Route, @json.Json) -&gt; Asked raise LlmError
+  fn answer(Self, Reply) -&gt; @json.Json
+  fn answer_embed(Self, String, Array[Array[Double]]) -&gt; @json.Json
+  fn answer_count(Self, Int32) -&gt; @json.Json
+  fn answer_models(Self, Array[ModelInfo]) -&gt; @json.Json
+  fn answer_at(Self, RouteKind, Reply) -&gt; @json.Json
+  fn frame(Self, Delta, Turn) -&gt; Array[Frame]
+  fn error(Self, LlmError) -&gt; (Int32, @json.Json)
+}</div><p>One vendor's wire format, read and written in the same place. The client half turns a <code>Request</code> into a <code>Call</code> and a body into a <code>Reply</code>; the server half turns a body into a <code>Request</code> and a <code>Reply</code> into a body. Because both halves live here, a gateway that speaks a format out cannot drift from the client that speaks it in.</p></div>
+</div>
+<div class="item" id="Provider">
+<div class="name"><span class="kind">trait</span>Provider</div>
+<div class="body"><div class="sig">pub(open) trait Provider {
+  async fn chat(Self, Request) -&gt; Reply raise LlmError
+  async fn stream(Self, Request, (Delta) -&gt; Unit) -&gt; Reply raise LlmError
+  async fn embed(Self, String, Array[String]) -&gt; Array[Array[Double]] raise LlmError
+  async fn models(Self) -&gt; Array[ModelInfo] raise LlmError
+}</div><p>The one contract every model endpoint implements: a remote API, a local server, a scripted fake, or a layer wrapped around another provider. Swapping providers is a change to the constructor line, not to the calling code.</p></div>
+</div>
+<div class="item" id="Assembly">
+<div class="name"><span class="kind">type</span>Assembly</div>
+<div class="body"><div class="sig">pub struct Assembly {
+  mut text : String
+  order : Array[String]
+  names : Map[String, String]
+  args : Map[String, String]
+  mut done : Reply?
+}</div><p>Assembles deltas into the reply they describe. Text accumulates in arrival order, argument fragments accumulate per call, and the <code>Done</code> reply wins when present.</p><div class="methods"><div class="sig">pub fn Assembly::is_done(Self) -&gt; Bool</div><p>Whether the stream already closed itself with a <code>Done</code> reply.</p><div class="sig">pub fn Assembly::new() -&gt; Self</div><p>An empty assembly.</p><div class="sig">pub fn Assembly::push(Self, Delta) -&gt; Unit</div><p>Feed one delta in.</p><div class="sig">pub fn Assembly::reply(Self) -&gt; Reply</div><p>The assembled reply: the <code>Done</code> one when the stream sent it, otherwise one built from what accumulated.</p></div></div>
+</div>
+<div class="item" id="Call">
+<div class="name"><span class="kind">type</span>Call</div>
+<div class="body"><div class="sig">pub(all) struct Call {
+  verb : String
+  path : String
+  headers : Array[(String, String)]
+  body : @json.Json
+  query : Array[(String, String)]
+  payload : Bytes?
+}</div><p>One HTTP request a dialect produced from a <code>Request</code> — verb, path, headers, body. A client only has to send it; nothing in it is provider-specific beyond what the dialect already decided.</p><div class="methods"><div class="sig">pub fn Call::bytes(String, String, String, Bytes) -&gt; Self</div><p>A call whose body is bytes rather than JSON: speech, a file, a form.</p><div class="sig">pub fn Call::field(Self, String, @json.Json) -&gt; Self</div><p>A copy of the body with one field added or replaced.</p><div class="sig">pub fn Call::header(Self, String, String) -&gt; Self</div><p>A copy with a header set, replacing any previous value of the same name.</p><div class="sig">pub fn Call::new(String, String, @json.Json) -&gt; Self</div><p>A call with the provider's JSON content type and no extra header.</p><div class="sig">pub fn Call::query(Self, String, String) -&gt; Self</div><p>A copy with a query parameter appended.</p><div class="sig">pub fn Call::streaming(Self) -&gt; Self</div><p>A copy that asks the endpoint to stream: the same body with <code>stream</code> set true. Every format this library speaks spells that field the same way, and a streamed request is otherwise the request it would have been.</p></div></div>
+</div>
+<div class="item" id="Frame">
+<div class="name"><span class="kind">type</span>Frame</div>
+<div class="body"><div class="sig">pub(all) struct Frame {
+  event : String?
+  data : String
+}</div><p>One frame of a streamed response: the server-sent-events <code>event</code> name when the endpoint uses named events, and the payload. JSON endpoints that stream newline delimited objects leave <code>event</code> empty.</p><div class="methods"><div class="sig">pub fn Frame::json(Self) -&gt; @json.Json raise LlmError</div><p>The frame's payload as JSON, or <code>Decode</code> when it is not JSON.</p><div class="sig">pub fn Frame::named(String, String) -&gt; Self</div><p>A named frame.</p><div class="sig">pub fn Frame::new(String) -&gt; Self</div><p>A frame with no event name.</p></div></div>
+</div>
+<div class="item" id="Message">
+<div class="name"><span class="kind">type</span>Message</div>
+<div class="body"><div class="sig">pub(all) struct Message {
+  role : Role
+  parts : Array[Part]
+}</div><p>A message: a role and its ordered parts.</p><div class="methods"><div class="sig">pub fn Message::assistant(String) -&gt; Self</div><p>An assistant message carrying one text part.</p><div class="sig">pub fn Message::calls(Self) -&gt; Array[Part]</div><p>The tool calls this message requests, in order. Empty on a plain text reply.</p><div class="sig">pub fn Message::is_call(Self) -&gt; Bool</div><p>Whether this message asks for a tool.</p><div class="sig">pub fn Message::new(Role, Array[Part]) -&gt; Self</div><p>A message built from a role and its parts.</p><div class="sig">pub fn Message::push(Self, Part) -&gt; Self</div><p>A copy with <code>part</code> appended. The tool loop grows the conversation this way.</p><div class="sig">pub fn Message::results(Self) -&gt; Array[Part]</div><p>The tool results this message carries, in order.</p><div class="sig">pub fn Message::system(String) -&gt; Self</div><p>A system message carrying one text part.</p><div class="sig">pub fn Message::text_content(Self, separator? : String) -&gt; String</div><p>The text parts joined by <code>separator</code>. What a caller shows a human, and what a provider without structured content receives.</p><div class="sig">pub fn Message::tool(String, id~ : String, error? : Bool) -&gt; Self</div><p>A tool message carrying one result, addressed to the call <code>id</code>.</p><div class="sig">pub fn Message::user(String) -&gt; Self</div><p>A user message carrying one text part.</p></div></div>
+</div>
+<div class="item" id="ModelInfo">
+<div class="name"><span class="kind">type</span>ModelInfo</div>
+<div class="body"><div class="sig">pub(all) struct ModelInfo {
+  id : String
+  context : Int32?
+  output : Int32?
+  input_price : Double?
+  output_price : Double?
+  capabilities : Array[Capability]
+}</div><p>What a provider says about one model. Prices are US dollars per million tokens, because that is the unit every vendor publishes and the one a cost estimate wants.</p><div class="methods"><div class="sig">pub fn ModelInfo::new(String, context? : Int32, output? : Int32, input_price? : Double, output_price? : Double, capabilities? : Array[Capability]) -&gt; Self</div><p>A model with everything unknown except its id.</p><div class="sig">pub fn ModelInfo::supports(Self, Capability) -&gt; Bool</div><p>Whether the model declares <code>capability</code>.</p></div></div>
+</div>
+<div class="item" id="Reply">
+<div class="name"><span class="kind">type</span>Reply</div>
+<div class="body"><div class="sig">pub(all) struct Reply {
+  message : Message
+  finish : Finish
+  usage : Usage
+  raw : @json.Json
+}</div><p>A model's answer: the assistant message, why it stopped, what it cost, and the response body as it arrived, for fields the shared vocabulary does not model.</p><div class="methods"><div class="sig">pub fn Reply::calls(Self) -&gt; Array[Part]</div><p>The reply's tool calls.</p><div class="sig">pub fn Reply::new(Message, finish? : Finish, usage? : Usage, raw? : @json.Json) -&gt; Self</div><p>A reply from an assistant message.</p><div class="sig">pub fn Reply::text(Self) -&gt; String</div><p>The reply's text.</p></div></div>
+</div>
+<div class="item" id="Request">
+<div class="name"><span class="kind">type</span>Request</div>
+<div class="body"><div class="sig">pub(all) struct Request {
+  model : String
+  messages : Array[Message]
+  tools : Array[Tool]
+  choice : ToolChoice
+  temperature : Double?
+  max_tokens : Int32?
+  stop : Array[String]
+  extra : Map[String, @json.Json]
+}</div><p>One request, in the vocabulary every provider shares. <code>extra</code> is merged into the request body last of all, so a field this library does not model — a vendor's beta switch, a reasoning budget — still reaches the wire.</p><div class="methods"><div class="sig">pub fn Request::new(String, Array[Message], tools? : Array[Tool], choice? : ToolChoice, temperature? : Double, max_tokens? : Int32, stop? : Array[String], extra? : Map[String, @json.Json]) -&gt; Self</div><p>A request with the provider's defaults.</p><div class="sig">pub fn Request::push(Self, Message) -&gt; Self</div><p>A copy with one more message — the tool loop appends the assistant's call and the tool's result this way.</p><div class="sig">pub fn Request::with_messages(Self, Array[Message]) -&gt; Self</div><p>A copy with the messages replaced.</p></div></div>
+</div>
+<div class="item" id="Route">
+<div class="name"><span class="kind">type</span>Route</div>
+<div class="body"><div class="sig">pub(all) struct Route {
+  kind : RouteKind
+  verb : String
+  path : String
+}</div><p>One endpoint a dialect serves. <code>path</code> may contain a single <code>*</code>, which matches any run of characters — Gemini puts the model inside the path.</p><div class="methods"><div class="sig">pub fn Route::matches(Self, String, String) -&gt; Bool</div><p>Whether this route answers <code>verb</code> at <code>path</code>.</p><div class="sig">pub fn Route::new(RouteKind, String, String) -&gt; Self</div><p>A route for a verb and a path pattern.</p></div></div>
+</div>
+<div class="item" id="Sse">
+<div class="name"><span class="kind">type</span>Sse</div>
+<div class="body"><div class="sig">pub struct Sse {
+  mut buf : String
+  mut event : String?
+  mut data : Array[String]
+  mut started : Bool
+}</div><p>A server-sent-events reader that takes the stream in whatever pieces the network delivers. A frame's fields may be split across two reads, and one read may carry several frames; the reader only dispatches at the blank line that ends a frame, so the boundaries of the transport never leak into the dialect.</p><div class="methods"><div class="sig">pub fn Sse::feed(Self, StringView) -&gt; Array[Frame]</div><p>Take one piece of the stream and return the frames it completed.</p><div class="sig">pub fn Sse::finish(Self) -&gt; Array[Frame]</div><p>Dispatch whatever a truncated stream left behind. A server that closes without the final blank line has still sent a complete frame.</p><div class="sig">pub fn Sse::is_idle(Self) -&gt; Bool</div><p>Whether a frame is in progress.</p><div class="sig">pub fn Sse::new() -&gt; Self</div><p>A reader with nothing buffered.</p></div></div>
+</div>
+<div class="item" id="Tool">
+<div class="name"><span class="kind">type</span>Tool</div>
+<div class="body"><div class="sig">pub(all) struct Tool {
+  name : String
+  description : String
+  schema : @json.Json
+}</div><p>A tool the model may call: a name, a description, and a JSON Schema object for the arguments.</p><div class="methods"><div class="sig">pub fn Tool::new(String, String, schema? : @json.Json) -&gt; Self</div><p>A tool with an empty object schema, for a tool that takes no arguments.</p></div></div>
+</div>
+<div class="item" id="Turn">
+<div class="name"><span class="kind">type</span>Turn</div>
+<div class="body"><div class="sig">pub struct Turn {
+  mut seq : Int32
+  mut block : Int32
+  slots : Map[String, String]
+  nums : Map[String, Int32]
+}</div><p>State carried across the frames of one streamed answer. Vendors number content blocks differently — OpenAI by tool-call index, Anthropic by block ordinal, Gemini by part ordinal — so the dialect keeps the counters here instead of in the client, and the same <code>Turn</code> serves the client reading a stream and the server writing one.</p><div class="methods"><div class="sig">pub fn Turn::add_num(Self, String, Int32) -&gt; Int32</div><p>Add to a numeric scratch value and return the new total.</p><div class="sig">pub fn Turn::add_slot(Self, String, String) -&gt; Unit</div><p>Append to a scratch value.</p><div class="sig">pub fn Turn::has_slot(Self, String) -&gt; Bool</div><p>Whether a scratch value was recorded.</p><div class="sig">pub fn Turn::new() -&gt; Self</div><p>A fresh stream state.</p><div class="sig">pub fn Turn::next_block(Self) -&gt; Int32</div><p>Take the next content-block ordinal.</p><div class="sig">pub fn Turn::num(Self, String) -&gt; Int32</div><p>A numeric scratch value, or zero.</p><div class="sig">pub fn Turn::set_num(Self, String, Int32) -&gt; Unit</div><p>Set a numeric scratch value.</p><div class="sig">pub fn Turn::set_slot(Self, String, String) -&gt; Unit</div><p>Record a scratch value.</p><div class="sig">pub fn Turn::slot(Self, String) -&gt; String</div><p>A scratch value, or the empty string.</p><div class="sig">pub fn Turn::tick(Self) -&gt; Int32</div><p>Count one frame and return its ordinal.</p></div></div>
+</div>
+<div class="item" id="Usage">
+<div class="name"><span class="kind">type</span>Usage</div>
+<div class="body"><div class="sig">pub(all) struct Usage {
+  input : Int32?
+  output : Int32?
+  cached : Int32?
+}</div><p>What a call cost. <code>None</code> means the provider reported nothing; a zero would claim the call was free.</p><div class="methods"><div class="sig">pub fn Usage::new(Int32, Int32, cached? : Int32) -&gt; Self</div><p>Usage with both counts known and no cache report.</p><div class="sig">pub fn Usage::total(Self) -&gt; Int32?</div><p>Input plus output, when both were reported.</p><div class="sig">pub fn Usage::zero() -&gt; Self</div><p>Usage with nothing reported.</p></div></div>
+</div>
+<div class="item" id="Asked">
+<div class="name"><span class="kind">type</span>Asked</div>
+<div class="body"><div class="sig">pub(all) enum Asked {
+  Chat(Request)
+  Embed(model~ : String, inputs~ : Array[String])
+  Models
+  Count(Request)
+}</div><p>What a server-side request asked for, decoded into the shared vocabulary.</p></div>
+</div>
+<div class="item" id="Capability">
+<div class="name"><span class="kind">type</span>Capability</div>
+<div class="body"><div class="sig">pub(all) enum Capability {
+  Chat
+  Tools
+  Reasoning
+  Vision
+  Audio
+  Embedding
+  Json
+}</div><p>A capability a model may declare. The catalogue in <code>moonmuse/models</code> uses these to describe what an endpoint can actually do, so a caller can pick a model for a job instead of guessing from its name.</p></div>
+</div>
+<div class="item" id="Delta">
+<div class="name"><span class="kind">type</span>Delta</div>
+<div class="body"><div class="sig">pub(all) enum Delta {
+  Text(String)
+  CallStart(id~ : String, name~ : String)
+  CallArgs(id~ : String, chunk~ : String)
+  Done(Reply)
+}</div><p>One event of a streamed answer. <code>Done</code> closes it with the assembled reply, so a caller that ignores the deltas still gets the same value as a non-streamed call.</p></div>
+</div>
+<div class="item" id="Finish">
+<div class="name"><span class="kind">type</span>Finish</div>
+<div class="body"><div class="sig">pub(all) enum Finish {
+  Stop
+  Length
+  Calls
+  Filtered
+  Other(String)
+}</div><p>Why generation stopped, in the four cases worth branching on plus a catch-all for a vendor's own reason string.</p><div class="methods"><div class="sig">pub fn Finish::of(String) -&gt; Self</div><p>The <code>Finish</code> a vendor's reason string names. Shared by the four dialects, which differ in spelling but not in meaning.</p></div></div>
+</div>
+<div class="item" id="Part">
+<div class="name"><span class="kind">type</span>Part</div>
+<div class="body"><div class="sig">pub(all) enum Part {
+  Text(String)
+  Image(url~ : String, media~ : String?)
+  Call(id~ : String, name~ : String, args~ : @json.Json)
+  Result(id~ : String, content~ : String, error~ : Bool)
+}</div><p>One typed piece of a message. A message is an ordered list of these, so text and a tool call can share one assistant turn — which is what every provider returns when a model calls a tool and explains itself in the same breath.</p><div class="methods"><div class="sig">pub fn Part::call(String, String, @json.Json) -&gt; Self</div><p>A tool call part.</p><div class="sig">pub fn Part::result(String, String, error? : Bool) -&gt; Self</div><p>A tool result part.</p><div class="sig">pub fn Part::text(String) -&gt; Self</div><p>A text part.</p><div class="sig">pub fn Part::text_of(Self) -&gt; String</div><p>The text this part carries: a text part's own text, a result's content, and nothing for a call or an image.</p></div></div>
+</div>
+<div class="item" id="Role">
+<div class="name"><span class="kind">type</span>Role</div>
+<div class="body"><div class="sig">pub(all) enum Role {
+  System
+  User
+  Assistant
+  Tool
+}</div><p>Who authored a message. A tool exchange is a role of its own here rather than a part of a user message, because OpenAI, Anthropic, Gemini and Ollama all put it in a distinct place on the wire.</p><div class="methods"><div class="sig">pub fn Role::code(Self) -&gt; String</div><p>The lowercase name a role goes by on the wire, using the OpenAI spelling.</p></div></div>
+</div>
+<div class="item" id="RouteKind">
+<div class="name"><span class="kind">type</span>RouteKind</div>
+<div class="body"><div class="sig">pub(all) enum RouteKind {
+  Chat
+  Complete
+  Responses
+  Embed
+  Models
+  Count
+  Show
+  Version
+  Generate
+}</div><p>The kinds of endpoint a dialect can both call and serve.</p></div>
+</div>
+<div class="item" id="ToolChoice">
+<div class="name"><span class="kind">type</span>ToolChoice</div>
+<div class="body"><div class="sig">pub(all) enum ToolChoice {
+  Auto
+  NoTools
+  Required
+  Named(String)
+}</div><p>How a request should use tools.</p></div>
+</div>
+<div class="item" id="LlmError">
+<div class="name"><span class="kind">error</span>LlmError</div>
+<div class="body"><div class="sig">pub(all) suberror LlmError {
+  Status(code~ : Int32, body~ : String, retry_after~ : Int64?)
+  Stream(String)
+  Decode(String)
+  Unsupported(String)
+}</div><p>Everything a provider call can fail with. The four cases are the only distinctions a caller can act on: retry, parse differently, or stop asking.</p><div class="methods"><div class="sig">pub fn LlmError::describe(Self) -&gt; String</div><p>A one-line description, for logs and for retry classification.</p><div class="sig">pub fn LlmError::is_retryable(Self) -&gt; Bool</div><p>Whether asking again could plausibly succeed. A rate limit, a server fault and a dropped stream qualify; a malformed body or a missing capability does not.</p><div class="sig">pub fn LlmError::retry_after(Self) -&gt; Int64?</div><p>The wait the endpoint asked for, when it named one.</p></div></div>
+</div>
+<div class="item" id="AnyProvider">
+<div class="name"><span class="kind">type</span>AnyProvider</div>
+<div class="body"><div class="sig">pub type AnyProvider = &amp;Provider</div></div>
+</div>
+<div class="item" id="check-vectors">
+<div class="name"><span class="kind">fn</span>check_vectors</div>
+<div class="body"><div class="sig">pub fn check_vectors(Array[String], Array[Array[Double]]) -&gt; Array[Array[Double]] raise LlmError</div><p>The embeddings of a batch, checked against the batch length. A short answer is a broken endpoint, not a partial success, because the caller indexes vectors by input position.</p></div>
+</div>
+<div class="item" id="encode-sse">
+<div class="name"><span class="kind">fn</span>encode_sse</div>
+<div class="body"><div class="sig">pub fn encode_sse(Array[Frame]) -&gt; String</div><p>Encode frames as a server-sent-events body, with the event name when there is one.</p></div>
+</div>
+<div class="item" id="json-array">
+<div class="name"><span class="kind">fn</span>json_array</div>
+<div class="body"><div class="sig">pub fn json_array(@json.Json, String) -&gt; Array[@json.Json]</div><p>The array at <code>key</code>, or an empty one.</p></div>
+</div>
+<div class="item" id="json-as-bool">
+<div class="name"><span class="kind">fn</span>json_as_bool</div>
+<div class="body"><div class="sig">pub fn json_as_bool(@json.Json) -&gt; Bool?</div><p>The value of a JSON boolean.</p></div>
+</div>
+<div class="item" id="json-as-number">
+<div class="name"><span class="kind">fn</span>json_as_number</div>
+<div class="body"><div class="sig">pub fn json_as_number(@json.Json) -&gt; Double?</div><p>The value of a JSON number.</p></div>
+</div>
+<div class="item" id="json-as-string">
+<div class="name"><span class="kind">fn</span>json_as_string</div>
+<div class="body"><div class="sig">pub fn json_as_string(@json.Json) -&gt; String?</div><p>The text of a JSON string.</p></div>
+</div>
+<div class="item" id="json-bool">
+<div class="name"><span class="kind">fn</span>json_bool</div>
+<div class="body"><div class="sig">pub fn json_bool(@json.Json, String) -&gt; Bool?</div><p>The boolean at <code>key</code>, when it is a boolean.</p></div>
+</div>
+<div class="item" id="json-field">
+<div class="name"><span class="kind">fn</span>json_field</div>
+<div class="body"><div class="sig">pub fn json_field(@json.Json, String) -&gt; @json.Json?</div><p>The member at <code>key</code>, when this is an object that has it.</p></div>
+</div>
+<div class="item" id="json-int">
+<div class="name"><span class="kind">fn</span>json_int</div>
+<div class="body"><div class="sig">pub fn json_int(@json.Json, String) -&gt; Int32?</div><p>The integer at <code>key</code>, when it is a number.</p></div>
+</div>
+<div class="item" id="json-number">
+<div class="name"><span class="kind">fn</span>json_number</div>
+<div class="body"><div class="sig">pub fn json_number(@json.Json, String) -&gt; Double?</div><p>The number at <code>key</code>, when it is a number.</p></div>
+</div>
+<div class="item" id="json-numbers">
+<div class="name"><span class="kind">fn</span>json_numbers</div>
+<div class="body"><div class="sig">pub fn json_numbers(@json.Json) -&gt; Array[Double]</div><p>The numbers in an array value.</p></div>
+</div>
+<div class="item" id="json-object">
+<div class="name"><span class="kind">fn</span>json_object</div>
+<div class="body"><div class="sig">pub fn json_object(@json.Json, String) -&gt; Map[String, @json.Json]?</div><p>The object at <code>key</code>, or <code>None</code>.</p></div>
+</div>
+<div class="item" id="json-string">
+<div class="name"><span class="kind">fn</span>json_string</div>
+<div class="body"><div class="sig">pub fn json_string(@json.Json, String) -&gt; String?</div><p>The string at <code>key</code>, when it is a string.</p></div>
+</div>
+<div class="item" id="json-string-or">
+<div class="name"><span class="kind">fn</span>json_string_or</div>
+<div class="body"><div class="sig">pub fn json_string_or(@json.Json, String, String) -&gt; String</div><p>The string at <code>key</code>, or <code>fallback</code>.</p></div>
+</div>
+<div class="item" id="json-strings">
+<div class="name"><span class="kind">fn</span>json_strings</div>
+<div class="body"><div class="sig">pub fn json_strings(@json.Json) -&gt; Array[String]</div><p>The strings in an array value, skipping anything that is not a string.</p></div>
+</div>
+<div class="item" id="merge-json">
+<div class="name"><span class="kind">fn</span>merge_json</div>
+<div class="body"><div class="sig">pub fn merge_json(Map[String, @json.Json], Map[String, @json.Json]) -&gt; Map[String, @json.Json]</div><p><code>base</code> with <code>overrides</code> merged over it, key by key. <code>extra</code> reaches the wire this way: a caller's field wins over the one this library wrote.</p></div>
+</div>
+<div class="item" id="numbers-json">
+<div class="name"><span class="kind">fn</span>numbers_json</div>
+<div class="body"><div class="sig">pub fn numbers_json(Array[Double]) -&gt; @json.Json</div><p>A JSON array of the numbers in <code>values</code>.</p></div>
+</div>
+<div class="item" id="object-json">
+<div class="name"><span class="kind">fn</span>object_json</div>
+<div class="body"><div class="sig">pub fn object_json(Array[(String, @json.Json)]) -&gt; @json.Json</div><p>A JSON object from key/value pairs, in order.</p></div>
+</div>
+<div class="item" id="parse-int-lossy">
+<div class="name"><span class="kind">fn</span>parse_int_lossy</div>
+<div class="body"><div class="sig">pub fn parse_int_lossy(String) -&gt; Int32</div><p>An integer from a decimal string, or zero. Used where a stream carries an index in a text field; a vendor that sends something else should not crash the reader.</p></div>
+</div>
+<div class="item" id="parse-json-lossy">
+<div class="name"><span class="kind">fn</span>parse_json_lossy</div>
+<div class="body"><div class="sig">pub fn parse_json_lossy(String) -&gt; @json.Json</div><p>A JSON document from a string, or the empty object when the string is not JSON. A streamed tool call whose arguments never complete is left as <code>{}</code> so the loop can report the tool's own error instead of failing the whole turn.</p></div>
+</div>
+<div class="item" id="parse-ndjson">
+<div class="name"><span class="kind">fn</span>parse_ndjson</div>
+<div class="body"><div class="sig">pub fn parse_ndjson(StringView) -&gt; Array[Frame]</div><p>Read a whole newline-delimited JSON body — Ollama's streaming shape and the fallback for endpoints that stream bare objects.</p></div>
+</div>
+<div class="item" id="parse-sse">
+<div class="name"><span class="kind">fn</span>parse_sse</div>
+<div class="body"><div class="sig">pub fn parse_sse(StringView) -&gt; Array[Frame]</div><p>Read a whole server-sent-events body at once.</p></div>
+</div>
+<div class="item" id="strings-json">
+<div class="name"><span class="kind">fn</span>strings_json</div>
+<div class="body"><div class="sig">pub fn strings_json(Array[String]) -&gt; @json.Json</div><p>A JSON array of the strings in <code>items</code>.</p></div>
+</div>
+</section>
+</div>
+<div class="group" id="group-formats"><div class="group-head"><h2>Wire formats</h2></div><p class="pkg-note">One package per specification, each with a client and the reader and writer for its JSON.</p>
+<section class="pkg" id="pkg-openai">
+<div class="pkg-head"><h3>openai</h3><span class="path">moonbitstack/moonmuse/openai</span></div><p class="pkg-ref">The OpenAI wire format and its client. The dialect is pure and builds everywhere; the client files are limited to the backends moonfetch has transports for, which is why this package turns off the unused-import warning on the other two.</p>
+<div class="item" id="openai-Batch">
+<div class="name"><span class="kind">type</span>Batch</div>
+<div class="body"><div class="sig">pub(all) struct Batch {
+  id : String
+  status : String
+  input_file : String
+  output_file : String?
+  failed : Int32
+  completed : Int32
+  total : Int32
+}</div><p>One batch job.</p></div>
+</div>
+<div class="item" id="openai-Client">
+<div class="name"><span class="kind">type</span>Client</div>
+<div class="body"><div class="sig">pub struct Client {
+  base : String
+  key : String?
+  headers : Array[(String, String)]
+  timeout : Int32
+}</div><p>A connection to an OpenAI-compatible endpoint.</p><p class="impls">Implements <code>@moonmuse.Provider</code></p><div class="methods"><div class="sig">pub fn Client::at(Self, String) -&gt; Self</div><p>A copy pointed at another endpoint, keeping the credentials — how a caller reaches a second deployment of the same service.</p><div class="sig">pub async fn Client::batch(Self, String) -&gt; Batch raise @moonmuse.LlmError</div><p>One batch job, by id.</p><div class="sig">pub async fn Client::batches(Self) -&gt; Array[Batch] raise @moonmuse.LlmError</div><p>The batch jobs this account has run.</p><div class="sig">pub async fn Client::chat(Self, @moonmuse.Request) -&gt; @moonmuse.Reply raise @moonmuse.LlmError</div><div class="sig">pub async fn Client::delete_file(Self, String) -&gt; Bool raise @moonmuse.LlmError</div><p>Delete a file.</p><div class="sig">pub async fn Client::embed(Self, String, Array[String]) -&gt; Array[Array[Double]] raise @moonmuse.LlmError</div><div class="sig">pub async fn Client::file(Self, String) -&gt; FileInfo raise @moonmuse.LlmError</div><p>One file, by id.</p><div class="sig">pub async fn Client::files(Self) -&gt; Array[FileInfo] raise @moonmuse.LlmError</div><p>The files this account has uploaded.</p><div class="sig">pub async fn Client::fine_tune(Self, String) -&gt; FineTune raise @moonmuse.LlmError</div><p>One fine-tuning job, by id.</p><div class="sig">pub async fn Client::fine_tunes(Self) -&gt; Array[FineTune] raise @moonmuse.LlmError</div><p>The fine-tuning jobs this account has run.</p><div class="sig">pub async fn Client::images(Self, String, model? : String, size? : String, count? : Int32) -&gt; Array[Image] raise @moonmuse.LlmError</div><p>Generate images from a prompt.</p><div class="sig">pub async fn Client::models(Self) -&gt; Array[@moonmuse.ModelInfo] raise @moonmuse.LlmError</div><div class="sig">pub async fn Client::moderate(Self, String, Array[String]) -&gt; Moderation raise @moonmuse.LlmError</div><p>Check text against the moderation model. A result with nothing flagged still carries the scores of the categories that were checked.</p><div class="sig">pub fn Client::new(api_key? : String, base? : String, headers? : Array[(String, String)], timeout? : Int32) -&gt; Self</div><p>A client for <code>base</code>. <code>api_key</code> is left out for a local server that wants none; <code>headers</code> adds what a gateway needs, from an organisation id to a beta switch.</p><div class="sig">pub async fn Client::responses(Self, @moonmuse.Request) -&gt; @moonmuse.Reply raise @moonmuse.LlmError</div><p>Answer through the Responses API. Its request shape differs from chat — <code>input</code> instead of <code>messages</code>, <code>instructions</code> for the system prompt — so the body is built here and the reply is read from <code>output</code>.</p><div class="sig">pub async fn Client::speech(Self, String, model? : String, voice? : String, format? : String) -&gt; Bytes raise @moonmuse.LlmError</div><p>Synthesise speech. The answer is audio bytes, not JSON, so it comes back as bytes.</p><div class="sig">pub async fn Client::start_batch(Self, String, endpoint? : String, window? : String) -&gt; Batch raise @moonmuse.LlmError</div><p>Start a batch job over an uploaded file.</p><div class="sig">pub async fn Client::stream(Self, @moonmuse.Request, (@moonmuse.Delta) -&gt; Unit) -&gt; @moonmuse.Reply raise @moonmuse.LlmError</div><p>A streamed answer, forwarded as the endpoint produces it. The same <code>Turn</code> the gateway writes with reads the stream here, so the deltas a client sees are the ones the frames carried, not a replay of the finished answer.</p><div class="sig">pub async fn Client::transcribe(Self, Bytes, filename? : String, model? : String, language? : String) -&gt; String raise @moonmuse.LlmError</div><p>Transcribe an audio file. The file travels as a form, which is the only shape this endpoint accepts; <code>language</code> narrows the decoder when the audio is known.</p><div class="sig">pub async fn Client::upload_file(Self, Bytes, filename~ : String, purpose? : String) -&gt; FileInfo raise @moonmuse.LlmError</div><p>Upload a file for a batch or a fine-tuning job.</p></div></div>
+</div>
+<div class="item" id="openai-FileInfo">
+<div class="name"><span class="kind">type</span>FileInfo</div>
+<div class="body"><div class="sig">pub(all) struct FileInfo {
+  id : String
+  filename : String
+  bytes : Int32
+  purpose : String
+}</div><p>One uploaded file.</p></div>
+</div>
+<div class="item" id="openai-FineTune">
+<div class="name"><span class="kind">type</span>FineTune</div>
+<div class="body"><div class="sig">pub(all) struct FineTune {
+  id : String
+  status : String
+  model : String
+  trained_tokens : Int32?
+}</div><p>One fine-tuning job.</p></div>
+</div>
+<div class="item" id="openai-Image">
+<div class="name"><span class="kind">type</span>Image</div>
+<div class="body"><div class="sig">pub(all) struct Image {
+  url : String?
+  base64 : String?
+  revised_prompt : String?
+}</div><p>One generated image: a URL, or base64 when the endpoint was asked for it.</p></div>
+</div>
+<div class="item" id="openai-Moderation">
+<div class="name"><span class="kind">type</span>Moderation</div>
+<div class="body"><div class="sig">pub(all) struct Moderation {
+  flagged : Bool
+  flagged_categories : Map[String, Double]
+}</div><p>What a moderation call found.</p></div>
+</div>
+<div class="item" id="openai-Wire">
+<div class="name"><span class="kind">type</span>Wire</div>
+<div class="body"><div class="sig">pub struct Wire {
+}</div><p>The OpenAI wire format.</p><p class="impls">Implements <code>@moonmuse.Dialect</code></p><div class="methods"><div class="sig">pub fn Wire::answer(Self, @moonmuse.Reply) -&gt; @json.Json</div><div class="sig">pub fn Wire::answer_at(Self, @moonmuse.RouteKind, @moonmuse.Reply) -&gt; @json.Json</div><div class="sig">pub fn Wire::answer_count(Self, Int32) -&gt; @json.Json</div><div class="sig">pub fn Wire::answer_embed(Self, String, Array[Array[Double]]) -&gt; @json.Json</div><div class="sig">pub fn Wire::answer_models(Self, Array[@moonmuse.ModelInfo]) -&gt; @json.Json</div><div class="sig">pub fn Wire::delta(Self, @moonmuse.Frame, @moonmuse.Turn) -&gt; Array[@moonmuse.Delta] raise @moonmuse.LlmError</div><div class="sig">pub fn Wire::error(Self, @moonmuse.LlmError) -&gt; (Int32, @json.Json)</div><div class="sig">pub fn Wire::frame(Self, @moonmuse.Delta, @moonmuse.Turn) -&gt; Array[@moonmuse.Frame]</div><div class="sig">pub fn Wire::name(Self) -&gt; String</div><div class="sig">pub fn Wire::parse(Self, @moonmuse.Route, @json.Json) -&gt; @moonmuse.Asked raise @moonmuse.LlmError</div><div class="sig">pub fn Wire::reply(Self, Int32, @json.Json) -&gt; @moonmuse.Reply raise @moonmuse.LlmError</div><div class="sig">pub fn Wire::request(Self, @moonmuse.Request) -&gt; @moonmuse.Call raise @moonmuse.LlmError</div><div class="sig">pub fn Wire::routes(Self) -&gt; Array[@moonmuse.Route]</div></div></div>
+</div>
+<div class="item" id="openai-chat-completion-choice-fields">
+<div class="name"><span class="kind">let</span>chat_completion_choice_fields</div>
+<div class="body"><div class="sig">pub let chat_completion_choice_fields : Array[String]</div><p>The fields the description gives <code>CreateChatCompletionResponse</code>.</p></div>
+</div>
+<div class="item" id="openai-chat-completion-message-fields">
+<div class="name"><span class="kind">let</span>chat_completion_message_fields</div>
+<div class="body"><div class="sig">pub let chat_completion_message_fields : Array[String]</div><p>The fields the description gives <code>ChatCompletionResponseMessage</code>.</p></div>
+</div>
+<div class="item" id="openai-chat-completion-request-fields">
+<div class="name"><span class="kind">let</span>chat_completion_request_fields</div>
+<div class="body"><div class="sig">pub let chat_completion_request_fields : Array[String]</div><p>The fields the description gives <code>CreateChatCompletionRequest</code>.</p></div>
+</div>
+<div class="item" id="openai-chat-completion-response-fields">
+<div class="name"><span class="kind">let</span>chat_completion_response_fields</div>
+<div class="body"><div class="sig">pub let chat_completion_response_fields : Array[String]</div><p>The fields the description gives <code>CreateChatCompletionResponse</code>.</p></div>
+</div>
+<div class="item" id="openai-chat-completion-tool-fields">
+<div class="name"><span class="kind">let</span>chat_completion_tool_fields</div>
+<div class="body"><div class="sig">pub let chat_completion_tool_fields : Array[String]</div><p>The fields the description gives <code>ChatCompletionTool</code>.</p></div>
+</div>
+<div class="item" id="openai-chat-message-assistant-fields">
+<div class="name"><span class="kind">let</span>chat_message_assistant_fields</div>
+<div class="body"><div class="sig">pub let chat_message_assistant_fields : Array[String]</div><p>The fields the description gives <code>ChatCompletionRequestAssistantMessage</code>.</p></div>
+</div>
+<div class="item" id="openai-chat-message-function-fields">
+<div class="name"><span class="kind">let</span>chat_message_function_fields</div>
+<div class="body"><div class="sig">pub let chat_message_function_fields : Array[String]</div><p>The fields the description gives <code>FunctionObject</code>.</p></div>
+</div>
+<div class="item" id="openai-chat-message-system-fields">
+<div class="name"><span class="kind">let</span>chat_message_system_fields</div>
+<div class="body"><div class="sig">pub let chat_message_system_fields : Array[String]</div><p>The fields the description gives <code>ChatCompletionRequestSystemMessage</code>.</p></div>
+</div>
+<div class="item" id="openai-chat-message-tool-call-fields">
+<div class="name"><span class="kind">let</span>chat_message_tool_call_fields</div>
+<div class="body"><div class="sig">pub let chat_message_tool_call_fields : Array[String]</div><p>The fields the description gives <code>ChatCompletionMessageToolCall</code>.</p></div>
+</div>
+<div class="item" id="openai-chat-message-tool-fields">
+<div class="name"><span class="kind">let</span>chat_message_tool_fields</div>
+<div class="body"><div class="sig">pub let chat_message_tool_fields : Array[String]</div><p>The fields the description gives <code>ChatCompletionRequestToolMessage</code>.</p></div>
+</div>
+<div class="item" id="openai-chat-message-user-fields">
+<div class="name"><span class="kind">let</span>chat_message_user_fields</div>
+<div class="body"><div class="sig">pub let chat_message_user_fields : Array[String]</div><p>The fields the description gives <code>ChatCompletionRequestUserMessage</code>.</p></div>
+</div>
+<div class="item" id="openai-dialect">
+<div class="name"><span class="kind">let</span>dialect</div>
+<div class="body"><div class="sig">pub let dialect : Wire</div><p>The one instance; it carries no state, so a dialect can be a value.</p></div>
+</div>
+<div class="item" id="openai-embedding-fields">
+<div class="name"><span class="kind">let</span>embedding_fields</div>
+<div class="body"><div class="sig">pub let embedding_fields : Array[String]</div><p>The fields the description gives <code>Embedding</code>.</p></div>
+</div>
+<div class="item" id="openai-embedding-request-fields">
+<div class="name"><span class="kind">let</span>embedding_request_fields</div>
+<div class="body"><div class="sig">pub let embedding_request_fields : Array[String]</div><p>The fields the description gives <code>CreateEmbeddingRequest</code>.</p></div>
+</div>
+<div class="item" id="openai-embedding-response-fields">
+<div class="name"><span class="kind">let</span>embedding_response_fields</div>
+<div class="body"><div class="sig">pub let embedding_response_fields : Array[String]</div><p>The fields the description gives <code>CreateEmbeddingResponse</code>.</p></div>
+</div>
+<div class="item" id="openai-image-request-fields">
+<div class="name"><span class="kind">let</span>image_request_fields</div>
+<div class="body"><div class="sig">pub let image_request_fields : Array[String]</div><p>The fields the description gives <code>CreateImageRequest</code>.</p></div>
+</div>
+<div class="item" id="openai-image-response-fields">
+<div class="name"><span class="kind">let</span>image_response_fields</div>
+<div class="body"><div class="sig">pub let image_response_fields : Array[String]</div><p>The fields the description gives <code>ImagesResponse</code>.</p></div>
+</div>
+<div class="item" id="openai-moderation-request-fields">
+<div class="name"><span class="kind">let</span>moderation_request_fields</div>
+<div class="body"><div class="sig">pub let moderation_request_fields : Array[String]</div><p>The fields the description gives <code>CreateModerationRequest</code>.</p></div>
+</div>
+<div class="item" id="openai-moderation-response-fields">
+<div class="name"><span class="kind">let</span>moderation_response_fields</div>
+<div class="body"><div class="sig">pub let moderation_response_fields : Array[String]</div><p>The fields the description gives <code>CreateModerationResponse</code>.</p></div>
+</div>
+<div class="item" id="openai-request-keys">
+<div class="name"><span class="kind">let</span>request_keys</div>
+<div class="body"><div class="sig">pub let request_keys : Array[String]</div><p>The keys <code>request</code> writes. <code>parse</code> treats every other key as a caller's own and keeps it in <code>extra</code>, so a request that arrives at a gateway leaves with the same fields it came with.</p></div>
+</div>
+<div class="item" id="openai-response-request-fields">
+<div class="name"><span class="kind">let</span>response_request_fields</div>
+<div class="body"><div class="sig">pub let response_request_fields : Array[String]</div><p>The fields the description gives <code>CreateResponse</code>.</p></div>
+</div>
+<div class="item" id="openai-speech-request-fields">
+<div class="name"><span class="kind">let</span>speech_request_fields</div>
+<div class="body"><div class="sig">pub let speech_request_fields : Array[String]</div><p>The fields the description gives <code>CreateSpeechRequest</code>.</p></div>
+</div>
+<div class="item" id="openai-transcription-request-fields">
+<div class="name"><span class="kind">let</span>transcription_request_fields</div>
+<div class="body"><div class="sig">pub let transcription_request_fields : Array[String]</div><p>The fields the description gives <code>CreateTranscriptionRequest</code>.</p></div>
+</div>
+<div class="item" id="openai-call-part">
+<div class="name"><span class="kind">fn</span>call_part</div>
+<div class="body"><div class="sig">pub fn call_part(@json.Json) -&gt; @moonmuse.Part</div><p>One <code>tool_calls</code> entry as a call part.</p></div>
+</div>
+<div class="item" id="openai-chat-answer">
+<div class="name"><span class="kind">fn</span>chat_answer</div>
+<div class="body"><div class="sig">pub fn chat_answer(@moonmuse.Reply) -&gt; @json.Json</div><p>The chat-completions body that answers <code>reply</code>.</p></div>
+</div>
+<div class="item" id="openai-chat-call">
+<div class="name"><span class="kind">fn</span>chat_call</div>
+<div class="body"><div class="sig">pub fn chat_call(@moonmuse.Request) -&gt; @moonmuse.Call</div><p>The chat-completions call for <code>request</code>, with <code>extra</code> merged in last.</p></div>
+</div>
+<div class="item" id="openai-chat-parse">
+<div class="name"><span class="kind">fn</span>chat_parse</div>
+<div class="body"><div class="sig">pub fn chat_parse(@json.Json) -&gt; @moonmuse.Request raise @moonmuse.LlmError</div><p>The request a chat-completions body asks for, with the fields this library does not model kept in <code>extra</code>.</p></div>
+</div>
+<div class="item" id="openai-chat-reply">
+<div class="name"><span class="kind">fn</span>chat_reply</div>
+<div class="body"><div class="sig">pub fn chat_reply(Int32, @json.Json) -&gt; @moonmuse.Reply raise @moonmuse.LlmError</div><p>The reply a chat-completions body describes. A non-success status becomes an <code>LlmError</code> rather than a reply with an empty message.</p></div>
+</div>
+<div class="item" id="openai-complete-answer">
+<div class="name"><span class="kind">fn</span>complete_answer</div>
+<div class="body"><div class="sig">pub fn complete_answer(@moonmuse.Reply) -&gt; @json.Json</div><p>The body of <code>/v1/completions</code>.</p></div>
+</div>
+<div class="item" id="openai-content-json">
+<div class="name"><span class="kind">fn</span>content_json</div>
+<div class="body"><div class="sig">pub fn content_json(@moonmuse.Message) -&gt; @json.Json</div><p>The content of a message as OpenAI writes it: a plain string when it is all text, an array of typed parts when it carries images.</p></div>
+</div>
+<div class="item" id="openai-embed-answer">
+<div class="name"><span class="kind">fn</span>embed_answer</div>
+<div class="body"><div class="sig">pub fn embed_answer(String, Array[Array[Double]]) -&gt; @json.Json</div><p>The embeddings body, the shape OpenAI's <code>/v1/embeddings</code> returns.</p></div>
+</div>
+<div class="item" id="openai-error-json">
+<div class="name"><span class="kind">fn</span>error_json</div>
+<div class="body"><div class="sig">pub fn error_json(@moonmuse.LlmError) -&gt; (Int32, @json.Json)</div><p>The error body OpenAI sends, for a status the client turned into an <code>LlmError</code>.</p></div>
+</div>
+<div class="item" id="openai-finish-code">
+<div class="name"><span class="kind">fn</span>finish_code</div>
+<div class="body"><div class="sig">pub fn finish_code(@moonmuse.Finish) -&gt; String</div><p>The finish reason as the wire spells it.</p></div>
+</div>
+<div class="item" id="openai-is-stream">
+<div class="name"><span class="kind">fn</span>is_stream</div>
+<div class="body"><div class="sig">pub fn is_stream(@json.Json) -&gt; Bool</div><p>Whether a body's <code>stream</code> field asks for a streamed answer.</p></div>
+</div>
+<div class="item" id="openai-messages-json">
+<div class="name"><span class="kind">fn</span>messages_json</div>
+<div class="body"><div class="sig">pub fn messages_json(@moonmuse.Message) -&gt; Array[@json.Json]</div><p>One message's wire form. A tool message expands to one message per result, because OpenAI pairs each result with exactly one call.</p></div>
+</div>
+<div class="item" id="openai-messages-of">
+<div class="name"><span class="kind">fn</span>messages_of</div>
+<div class="body"><div class="sig">pub fn messages_of(@json.Json) -&gt; Array[@moonmuse.Message]</div><p>The messages a wire message describes. An assistant message that called tools and a tool message that answers them both map back to one shared message.</p></div>
+</div>
+<div class="item" id="openai-models-answer">
+<div class="name"><span class="kind">fn</span>models_answer</div>
+<div class="body"><div class="sig">pub fn models_answer(Array[@moonmuse.ModelInfo]) -&gt; @json.Json</div><p>The model list body, listing what <code>models</code> reported.</p></div>
+</div>
+<div class="item" id="openai-parse-arguments">
+<div class="name"><span class="kind">fn</span>parse_arguments</div>
+<div class="body"><div class="sig">pub fn parse_arguments(String) -&gt; @json.Json</div><p>Tool arguments arrive as a JSON string inside the JSON body, and a model can send a string that is not JSON. That is the tool's problem to report, not the transport's to crash on, so the unparsable case becomes an empty object.</p></div>
+</div>
+<div class="item" id="openai-reply-of">
+<div class="name"><span class="kind">fn</span>reply_of</div>
+<div class="body"><div class="sig">pub fn reply_of(@moonmuse.Turn, @moonmuse.Finish) -&gt; @moonmuse.Reply</div><p>The reply the accumulated chunks describe.</p></div>
+</div>
+<div class="item" id="openai-responses-answer">
+<div class="name"><span class="kind">fn</span>responses_answer</div>
+<div class="body"><div class="sig">pub fn responses_answer(@moonmuse.Reply) -&gt; @json.Json</div><p>The body of <code>/v1/responses</code>.</p></div>
+</div>
+<div class="item" id="openai-stream-delta">
+<div class="name"><span class="kind">fn</span>stream_delta</div>
+<div class="body"><div class="sig">pub fn stream_delta(@moonmuse.Frame, @moonmuse.Turn) -&gt; Array[@moonmuse.Delta] raise @moonmuse.LlmError</div><p>The deltas one chunk carries. The last chunk closes the stream with <code>Done</code>, so a caller that only reads deltas still gets the final reply.</p></div>
+</div>
+<div class="item" id="openai-stream-frame">
+<div class="name"><span class="kind">fn</span>stream_frame</div>
+<div class="body"><div class="sig">pub fn stream_frame(@moonmuse.Delta, @moonmuse.Turn) -&gt; Array[@moonmuse.Frame]</div><p>The frames that carry one delta out, in the shape a chat-completions stream uses.</p></div>
+</div>
+<div class="item" id="openai-tool-choice-json">
+<div class="name"><span class="kind">fn</span>tool_choice_json</div>
+<div class="body"><div class="sig">pub fn tool_choice_json(@moonmuse.ToolChoice) -&gt; @json.Json</div><p>How the request allows tools.</p></div>
+</div>
+<div class="item" id="openai-tool-json">
+<div class="name"><span class="kind">fn</span>tool_json</div>
+<div class="body"><div class="sig">pub fn tool_json(@moonmuse.Tool) -&gt; @json.Json</div><p>A tool as OpenAI writes it.</p></div>
+</div>
+<div class="item" id="openai-usage-json">
+<div class="name"><span class="kind">fn</span>usage_json</div>
+<div class="body"><div class="sig">pub fn usage_json(@moonmuse.Usage) -&gt; @json.Json</div><p>The usage object, from what the endpoint reported. A field it did not report stays absent rather than becoming a zero.</p></div>
+</div>
+<div class="item" id="openai-usage-of">
+<div class="name"><span class="kind">fn</span>usage_of</div>
+<div class="body"><div class="sig">pub fn usage_of(@json.Json) -&gt; @moonmuse.Usage</div><p>The usage an OpenAI body reports.</p></div>
+</div>
+</section>
+<section class="pkg" id="pkg-anthropic">
+<div class="pkg-head"><h3>anthropic</h3><span class="path">moonbitstack/moonmuse/anthropic</span></div><p class="pkg-ref">Anthropic's Messages API: the system prompt is a top-level field, <code>max_tokens</code> is required, tool results ride in user messages as content blocks, and usage names its two counts separately. The dialect keeps all of that in one place, read and written.</p>
+<div class="item" id="anthropic-Client">
+<div class="name"><span class="kind">type</span>Client</div>
+<div class="body"><div class="sig">pub struct Client {
+  base : String
+  key : String?
+  version : String
+  headers : Array[(String, String)]
+  timeout : Int32
+}</div><p>A connection to the Messages API.</p><p class="impls">Implements <code>@moonmuse.Provider</code></p><div class="methods"><div class="sig">pub async fn Client::chat(Self, @moonmuse.Request) -&gt; @moonmuse.Reply raise @moonmuse.LlmError</div><div class="sig">pub async fn Client::count_tokens(Self, @moonmuse.Request) -&gt; Int32 raise @moonmuse.LlmError</div><p>Count the tokens a request would cost, without asking the model to answer it.</p><div class="sig">pub async fn Client::embed(Self, String, Array[String]) -&gt; Array[Array[Double]] raise @moonmuse.LlmError</div><p>The Messages API has no embeddings endpoint.</p><div class="sig">pub async fn Client::models(Self) -&gt; Array[@moonmuse.ModelInfo] raise @moonmuse.LlmError</div><div class="sig">pub fn Client::new(api_key? : String, base? : String, version? : String, headers? : Array[(String, String)], timeout? : Int32) -&gt; Self</div><p>A client for <code>base</code>, authenticating with <code>api_key</code>. <code>version</code> is the API version the endpoint expects; the default is the one this dialect implements.</p><div class="sig">pub async fn Client::stream(Self, @moonmuse.Request, (@moonmuse.Delta) -&gt; Unit) -&gt; @moonmuse.Reply raise @moonmuse.LlmError</div><p>A streamed answer, forwarded as the endpoint produces it.</p></div></div>
+</div>
+<div class="item" id="anthropic-Wire">
+<div class="name"><span class="kind">type</span>Wire</div>
+<div class="body"><div class="sig">pub struct Wire {
+}</div><p>The Anthropic wire format.</p><p class="impls">Implements <code>@moonmuse.Dialect</code></p><div class="methods"><div class="sig">pub fn Wire::answer(Self, @moonmuse.Reply) -&gt; @json.Json</div><div class="sig">pub fn Wire::answer_at(Self, @moonmuse.RouteKind, @moonmuse.Reply) -&gt; @json.Json</div><div class="sig">pub fn Wire::answer_count(Self, Int32) -&gt; @json.Json</div><div class="sig">pub fn Wire::answer_embed(Self, String, Array[Array[Double]]) -&gt; @json.Json</div><div class="sig">pub fn Wire::answer_models(Self, Array[@moonmuse.ModelInfo]) -&gt; @json.Json</div><div class="sig">pub fn Wire::delta(Self, @moonmuse.Frame, @moonmuse.Turn) -&gt; Array[@moonmuse.Delta] raise @moonmuse.LlmError</div><div class="sig">pub fn Wire::error(Self, @moonmuse.LlmError) -&gt; (Int32, @json.Json)</div><div class="sig">pub fn Wire::frame(Self, @moonmuse.Delta, @moonmuse.Turn) -&gt; Array[@moonmuse.Frame]</div><div class="sig">pub fn Wire::name(Self) -&gt; String</div><div class="sig">pub fn Wire::parse(Self, @moonmuse.Route, @json.Json) -&gt; @moonmuse.Asked raise @moonmuse.LlmError</div><div class="sig">pub fn Wire::reply(Self, Int32, @json.Json) -&gt; @moonmuse.Reply raise @moonmuse.LlmError</div><div class="sig">pub fn Wire::request(Self, @moonmuse.Request) -&gt; @moonmuse.Call raise @moonmuse.LlmError</div><div class="sig">pub fn Wire::routes(Self) -&gt; Array[@moonmuse.Route]</div></div></div>
+</div>
+<div class="item" id="anthropic-dialect">
+<div class="name"><span class="kind">let</span>dialect</div>
+<div class="body"><div class="sig">pub let dialect : Wire</div><p>The one instance; it carries no state.</p></div>
+</div>
+<div class="item" id="anthropic-request-keys">
+<div class="name"><span class="kind">let</span>request_keys</div>
+<div class="body"><div class="sig">pub let request_keys : Array[String]</div><p>The keys <code>request</code> writes; anything else in a served body is kept as <code>extra</code>.</p></div>
+</div>
+<div class="item" id="anthropic-version">
+<div class="name"><span class="kind">let</span>version</div>
+<div class="body"><div class="sig">pub let version : String</div><p>The version header Anthropic requires. A gateway serving this format sends it too.</p></div>
+</div>
+<div class="item" id="anthropic-error-json">
+<div class="name"><span class="kind">fn</span>error_json</div>
+<div class="body"><div class="sig">pub fn error_json(@moonmuse.LlmError) -&gt; (Int32, @json.Json)</div><p>The error body Anthropic sends.</p></div>
+</div>
+<div class="item" id="anthropic-message-answer">
+<div class="name"><span class="kind">fn</span>message_answer</div>
+<div class="body"><div class="sig">pub fn message_answer(@moonmuse.Reply) -&gt; @json.Json</div><p>The Messages body that answers <code>reply</code>.</p></div>
+</div>
+<div class="item" id="anthropic-message-call">
+<div class="name"><span class="kind">fn</span>message_call</div>
+<div class="body"><div class="sig">pub fn message_call(@moonmuse.Request) -&gt; @moonmuse.Call</div><p>The Messages API call for <code>request</code>.</p></div>
+</div>
+<div class="item" id="anthropic-message-parse">
+<div class="name"><span class="kind">fn</span>message_parse</div>
+<div class="body"><div class="sig">pub fn message_parse(@json.Json) -&gt; @moonmuse.Request raise @moonmuse.LlmError</div><p>The request a Messages body asks for.</p></div>
+</div>
+<div class="item" id="anthropic-message-reply">
+<div class="name"><span class="kind">fn</span>message_reply</div>
+<div class="body"><div class="sig">pub fn message_reply(Int32, @json.Json) -&gt; @moonmuse.Reply raise @moonmuse.LlmError</div><p>The reply a Messages body describes.</p></div>
+</div>
+<div class="item" id="anthropic-messages-of">
+<div class="name"><span class="kind">fn</span>messages_of</div>
+<div class="body"><div class="sig">pub fn messages_of(@json.Json) -&gt; Array[@moonmuse.Message]</div><p>The messages a body message describes. A user message of <code>tool_result</code> blocks becomes tool messages; anything else keeps its role and blocks.</p></div>
+</div>
+<div class="item" id="anthropic-models-answer">
+<div class="name"><span class="kind">fn</span>models_answer</div>
+<div class="body"><div class="sig">pub fn models_answer(Array[@moonmuse.ModelInfo]) -&gt; @json.Json</div><p>The model list in the shape Anthropic's console returns.</p></div>
+</div>
+<div class="item" id="anthropic-reply-of">
+<div class="name"><span class="kind">fn</span>reply_of</div>
+<div class="body"><div class="sig">pub fn reply_of(@moonmuse.Turn, @moonmuse.Finish) -&gt; @moonmuse.Reply</div><p>The reply the folded events describe.</p></div>
+</div>
+<div class="item" id="anthropic-stop-code">
+<div class="name"><span class="kind">fn</span>stop_code</div>
+<div class="body"><div class="sig">pub fn stop_code(@moonmuse.Finish) -&gt; String</div><p>The stop reason as Anthropic spells it.</p></div>
+</div>
+<div class="item" id="anthropic-stream-delta">
+<div class="name"><span class="kind">fn</span>stream_delta</div>
+<div class="body"><div class="sig">pub fn stream_delta(@moonmuse.Frame, @moonmuse.Turn) -&gt; Array[@moonmuse.Delta] raise @moonmuse.LlmError</div><p>The deltas one event carries.</p></div>
+</div>
+<div class="item" id="anthropic-stream-frame">
+<div class="name"><span class="kind">fn</span>stream_frame</div>
+<div class="body"><div class="sig">pub fn stream_frame(@moonmuse.Delta, @moonmuse.Turn) -&gt; Array[@moonmuse.Frame]</div><p>The events that carry one delta out.</p></div>
+</div>
+<div class="item" id="anthropic-tool-json">
+<div class="name"><span class="kind">fn</span>tool_json</div>
+<div class="body"><div class="sig">pub fn tool_json(@moonmuse.Tool) -&gt; @json.Json</div><p>A tool as Anthropic writes it.</p></div>
+</div>
+<div class="item" id="anthropic-usage-of">
+<div class="name"><span class="kind">fn</span>usage_of</div>
+<div class="body"><div class="sig">pub fn usage_of(@json.Json) -&gt; @moonmuse.Usage</div><p>The usage an Anthropic body reports. Its two counts are named, and a cached read is reported apart from the input count.</p></div>
+</div>
+</section>
+<section class="pkg" id="pkg-gemini">
+<div class="pkg-head"><h3>gemini</h3><span class="path">moonbitstack/moonmuse/gemini</span></div><p class="pkg-ref">Gemini's generateContent shape: the model sits in the path, messages are <code>contents</code> with <code>user</code> and <code>model</code> roles, and a tool call has no id of its own — one is synthesized here so the shared vocabulary can pair calls with results.</p>
+<div class="item" id="gemini-Client">
+<div class="name"><span class="kind">type</span>Client</div>
+<div class="body"><div class="sig">pub struct Client {
+  base : String
+  key : String?
+  headers : Array[(String, String)]
+  timeout : Int32
+}</div><p>A connection to the Gemini API.</p><p class="impls">Implements <code>@moonmuse.Provider</code></p><div class="methods"><div class="sig">pub async fn Client::chat(Self, @moonmuse.Request) -&gt; @moonmuse.Reply raise @moonmuse.LlmError</div><div class="sig">pub async fn Client::embed(Self, String, Array[String]) -&gt; Array[Array[Double]] raise @moonmuse.LlmError</div><p>Vectors for a batch, through <code>batchEmbedContents</code>. One call carries every input, which is what Gemini's batch endpoint is for.</p><div class="sig">pub async fn Client::models(Self) -&gt; Array[@moonmuse.ModelInfo] raise @moonmuse.LlmError</div><div class="sig">pub fn Client::new(api_key? : String, base? : String, headers? : Array[(String, String)], timeout? : Int32) -&gt; Self</div><p>A client for <code>base</code>, authenticating with <code>api_key</code>.</p><div class="sig">pub async fn Client::stream(Self, @moonmuse.Request, (@moonmuse.Delta) -&gt; Unit) -&gt; @moonmuse.Reply raise @moonmuse.LlmError</div><p>A streamed answer, forwarded as the endpoint produces it. Gemini streams from its own path and asks for events with <code>alt=sse</code>, so the call differs by more than a flag.</p></div></div>
+</div>
+<div class="item" id="gemini-Wire">
+<div class="name"><span class="kind">type</span>Wire</div>
+<div class="body"><div class="sig">pub struct Wire {
+}</div><p>The Gemini wire format.</p><p class="impls">Implements <code>@moonmuse.Dialect</code></p><div class="methods"><div class="sig">pub fn Wire::answer(Self, @moonmuse.Reply) -&gt; @json.Json</div><div class="sig">pub fn Wire::answer_at(Self, @moonmuse.RouteKind, @moonmuse.Reply) -&gt; @json.Json</div><div class="sig">pub fn Wire::answer_count(Self, Int32) -&gt; @json.Json</div><div class="sig">pub fn Wire::answer_embed(Self, String, Array[Array[Double]]) -&gt; @json.Json</div><div class="sig">pub fn Wire::answer_models(Self, Array[@moonmuse.ModelInfo]) -&gt; @json.Json</div><div class="sig">pub fn Wire::delta(Self, @moonmuse.Frame, @moonmuse.Turn) -&gt; Array[@moonmuse.Delta] raise @moonmuse.LlmError</div><div class="sig">pub fn Wire::error(Self, @moonmuse.LlmError) -&gt; (Int32, @json.Json)</div><div class="sig">pub fn Wire::frame(Self, @moonmuse.Delta, @moonmuse.Turn) -&gt; Array[@moonmuse.Frame]</div><div class="sig">pub fn Wire::name(Self) -&gt; String</div><div class="sig">pub fn Wire::parse(Self, @moonmuse.Route, @json.Json) -&gt; @moonmuse.Asked raise @moonmuse.LlmError</div><div class="sig">pub fn Wire::reply(Self, Int32, @json.Json) -&gt; @moonmuse.Reply raise @moonmuse.LlmError</div><div class="sig">pub fn Wire::request(Self, @moonmuse.Request) -&gt; @moonmuse.Call raise @moonmuse.LlmError</div><div class="sig">pub fn Wire::routes(Self) -&gt; Array[@moonmuse.Route]</div></div></div>
+</div>
+<div class="item" id="gemini-dialect">
+<div class="name"><span class="kind">let</span>dialect</div>
+<div class="body"><div class="sig">pub let dialect : Wire</div><p>The one instance; it carries no state.</p></div>
+</div>
+<div class="item" id="gemini-embed-answer">
+<div class="name"><span class="kind">fn</span>embed_answer</div>
+<div class="body"><div class="sig">pub fn embed_answer(String, Array[Array[Double]]) -&gt; @json.Json</div><p>The embeddings body for one input, in Gemini's shape.</p></div>
+</div>
+<div class="item" id="gemini-error-json">
+<div class="name"><span class="kind">fn</span>error_json</div>
+<div class="body"><div class="sig">pub fn error_json(@moonmuse.LlmError) -&gt; (Int32, @json.Json)</div><p>The error body Gemini sends.</p></div>
+</div>
+<div class="item" id="gemini-finish-code">
+<div class="name"><span class="kind">fn</span>finish_code</div>
+<div class="body"><div class="sig">pub fn finish_code(@moonmuse.Finish) -&gt; String</div><p>The finish reason as Gemini spells it.</p></div>
+</div>
+<div class="item" id="gemini-generate-answer">
+<div class="name"><span class="kind">fn</span>generate_answer</div>
+<div class="body"><div class="sig">pub fn generate_answer(@moonmuse.Reply) -&gt; @json.Json</div><p>The body that answers <code>reply</code>. The candidate count and model version are the fields Gemini always writes, so they are written here too.</p></div>
+</div>
+<div class="item" id="gemini-generate-call">
+<div class="name"><span class="kind">fn</span>generate_call</div>
+<div class="body"><div class="sig">pub fn generate_call(@moonmuse.Request) -&gt; @moonmuse.Call</div><p>The generateContent call for <code>request</code>.</p></div>
+</div>
+<div class="item" id="gemini-generate-parse">
+<div class="name"><span class="kind">fn</span>generate_parse</div>
+<div class="body"><div class="sig">pub fn generate_parse(@json.Json, String) -&gt; @moonmuse.Request raise @moonmuse.LlmError</div><p>The request a generateContent body asks for.</p></div>
+</div>
+<div class="item" id="gemini-generate-reply">
+<div class="name"><span class="kind">fn</span>generate_reply</div>
+<div class="body"><div class="sig">pub fn generate_reply(Int32, @json.Json) -&gt; @moonmuse.Reply raise @moonmuse.LlmError</div><p>The reply a generateContent body describes.</p></div>
+</div>
+<div class="item" id="gemini-model-of">
+<div class="name"><span class="kind">fn</span>model_of</div>
+<div class="body"><div class="sig">pub fn model_of(String) -&gt; String</div><p>The model named in a Gemini path, with the <code>/models/</code> prefix and the method suffix removed.</p></div>
+</div>
+<div class="item" id="gemini-models-answer">
+<div class="name"><span class="kind">fn</span>models_answer</div>
+<div class="body"><div class="sig">pub fn models_answer(Array[@moonmuse.ModelInfo]) -&gt; @json.Json</div><p>The model list as Gemini's API returns it.</p></div>
+</div>
+<div class="item" id="gemini-reply-of">
+<div class="name"><span class="kind">fn</span>reply_of</div>
+<div class="body"><div class="sig">pub fn reply_of(@moonmuse.Turn, @moonmuse.Finish) -&gt; @moonmuse.Reply</div><p>The reply the accumulated chunks describe.</p></div>
+</div>
+<div class="item" id="gemini-stream-delta">
+<div class="name"><span class="kind">fn</span>stream_delta</div>
+<div class="body"><div class="sig">pub fn stream_delta(@moonmuse.Frame, @moonmuse.Turn) -&gt; Array[@moonmuse.Delta] raise @moonmuse.LlmError</div><p>The deltas one chunk carries.</p></div>
+</div>
+<div class="item" id="gemini-stream-frame">
+<div class="name"><span class="kind">fn</span>stream_frame</div>
+<div class="body"><div class="sig">pub fn stream_frame(@moonmuse.Delta, @moonmuse.Turn) -&gt; Array[@moonmuse.Frame]</div><p>The frames that carry one delta out, one chunk per event.</p></div>
+</div>
+<div class="item" id="gemini-usage-of">
+<div class="name"><span class="kind">fn</span>usage_of</div>
+<div class="body"><div class="sig">pub fn usage_of(@json.Json) -&gt; @moonmuse.Usage</div><p>The usage a Gemini body reports.</p></div>
+</div>
+</section>
+<section class="pkg" id="pkg-ollama">
+<div class="pkg-head"><h3>ollama</h3><span class="path">moonbitstack/moonmuse/ollama</span></div><p class="pkg-ref">Ollama's native API: <code>/api/chat</code>, <code>/api/generate</code>, <code>/api/embed</code>, <code>/api/tags</code>, <code>/api/show</code> and <code>/api/version</code>. Its options live under <code>options</code>, its stream is newline-delimited JSON rather than server-sent events, and its tool calls carry no id.</p>
+<div class="item" id="ollama-Client">
+<div class="name"><span class="kind">type</span>Client</div>
+<div class="body"><div class="sig">pub struct Client {
+  base : String
+  headers : Array[(String, String)]
+  timeout : Int32
+}</div><p>A connection to an Ollama server.</p><p class="impls">Implements <code>@moonmuse.Provider</code></p><div class="methods"><div class="sig">pub async fn Client::chat(Self, @moonmuse.Request) -&gt; @moonmuse.Reply raise @moonmuse.LlmError</div><div class="sig">pub async fn Client::embed(Self, String, Array[String]) -&gt; Array[Array[Double]] raise @moonmuse.LlmError</div><div class="sig">pub async fn Client::models(Self) -&gt; Array[@moonmuse.ModelInfo] raise @moonmuse.LlmError</div><div class="sig">pub fn Client::new(base? : String, headers? : Array[(String, String)], timeout? : Int32) -&gt; Self</div><p>A client for <code>base</code>, which defaults to the port Ollama listens on.</p><div class="sig">pub async fn Client::stream(Self, @moonmuse.Request, (@moonmuse.Delta) -&gt; Unit) -&gt; @moonmuse.Reply raise @moonmuse.LlmError</div><p>A streamed answer, forwarded as the endpoint produces it. Ollama delimits its stream with newlines rather than server-sent events, which is the only difference here.</p><div class="sig">pub async fn Client::version(Self) -&gt; String raise @moonmuse.LlmError</div><p>The version a server reports.</p></div></div>
+</div>
+<div class="item" id="ollama-Wire">
+<div class="name"><span class="kind">type</span>Wire</div>
+<div class="body"><div class="sig">pub struct Wire {
+}</div><p>The Ollama wire format.</p><p class="impls">Implements <code>@moonmuse.Dialect</code></p><div class="methods"><div class="sig">pub fn Wire::answer(Self, @moonmuse.Reply) -&gt; @json.Json</div><div class="sig">pub fn Wire::answer_at(Self, @moonmuse.RouteKind, @moonmuse.Reply) -&gt; @json.Json</div><div class="sig">pub fn Wire::answer_count(Self, Int32) -&gt; @json.Json</div><div class="sig">pub fn Wire::answer_embed(Self, String, Array[Array[Double]]) -&gt; @json.Json</div><div class="sig">pub fn Wire::answer_models(Self, Array[@moonmuse.ModelInfo]) -&gt; @json.Json</div><div class="sig">pub fn Wire::delta(Self, @moonmuse.Frame, @moonmuse.Turn) -&gt; Array[@moonmuse.Delta] raise @moonmuse.LlmError</div><div class="sig">pub fn Wire::error(Self, @moonmuse.LlmError) -&gt; (Int32, @json.Json)</div><div class="sig">pub fn Wire::frame(Self, @moonmuse.Delta, @moonmuse.Turn) -&gt; Array[@moonmuse.Frame]</div><div class="sig">pub fn Wire::name(Self) -&gt; String</div><div class="sig">pub fn Wire::parse(Self, @moonmuse.Route, @json.Json) -&gt; @moonmuse.Asked raise @moonmuse.LlmError</div><div class="sig">pub fn Wire::reply(Self, Int32, @json.Json) -&gt; @moonmuse.Reply raise @moonmuse.LlmError</div><div class="sig">pub fn Wire::request(Self, @moonmuse.Request) -&gt; @moonmuse.Call raise @moonmuse.LlmError</div><div class="sig">pub fn Wire::routes(Self) -&gt; Array[@moonmuse.Route]</div></div></div>
+</div>
+<div class="item" id="ollama-dialect">
+<div class="name"><span class="kind">let</span>dialect</div>
+<div class="body"><div class="sig">pub let dialect : Wire</div><p>The one instance; it carries no state.</p></div>
+</div>
+<div class="item" id="ollama-chat-answer">
+<div class="name"><span class="kind">fn</span>chat_answer</div>
+<div class="body"><div class="sig">pub fn chat_answer(@moonmuse.Reply) -&gt; @json.Json</div><p>The body that answers <code>reply</code>.</p></div>
+</div>
+<div class="item" id="ollama-chat-call">
+<div class="name"><span class="kind">fn</span>chat_call</div>
+<div class="body"><div class="sig">pub fn chat_call(@moonmuse.Request) -&gt; @moonmuse.Call</div><p>The chat call for <code>request</code>.</p></div>
+</div>
+<div class="item" id="ollama-chat-parse">
+<div class="name"><span class="kind">fn</span>chat_parse</div>
+<div class="body"><div class="sig">pub fn chat_parse(@json.Json) -&gt; @moonmuse.Request raise @moonmuse.LlmError</div><p>The request a chat body asks for.</p></div>
+</div>
+<div class="item" id="ollama-chat-reply">
+<div class="name"><span class="kind">fn</span>chat_reply</div>
+<div class="body"><div class="sig">pub fn chat_reply(Int32, @json.Json) -&gt; @moonmuse.Reply raise @moonmuse.LlmError</div><p>The reply a chat body describes.</p></div>
+</div>
+<div class="item" id="ollama-embed-answer">
+<div class="name"><span class="kind">fn</span>embed_answer</div>
+<div class="body"><div class="sig">pub fn embed_answer(String, Array[Array[Double]]) -&gt; @json.Json</div><p>The embeddings body for <code>/api/embed</code>.</p></div>
+</div>
+<div class="item" id="ollama-error-json">
+<div class="name"><span class="kind">fn</span>error_json</div>
+<div class="body"><div class="sig">pub fn error_json(@moonmuse.LlmError) -&gt; (Int32, @json.Json)</div><p>The error body Ollama sends.</p></div>
+</div>
+<div class="item" id="ollama-finish-code">
+<div class="name"><span class="kind">fn</span>finish_code</div>
+<div class="body"><div class="sig">pub fn finish_code(@moonmuse.Finish) -&gt; String</div><p>The finish reason as Ollama spells it.</p></div>
+</div>
+<div class="item" id="ollama-reply-of">
+<div class="name"><span class="kind">fn</span>reply_of</div>
+<div class="body"><div class="sig">pub fn reply_of(@moonmuse.Turn, @moonmuse.Finish) -&gt; @moonmuse.Reply</div><p>The reply the accumulated lines describe.</p></div>
+</div>
+<div class="item" id="ollama-show-answer">
+<div class="name"><span class="kind">fn</span>show_answer</div>
+<div class="body"><div class="sig">pub fn show_answer(@moonmuse.ModelInfo) -&gt; @json.Json</div><p>The body <code>/api/show</code> returns for a model.</p></div>
+</div>
+<div class="item" id="ollama-stream-delta">
+<div class="name"><span class="kind">fn</span>stream_delta</div>
+<div class="body"><div class="sig">pub fn stream_delta(@moonmuse.Frame, @moonmuse.Turn) -&gt; Array[@moonmuse.Delta] raise @moonmuse.LlmError</div><p>The deltas one line carries.</p></div>
+</div>
+<div class="item" id="ollama-stream-frame">
+<div class="name"><span class="kind">fn</span>stream_frame</div>
+<div class="body"><div class="sig">pub fn stream_frame(@moonmuse.Delta, @moonmuse.Turn) -&gt; Array[@moonmuse.Frame]</div><p>The lines that carry one delta out.</p></div>
+</div>
+<div class="item" id="ollama-tags-answer">
+<div class="name"><span class="kind">fn</span>tags_answer</div>
+<div class="body"><div class="sig">pub fn tags_answer(Array[@moonmuse.ModelInfo]) -&gt; @json.Json</div><p>The model list as <code>/api/tags</code> returns it.</p></div>
+</div>
+<div class="item" id="ollama-tool-json">
+<div class="name"><span class="kind">fn</span>tool_json</div>
+<div class="body"><div class="sig">pub fn tool_json(@moonmuse.Tool) -&gt; @json.Json</div><p>A tool as Ollama writes it — the same function shape OpenAI uses.</p></div>
+</div>
+</section>
+<section class="pkg" id="pkg-bedrock">
+<div class="pkg-head"><h3>bedrock</h3><span class="path">moonbitstack/moonmuse/bedrock</span></div><p class="pkg-ref">AWS Bedrock as a provider. Its API signs every request with SigV4, which is an HMAC chain over the canonical form of the request, and streams answers in the binary <code>vnd.amazon.eventstream</code> framing rather than in server-sent events. Both are why this is a package of its own rather than a dialect: a <code>Dialect</code> maps JSON, and neither of these is JSON.</p>
+<div class="item" id="bedrock-Credential">
+<div class="name"><span class="kind">type</span>Credential</div>
+<div class="body"><div class="sig">pub struct Credential {
+  access_key : String
+  secret_key : String
+  session_token : String?
+}</div><p>The credential a request is signed with. <code>session_token</code> is present for temporary credentials, which is what an instance role hands out.</p><div class="methods"><div class="sig">pub fn Credential::new(String, String, session_token? : String) -&gt; Self</div><p>A credential from a key pair.</p></div></div>
+</div>
+<div class="item" id="bedrock-Event">
+<div class="name"><span class="kind">type</span>Event</div>
+<div class="body"><div class="sig">pub(all) struct Event {
+  kind : String
+  payload : @json.Json
+}</div><p>One decoded frame.</p></div>
+</div>
+<div class="item" id="bedrock-Frame">
+<div class="name"><span class="kind">type</span>Frame</div>
+<div class="body"><div class="sig">pub(all) struct Frame {
+  kind : String
+  payload : Bytes
+}</div><p>A frame as it arrives, split into the pieces the consumer sees.</p><div class="methods"><div class="sig">pub fn Frame::event(Self) -&gt; Event raise @moonmuse.LlmError</div><p>A frame's payload as the event it names.</p></div></div>
+</div>
+<div class="item" id="bedrock-Reader">
+<div class="name"><span class="kind">type</span>Reader</div>
+<div class="body"><div class="sig">pub struct Reader {
+  mut buf : Bytes
+}</div><p>The decoder's buffer. <code>push</code> returns the frames that are complete.</p><div class="methods"><div class="sig">pub fn Reader::is_empty(Self) -&gt; Bool</div><p>Whether anything is left over, which a well-formed stream never leaves.</p><div class="sig">pub fn Reader::new() -&gt; Self</div><p>A decoder with nothing buffered.</p><div class="sig">pub fn Reader::push(Self, BytesView) -&gt; Array[Frame]</div><p>Take one piece of the stream and return the frames it completed.</p></div></div>
+</div>
+<div class="item" id="bedrock-Signed">
+<div class="name"><span class="kind">type</span>Signed</div>
+<div class="body"><div class="sig">pub struct Signed {
+  headers : Array[(String, String)]
+  canonical : String
+  string_to_sign : String
+  signature : String
+}</div><p>What a signed request carries: the headers to send, <code>authorization</code> among them.</p></div>
+</div>
+<div class="item" id="bedrock-amz-dates">
+<div class="name"><span class="kind">fn</span>amz_dates</div>
+<div class="body"><div class="sig">pub fn amz_dates(Int64) -&gt; (String, String)</div><p>The <code>x-amz-date</code> value and the scope date for a Unix time in seconds. The two are the same day in UTC written two ways, and both go into the signature.</p></div>
+</div>
+<div class="item" id="bedrock-canonical-request">
+<div class="name"><span class="kind">fn</span>canonical_request</div>
+<div class="body"><div class="sig">pub fn canonical_request(String, String, String, Array[(String, String)], Array[String], String) -&gt; String</div><p>The canonical request: the form the signature is taken over. Headers are ordered by code unit, which is what the specification says and what <code>String::lexical_compare</code> does — <code>String::compare</code> is shortlex, so it orders by length first and would put <code>host</code> before <code>content-type</code>. <code>headers</code> must already be the ones that will be signed, sorted and lower-cased; the signer adds <code>host</code>, <code>x-amz-date</code> and the content hash, so a caller does not forget them.</p></div>
+</div>
+<div class="item" id="bedrock-converse-body">
+<div class="name"><span class="kind">fn</span>converse_body</div>
+<div class="body"><div class="sig">pub fn converse_body(@moonmuse.Request) -&gt; @json.Json</div><p>The body that asks for an answer.</p></div>
+</div>
+<div class="item" id="bedrock-converse-reply">
+<div class="name"><span class="kind">fn</span>converse_reply</div>
+<div class="body"><div class="sig">pub fn converse_reply(@json.Json) -&gt; @moonmuse.Reply raise @moonmuse.LlmError</div><p>The reply a Converse body describes.</p></div>
+</div>
+<div class="item" id="bedrock-crc32">
+<div class="name"><span class="kind">fn</span>crc32</div>
+<div class="body"><div class="sig">pub fn crc32(BytesView) -&gt; Int32</div><p>The CRC-32 the framing checks, in the reflected IEEE form the protocol names.</p></div>
+</div>
+<div class="item" id="bedrock-empty-hash">
+<div class="name"><span class="kind">fn</span>empty_hash</div>
+<div class="body"><div class="sig">pub fn empty_hash() -&gt; String</div><p>The hash of an empty body, which is what a GET sends.</p></div>
+</div>
+<div class="item" id="bedrock-encode-frame">
+<div class="name"><span class="kind">fn</span>encode_frame</div>
+<div class="body"><div class="sig">pub fn encode_frame(String, Bytes) -&gt; Bytes</div><p>A frame for a test or a stub server: the layout the protocol writes, CRC included.</p></div>
+</div>
+<div class="item" id="bedrock-hmac-sha256">
+<div class="name"><span class="kind">fn</span>hmac_sha256</div>
+<div class="body"><div class="sig">pub fn hmac_sha256(BytesView, BytesView) -&gt; Bytes</div><p>One HMAC-SHA256, which the key chain and the signature both use.</p></div>
+</div>
+<div class="item" id="bedrock-payload-hash">
+<div class="name"><span class="kind">fn</span>payload_hash</div>
+<div class="body"><div class="sig">pub fn payload_hash(BytesView) -&gt; String</div><p>The SHA-256 of a body, in the hex lowercase the signature writes.</p></div>
+</div>
+<div class="item" id="bedrock-sign">
+<div class="name"><span class="kind">fn</span>sign</div>
+<div class="body"><div class="sig">pub fn sign(Credential, region~ : String, service~ : String, verb~ : String, host~ : String, path~ : String, query~ : String, headers~ : Array[(String, String)], body_hash~ : String, seconds~ : Int64) -&gt; Signed</div><p>Sign a request. <code>headers</code> are the ones the caller is sending beyond the three this adds; every one of them is signed, so what is signed is what is sent.</p></div>
+</div>
+<div class="item" id="bedrock-signing-key">
+<div class="name"><span class="kind">fn</span>signing_key</div>
+<div class="body"><div class="sig">pub fn signing_key(StringView, StringView, StringView, StringView) -&gt; Bytes</div><p>The four-step key: date, region, service, then the string "aws4_request".</p></div>
+</div>
+<div class="item" id="bedrock-string-to-sign">
+<div class="name"><span class="kind">fn</span>string_to_sign</div>
+<div class="body"><div class="sig">pub fn string_to_sign(String, String, String, String, String) -&gt; String</div><p>The string that is signed: the algorithm, the stamp, the scope and the hash of the canonical request.</p></div>
+</div>
+</section>
+</div>
+<div class="group" id="group-around"><div class="group-head"><h2>Around one call</h2></div><p class="pkg-note">Tools, schemas, templates, the layers that wrap a provider, the catalogue, the counter and the scripted provider.</p>
+<section class="pkg" id="pkg-toolbox">
+<div class="pkg-head"><h3>toolbox</h3><span class="path">moonbitstack/moonmuse/toolbox</span></div><p class="pkg-ref">Tool execution and the tool loop: the one place a <code>Call</code> becomes a <code>Result</code>. An agent framework that has its own loop calls <code>Toolbox::call</code>; one that does not calls <code>run</code>.</p>
+<div class="item" id="toolbox-Entry">
+<div class="name"><span class="kind">type</span>Entry</div>
+<div class="body"><div class="sig">pub struct Entry {
+  tool : @moonmuse.Tool
+  run : async (@json.Json) -&gt; String
+}</div><p>One callable tool.</p></div>
+</div>
+<div class="item" id="toolbox-Toolbox">
+<div class="name"><span class="kind">type</span>Toolbox</div>
+<div class="body"><div class="sig">pub struct Toolbox {
+  mut entries : Array[Entry]
+}</div><p>A set of tools addressable by name.</p><div class="methods"><div class="sig">pub fn Toolbox::add(Self, @moonmuse.Tool, async (@json.Json) -&gt; String) -&gt; Unit</div><p>Add a tool. A later tool with the same name replaces the earlier one, so a caller can override a default without rebuilding the set.</p><div class="sig">pub async fn Toolbox::call(Self, @moonmuse.Part) -&gt; @moonmuse.Part</div><p>Run one call and return its result. A tool that raises, or that is not registered, still produces a result: the model is supposed to see the failure and decide what to do, and a loop that raised instead would lose the conversation.</p><div class="sig">pub fn Toolbox::has(Self, String) -&gt; Bool</div><p>Whether a tool of this name is registered.</p><div class="sig">pub fn Toolbox::new() -&gt; Self</div><p>An empty set.</p><div class="sig">pub fn Toolbox::tools(Self) -&gt; Array[@moonmuse.Tool]</div><p>The tools as the model sees them, in the order they were added.</p></div></div>
+</div>
+<div class="item" id="toolbox-run">
+<div class="name"><span class="kind">fn</span>run</div>
+<div class="body"><div class="sig">pub async fn run(&amp;@moonmuse.Provider, @moonmuse.Request, Toolbox, limit? : Int32) -&gt; @moonmuse.Reply raise @moonmuse.LlmError</div><p>Ask, run whatever tools the model asks for, and ask again — at most <code>limit</code> rounds of tool calls. The reply that comes back is the last one the model produced, whether it was a final answer or a call the budget ran out on; the caller can tell by <code>Reply::calls</code>.</p></div>
+</div>
+</section>
+<section class="pkg" id="pkg-structured">
+<div class="pkg-head"><h3>structured</h3><span class="path">moonbitstack/moonmuse/structured</span></div><p class="pkg-ref">Structured output: ask for a JSON object that matches a schema, validate it, and ask again with the failure in front of the model when it does not.</p>
+<div class="item" id="structured-extract-object">
+<div class="name"><span class="kind">fn</span>extract_object</div>
+<div class="body"><div class="sig">pub fn extract_object(String) -&gt; String?</div><p>The first balanced JSON object in <code>text</code>. Models wrap answers in prose or a code fence often enough that requiring a bare object would fail more calls than it catches; string literals and escapes are respected, so a brace inside a string does not end the object.</p></div>
+</div>
+<div class="item" id="structured-instruction">
+<div class="name"><span class="kind">fn</span>instruction</div>
+<div class="body"><div class="sig">pub fn instruction(String, @json.Json) -&gt; String</div><p>The instruction that pins a reply to a schema.</p></div>
+</div>
+<div class="item" id="structured-repair">
+<div class="name"><span class="kind">fn</span>repair</div>
+<div class="body"><div class="sig">pub fn repair(String) -&gt; String</div><p>The follow-up when a reply did not fit: the failure, then the same request.</p></div>
+</div>
+</section>
+<section class="pkg" id="pkg-prompt">
+<div class="pkg-head"><h3>prompt</h3><span class="path">moonbitstack/moonmuse/prompt</span></div><p class="pkg-ref">Prompt templates, rendered by moonpug: the same Jinja syntax a web template uses.</p>
+<div class="item" id="prompt-Template">
+<div class="name"><span class="kind">type</span>Template</div>
+<div class="body"><div class="sig">pub struct Template {
+  source : String
+}</div><p>A prompt template.</p><div class="methods"><div class="sig">pub fn Template::message(Self, @moonmuse.Role, Map[String, @json.Json]) -&gt; @moonmuse.Message raise PromptError</div><p>Render and wrap in a message of <code>role</code>.</p><div class="sig">pub fn Template::new(String) -&gt; Self</div><p>A template from its source text.</p><div class="sig">pub fn Template::render(Self, Map[String, @json.Json]) -&gt; String raise PromptError</div><p>Render the template against <code>values</code>. A missing variable renders as the engine's default for it, which is what a template author expects.</p></div></div>
+</div>
+<div class="item" id="prompt-PromptError">
+<div class="name"><span class="kind">error</span>PromptError</div>
+<div class="body"><div class="sig">pub(all) suberror PromptError {
+  Render(String)
+}</div><p>A template that failed to render, with the engine's own message.</p></div>
+</div>
+<div class="item" id="prompt-conversation">
+<div class="name"><span class="kind">fn</span>conversation</div>
+<div class="body"><div class="sig">pub fn conversation(Array[(@moonmuse.Role, Template)], Map[String, @json.Json]) -&gt; Array[@moonmuse.Message] raise PromptError</div><p>Render several templates as the messages of one request, in order. The first value of each pair is the role.</p></div>
+</div>
+<div class="item" id="prompt-values">
+<div class="name"><span class="kind">fn</span>values</div>
+<div class="body"><div class="sig">pub fn values(Array[(String, @json.Json)]) -&gt; Map[String, @json.Json]</div><p>A value map from key/value pairs.</p></div>
+</div>
+</section>
+<section class="pkg" id="pkg-layers">
+<div class="pkg-head"><h3>layers</h3><span class="path">moonbitstack/moonmuse/layers</span></div><p class="pkg-ref">Layers: retry, fallback, rate limiting, caching and routing. Each wraps a provider and is itself a provider, so they compose in any order.</p>
+<div class="item" id="layers-Cache">
+<div class="name"><span class="kind">trait</span>Cache</div>
+<div class="body"><div class="sig">pub(open) trait Cache {
+  fn get(Self, String) -&gt; @moonmuse.Reply?
+  fn put(Self, String, @moonmuse.Reply) -&gt; Unit
+}</div><p>A place to keep answers. A process-wide map is the default; a shared store can implement the same two methods.</p></div>
+</div>
+<div class="item" id="layers-Cached">
+<div class="name"><span class="kind">type</span>Cached</div>
+<div class="body"><div class="sig">pub struct Cached {
+  inner : &amp;@moonmuse.Provider
+  cache : &amp;Cache
+}</div><p>A provider that answers from <code>cache</code> when it can.</p><p class="impls">Implements <code>@moonmuse.Provider</code></p><div class="methods"><div class="sig">pub async fn Cached::chat(Self, @moonmuse.Request) -&gt; @moonmuse.Reply raise @moonmuse.LlmError</div><div class="sig">pub async fn Cached::embed(Self, String, Array[String]) -&gt; Array[Array[Double]] raise @moonmuse.LlmError</div><div class="sig">pub async fn Cached::models(Self) -&gt; Array[@moonmuse.ModelInfo] raise @moonmuse.LlmError</div><div class="sig">pub async fn Cached::stream(Self, @moonmuse.Request, (@moonmuse.Delta) -&gt; Unit) -&gt; @moonmuse.Reply raise @moonmuse.LlmError</div></div></div>
+</div>
+<div class="item" id="layers-Fallback">
+<div class="name"><span class="kind">type</span>Fallback</div>
+<div class="body"><div class="sig">pub struct Fallback {
+  providers : Array[&amp;@moonmuse.Provider]
+}</div><p>A chain of providers tried in order.</p><p class="impls">Implements <code>@moonmuse.Provider</code></p><div class="methods"><div class="sig">pub async fn Fallback::chat(Self, @moonmuse.Request) -&gt; @moonmuse.Reply raise @moonmuse.LlmError</div><div class="sig">pub async fn Fallback::embed(Self, String, Array[String]) -&gt; Array[Array[Double]] raise @moonmuse.LlmError</div><div class="sig">pub async fn Fallback::models(Self) -&gt; Array[@moonmuse.ModelInfo] raise @moonmuse.LlmError</div><div class="sig">pub async fn Fallback::stream(Self, @moonmuse.Request, (@moonmuse.Delta) -&gt; Unit) -&gt; @moonmuse.Reply raise @moonmuse.LlmError</div></div></div>
+</div>
+<div class="item" id="layers-Limited">
+<div class="name"><span class="kind">type</span>Limited</div>
+<div class="body"><div class="sig">pub struct Limited {
+  inner : &amp;@moonmuse.Provider
+  limiter : Limiter
+}</div><p>A provider behind a bucket.</p><p class="impls">Implements <code>@moonmuse.Provider</code></p><div class="methods"><div class="sig">pub async fn Limited::chat(Self, @moonmuse.Request) -&gt; @moonmuse.Reply raise @moonmuse.LlmError</div><div class="sig">pub async fn Limited::embed(Self, String, Array[String]) -&gt; Array[Array[Double]] raise @moonmuse.LlmError</div><div class="sig">pub async fn Limited::models(Self) -&gt; Array[@moonmuse.ModelInfo] raise @moonmuse.LlmError</div><div class="sig">pub async fn Limited::stream(Self, @moonmuse.Request, (@moonmuse.Delta) -&gt; Unit) -&gt; @moonmuse.Reply raise @moonmuse.LlmError</div></div></div>
+</div>
+<div class="item" id="layers-Limiter">
+<div class="name"><span class="kind">type</span>Limiter</div>
+<div class="body"><div class="sig">pub struct Limiter {
+  rate : Double
+  burst : Double
+  mut tokens : Double
+  mut at : Int64
+  clock : () -&gt; Int64
+}</div><p>A token bucket. <code>rate</code> is tokens per second and <code>burst</code> is the capacity.</p><div class="methods"><div class="sig">pub fn Limiter::new(Double, burst? : Double, clock? : () -&gt; Int64) -&gt; Self</div><p>A bucket that refills at <code>rate</code> tokens per second and holds <code>burst</code> of them.</p></div></div>
+</div>
+<div class="item" id="layers-Memory">
+<div class="name"><span class="kind">type</span>Memory</div>
+<div class="body"><div class="sig">pub struct Memory {
+  entries : Map[String, @moonmuse.Reply]
+  mut order : Array[String]
+  limit : Int32
+}</div><p>An in-memory cache with a fixed number of entries, oldest evicted first.</p><p class="impls">Implements <code>Cache</code></p><div class="methods"><div class="sig">pub fn Memory::get(Self, String) -&gt; @moonmuse.Reply?</div><div class="sig">pub fn Memory::new(limit? : Int32) -&gt; Self</div><p>A cache of at most <code>limit</code> answers.</p><div class="sig">pub fn Memory::put(Self, String, @moonmuse.Reply) -&gt; Unit</div><div class="sig">pub fn Memory::size(Self) -&gt; Int32</div><p>How many answers are held.</p></div></div>
+</div>
+<div class="item" id="layers-Retry">
+<div class="name"><span class="kind">type</span>Retry</div>
+<div class="body"><div class="sig">pub(all) struct Retry {
+  attempts : Int32
+  base_ms : Int32
+  cap_ms : Int32
+  factor : Double
+}</div><p>How often and how patiently to retry.</p><div class="methods"><div class="sig">pub fn Retry::default() -&gt; Self</div><p>Three attempts, 200 ms doubling to 5 s.</p><div class="sig">pub fn Retry::delay_ms(Self, Int32) -&gt; Int32</div><p>The nominal wait before attempt number <code>attempt</code> (0 for the first retry).</p></div></div>
+</div>
+<div class="item" id="layers-Retrying">
+<div class="name"><span class="kind">type</span>Retrying</div>
+<div class="body"><div class="sig">pub struct Retrying {
+  inner : &amp;@moonmuse.Provider
+  policy : Retry
+  wait : async (Int32) -&gt; Unit noraise
+}</div><p>A provider that retries chat and embeddings.</p><p class="impls">Implements <code>@moonmuse.Provider</code></p><div class="methods"><div class="sig">pub async fn Retrying::chat(Self, @moonmuse.Request) -&gt; @moonmuse.Reply raise @moonmuse.LlmError</div><div class="sig">pub async fn Retrying::embed(Self, String, Array[String]) -&gt; Array[Array[Double]] raise @moonmuse.LlmError</div><div class="sig">pub async fn Retrying::models(Self) -&gt; Array[@moonmuse.ModelInfo] raise @moonmuse.LlmError</div><div class="sig">pub fn Retrying::policy(Self, Retry) -&gt; Self</div><p>A copy of this provider with another policy.</p><div class="sig">pub async fn Retrying::stream(Self, @moonmuse.Request, (@moonmuse.Delta) -&gt; Unit) -&gt; @moonmuse.Reply raise @moonmuse.LlmError</div></div></div>
+</div>
+<div class="item" id="layers-Routed">
+<div class="name"><span class="kind">type</span>Routed</div>
+<div class="body"><div class="sig">pub struct Routed {
+  routes : Map[String, &amp;@moonmuse.Provider]
+}</div><p>A table of prefixes to providers.</p><p class="impls">Implements <code>@moonmuse.Provider</code></p><div class="methods"><div class="sig">pub async fn Routed::chat(Self, @moonmuse.Request) -&gt; @moonmuse.Reply raise @moonmuse.LlmError</div><div class="sig">pub async fn Routed::embed(Self, String, Array[String]) -&gt; Array[Array[Double]] raise @moonmuse.LlmError</div><div class="sig">pub async fn Routed::models(Self) -&gt; Array[@moonmuse.ModelInfo] raise @moonmuse.LlmError</div><div class="sig">pub fn Routed::prefixes(Self) -&gt; Array[String]</div><p>The prefixes this table knows, longest first.</p><div class="sig">pub async fn Routed::stream(Self, @moonmuse.Request, (@moonmuse.Delta) -&gt; Unit) -&gt; @moonmuse.Reply raise @moonmuse.LlmError</div></div></div>
+</div>
+<div class="item" id="layers-once">
+<div class="name"><span class="kind">let</span>once</div>
+<div class="body"><div class="sig">pub let once : Retry</div><p>One attempt only.</p></div>
+</div>
+<div class="item" id="layers-cached">
+<div class="name"><span class="kind">fn</span>cached</div>
+<div class="body"><div class="sig">pub fn cached(&amp;@moonmuse.Provider, &amp;Cache) -&gt; &amp;@moonmuse.Provider</div><p>Put a cache in front of <code>provider</code>.</p></div>
+</div>
+<div class="item" id="layers-fallback">
+<div class="name"><span class="kind">fn</span>fallback</div>
+<div class="body"><div class="sig">pub fn fallback(Array[&amp;@moonmuse.Provider]) -&gt; &amp;@moonmuse.Provider</div><p>Try each provider in turn. An empty chain answers with <code>Unsupported</code> rather than an index out of bounds.</p></div>
+</div>
+<div class="item" id="layers-limited">
+<div class="name"><span class="kind">fn</span>limited</div>
+<div class="body"><div class="sig">pub fn limited(&amp;@moonmuse.Provider, Limiter) -&gt; &amp;@moonmuse.Provider</div><p>Put <code>limiter</code> in front of <code>provider</code>.</p></div>
+</div>
+<div class="item" id="layers-request-key">
+<div class="name"><span class="kind">fn</span>request_key</div>
+<div class="body"><div class="sig">pub fn request_key(@moonmuse.Request) -&gt; String</div><p>A canonical key for a request: every field that can change the answer, in a fixed order.</p></div>
+</div>
+<div class="item" id="layers-retry">
+<div class="name"><span class="kind">fn</span>retry</div>
+<div class="body"><div class="sig">pub fn retry(&amp;@moonmuse.Provider, policy? : Retry, wait? : async (Int32) -&gt; Unit noraise) -&gt; &amp;@moonmuse.Provider</div><p>Wrap <code>inner</code>. <code>wait</code> is the sleep, injectable so a test observes the schedule instead of living through it.</p></div>
+</div>
+<div class="item" id="layers-routed">
+<div class="name"><span class="kind">fn</span>routed</div>
+<div class="body"><div class="sig">pub fn routed(Map[String, &amp;@moonmuse.Provider]) -&gt; &amp;@moonmuse.Provider</div><p>A provider that picks a route by the requested model.</p></div>
+</div>
+<div class="item" id="layers-should-switch">
+<div class="name"><span class="kind">fn</span>should_switch</div>
+<div class="body"><div class="sig">pub fn should_switch(@moonmuse.LlmError) -&gt; Bool</div><p>Whether the next provider is worth trying after <code>error</code>.</p></div>
+</div>
+</section>
+<section class="pkg" id="pkg-models">
+<div class="pkg-head"><h3>models</h3><span class="path">moonbitstack/moonmuse/models</span></div><p class="pkg-ref">The model catalogue: context windows, output limits, list prices and capabilities, taken from each vendor's published documentation.</p>
+<div class="item" id="models-catalog">
+<div class="name"><span class="kind">fn</span>catalog</div>
+<div class="body"><div class="sig">pub fn catalog() -&gt; Array[@moonmuse.ModelInfo]</div><p>Every model this catalogue knows, grouped by vendor in the order above.</p></div>
+</div>
+<div class="item" id="models-estimate-cost">
+<div class="name"><span class="kind">fn</span>estimate_cost</div>
+<div class="body"><div class="sig">pub fn estimate_cost(String, @moonmuse.Usage) -&gt; Double?</div><p>What one call would cost at list prices, from the usage the endpoint reported. <code>None</code> when the model is unknown or the usage did not report both counts, because a partial estimate reads as a cheaper call than it was.</p></div>
+</div>
+<div class="item" id="models-find">
+<div class="name"><span class="kind">fn</span>find</div>
+<div class="body"><div class="sig">pub fn find(String) -&gt; @moonmuse.ModelInfo?</div><p>The model with this id, when the catalogue knows it.</p></div>
+</div>
+<div class="item" id="models-with-capability">
+<div class="name"><span class="kind">fn</span>with_capability</div>
+<div class="body"><div class="sig">pub fn with_capability(@moonmuse.Capability) -&gt; Array[@moonmuse.ModelInfo]</div><p>The models that declare <code>capability</code>.</p></div>
+</div>
+</section>
+<section class="pkg" id="pkg-count">
+<div class="pkg-head"><h3>count</h3><span class="path">moonbitstack/moonmuse/count</span></div><p class="pkg-ref">Counting tokens needs a vocabulary, which is a large table most callers never load. It lives here rather than in the root package so that a gateway without a vocabulary does not download one, and the contract it fills is <code>@moonmuse.Counter</code>.</p>
+<div class="item" id="count-Tokens">
+<div class="name"><span class="kind">type</span>Tokens</div>
+<div class="body"><div class="sig">pub struct Tokens {
+  tokenizer : @moontoken.Tokenizer
+  overhead : Int32
+  image : Int32
+}</div><p>A counter over one vocabulary.</p><p class="impls">Implements <code>@moonmuse.Counter</code></p><div class="methods"><div class="sig">pub fn Tokens::count(Self, @moonmuse.Request) -&gt; Int32 raise @moonmuse.LlmError</div><div class="sig">pub fn Tokens::new(tokenizer~ : @moontoken.Tokenizer, overhead? : Int32, image? : Int32) -&gt; Self</div><p>A counter over <code>tokenizer</code>. <code>overhead</code> is what the endpoint adds per message; the default is the four tokens the chat formats reserve for the role and the separator.</p><div class="sig">pub fn Tokens::text(Self, StringView) -&gt; Int32 raise @moonmuse.LlmError</div><p>The tokens of <code>text</code>, which is the one number a tokenizer can give exactly.</p></div></div>
+</div>
+</section>
+<section class="pkg" id="pkg-fake">
+<div class="pkg-head"><h3>fake</h3><span class="path">moonbitstack/moonmuse/fake</span></div><p class="pkg-ref">A scripted provider. Tests of everything above the wire use it: the tool loop, the layers, the structured-output repair, and the server that exports a provider as an API.</p>
+<div class="item" id="fake-Fake">
+<div class="name"><span class="kind">type</span>Fake</div>
+<div class="body"><div class="sig">pub struct Fake {
+  replies : Array[@moonmuse.Reply]
+  mut next : Int32
+  mut hits : Int32
+  requests : Array[@moonmuse.Request]
+  models : Array[@moonmuse.ModelInfo]
+  dimension : Int32
+  fail_code : Int32
+  mut fail_left : Int32
+}</div><p>A scripted provider.</p><p class="impls">Implements <code>@moonmuse.Provider</code></p><div class="methods"><div class="sig">pub fn Fake::calls(String, @json.Json, id? : String) -&gt; Self</div><p>A provider that always asks for one tool call.</p><div class="sig">pub async fn Fake::chat(Self, @moonmuse.Request) -&gt; @moonmuse.Reply raise @moonmuse.LlmError</div><div class="sig">pub async fn Fake::embed(Self, String, Array[String]) -&gt; Array[Array[Double]] raise @moonmuse.LlmError</div><p>A deterministic vector per input: the same text always yields the same numbers, and two different texts almost always differ. Enough to test a retriever without a model.</p><div class="sig">pub fn Fake::failing(Int32) -&gt; Self</div><p>A provider that fails every call with <code>code</code>, for the layers that retry or fall back.</p><div class="sig">pub fn Fake::flaky(Int32, @moonmuse.Reply, code? : Int32) -&gt; Self</div><p>A provider that fails <code>fails</code> times with <code>code</code>, then answers with <code>reply</code> — the shape a retry or a fallback is supposed to survive.</p><div class="sig">pub fn Fake::hits(Self) -&gt; Int32</div><p>How many calls have been answered.</p><div class="sig">pub async fn Fake::models(Self) -&gt; Array[@moonmuse.ModelInfo] raise @moonmuse.LlmError</div><div class="sig">pub fn Fake::new(Array[@moonmuse.Reply], models? : Array[@moonmuse.ModelInfo], dimension? : Int32) -&gt; Self</div><p>A provider that answers with <code>replies</code> in order.</p><div class="sig">pub fn Fake::seen(Self) -&gt; Array[@moonmuse.Request]</div><p>The requests this provider saw, in order.</p><div class="sig">pub async fn Fake::stream(Self, @moonmuse.Request, (@moonmuse.Delta) -&gt; Unit) -&gt; @moonmuse.Reply raise @moonmuse.LlmError</div><p>Replay the reply as deltas: text in five-character slices, then each call, then <code>Done</code>. A test that checks incremental handling sees more than one text delta.</p><div class="sig">pub fn Fake::text(String) -&gt; Self</div><p>A provider that always answers with one text.</p></div></div>
+</div>
+</section>
+</div>
+<div class="group" id="group-serving"><div class="group-head"><h2>Serving</h2></div><p class="pkg-note">A provider turned into an API, and the one place a call becomes bytes.</p>
+<section class="pkg" id="pkg-serve">
+<div class="pkg-head"><h3>serve</h3><span class="path">moonbitstack/moonmuse/serve</span></div><p class="pkg-ref">A gateway: any provider, exported in the four formats this library speaks. The wire shapes come from the dialects the client already uses, so a format is written once and both directions are the same code.</p>
+<div class="item" id="serve-Keys">
+<div class="name"><span class="kind">trait</span>Keys</div>
+<div class="body"><div class="sig">pub(open) trait Keys {
+  fn accepts(Self, Array[(String, String)]) -&gt; Bool
+}</div><p>Who may call. Implement it for a key table, or for whatever an installation already has.</p></div>
+</div>
+<div class="item" id="serve-Limits">
+<div class="name"><span class="kind">type</span>Limits</div>
+<div class="body"><div class="sig">pub(all) struct Limits {
+  body : Int32
+  max_tokens : Int32
+}</div><p>Limits on what a gateway accepts.</p><div class="methods"><div class="sig">pub fn Limits::default() -&gt; Self</div><p>8 MiB of request and 4096 tokens of answer.</p></div></div>
+</div>
+<div class="item" id="serve-StaticKeys">
+<div class="name"><span class="kind">type</span>StaticKeys</div>
+<div class="body"><div class="sig">pub struct StaticKeys {
+  keys : Map[String, String]
+}</div><p>A table of bearer keys.</p><p class="impls">Implements <code>Keys</code></p><div class="methods"><div class="sig">pub fn StaticKeys::accepts(Self, Array[(String, String)]) -&gt; Bool</div><div class="sig">pub fn StaticKeys::new(Array[String]) -&gt; Self</div><p>Keys from a list, each mapped to itself.</p><div class="sig">pub fn StaticKeys::of(Map[String, String]) -&gt; Self</div><p>Keys from a map of key to tenant name.</p></div></div>
+</div>
+<div class="item" id="serve-credentials">
+<div class="name"><span class="kind">fn</span>credentials</div>
+<div class="body"><div class="sig">pub fn credentials(Array[(String, String)]) -&gt; String?</div><p>The credential a request presents: a bearer token, or Anthropic's own header.</p></div>
+</div>
+<div class="item" id="serve-default-dialects">
+<div class="name"><span class="kind">fn</span>default_dialects</div>
+<div class="body"><div class="sig">pub fn default_dialects() -&gt; Array[&amp;@moonmuse.Dialect]</div><p>The dialect list a gateway offers when the caller does not say: the two formats every client library speaks.</p></div>
+</div>
+<div class="item" id="serve-serve">
+<div class="name"><span class="kind">fn</span>serve</div>
+<div class="body"><div class="sig">pub fn serve(&amp;@moonmuse.Provider, dialects~ : Array[&amp;@moonmuse.Dialect], keys? : &amp;Keys, limits? : Limits, counter? : &amp;@moonmuse.Counter) -&gt; async (@spec.Scope, async () -&gt; @spec.Event, async (@spec.Event) -&gt; Unit) -&gt; Unit</div><p>The path a scope asked for.</p></div>
+</div>
+</section>
+<section class="pkg" id="pkg-transport">
+<div class="pkg-head"><h3>transport</h3><span class="path">moonbitstack/moonmuse/transport</span></div><p class="pkg-ref">The one place a dialect's <code>Call</code> becomes bytes on a socket. Everything above it is pure, which is what lets the same wire format be tested without a server.</p>
+<div class="item" id="transport-Form">
+<div class="name"><span class="kind">type</span>Form</div>
+<div class="body"><div class="sig">pub struct Form {
+  content_type : String
+  body : Bytes
+}</div><p>A <code>multipart/form-data</code> body and the content type that names its boundary.</p><div class="methods"><div class="sig">pub fn Form::body(Self) -&gt; Bytes</div><p>The bytes to send.</p><div class="sig">pub fn Form::content_type(Self) -&gt; String</div><p>The content type to send.</p></div></div>
+</div>
+<div class="item" id="transport-Response">
+<div class="name"><span class="kind">type</span>Response</div>
+<div class="body"><div class="sig">pub struct Response {
+  status : Int32
+  headers : Array[(String, String)]
+  body : String
+  raw : Bytes
+}</div><p>An HTTP answer.</p><div class="methods"><div class="sig">pub fn Response::header(Self, String) -&gt; String?</div><p>The last value of a header, case-insensitively.</p><div class="sig">pub fn Response::json(Self) -&gt; @json.Json raise @moonmuse.LlmError</div><p>The body as JSON, or <code>Decode</code> when it is not.</p><div class="sig">pub fn Response::retry_after(Self) -&gt; Int64?</div><p>The <code>retry-after</code> header in seconds, when the endpoint sent one.</p></div></div>
+</div>
+<div class="item" id="transport-Streaming">
+<div class="name"><span class="kind">type</span>Streaming</div>
+<div class="body"><div class="sig">pub struct Streaming {
+  status : Int32
+  headers : Array[(String, String)]
+  stream : @moonfetch.Stream
+  client : @moonfetch.Client
+  mut pending : Bytes
+  mut over : Bool
+}</div><p>An answer whose body is read a piece at a time.</p><div class="methods"><div class="sig">pub fn Streaming::close(Self) -&gt; Unit</div><p>Give up the rest of the body and close the connection. Safe to call twice.</p><div class="sig">pub async fn Streaming::ensure_success(Self) -&gt; Unit raise @moonmuse.LlmError</div><p>Raise the status of a failed answer, after reading the body that explains it.</p><div class="sig">pub fn Streaming::header(Self, String) -&gt; String?</div><p>The last value of a header, case-insensitively.</p><div class="sig">pub fn Streaming::is_over(Self) -&gt; Bool</div><p>Whether the body has been read to its end.</p><div class="sig">pub async fn Streaming::next(Self) -&gt; String? raise @moonmuse.LlmError</div><p>The next piece of the body as text, or <code>None</code> at the end. A piece ends where the network ended it, except that a character split across two reads is held back until its remaining bytes arrive — a caller never sees half a character.</p><div class="sig">pub async fn Streaming::next_bytes(Self) -&gt; Bytes? raise @moonmuse.LlmError</div><p>The next piece of the body as it arrived, without decoding. A binary framing — AWS's event stream, a media container — is read this way; <code>next</code> is the text one.</p><div class="sig">pub fn Streaming::retry_after(Self) -&gt; Int64?</div><p>The <code>retry-after</code> header in seconds, when the endpoint sent one.</p><div class="sig">pub fn Streaming::status(Self) -&gt; Int32</div><p>The status of the head.</p><div class="sig">pub async fn Streaming::text(Self, limit? : Int32) -&gt; String raise @moonmuse.LlmError</div><p>Read the rest of the body as text. Used for the body of a failure, which is small.</p></div></div>
+</div>
+<div class="item" id="transport-Framing">
+<div class="name"><span class="kind">type</span>Framing</div>
+<div class="body"><div class="sig">pub(all) enum Framing {
+  Sse
+  Lines
+}</div><p>How the frames of a streamed answer are delimited. Server-sent events carry a name and a blank line between frames; Ollama writes one JSON object per line.</p></div>
+</div>
+<div class="item" id="transport-ensure-success">
+<div class="name"><span class="kind">fn</span>ensure_success</div>
+<div class="body"><div class="sig">pub fn ensure_success(Response) -&gt; Response raise @moonmuse.LlmError</div><p>The status of a response that failed, as an error. A success status passes through.</p></div>
+</div>
+<div class="item" id="transport-form">
+<div class="name"><span class="kind">fn</span>form</div>
+<div class="body"><div class="sig">pub fn form(Array[(String, String)], file? : (String, String, Bytes)) -&gt; Form</div><p>A form of text fields and at most one file. The boundary is derived from the field names and the file name, so the same form always produces the same bytes — which is what makes a recorded request comparable to a fresh one.</p></div>
+</div>
+<div class="item" id="transport-open">
+<div class="name"><span class="kind">fn</span>open</div>
+<div class="body"><div class="sig">pub async fn open(@moonmuse.Call, base~ : String, headers? : Array[(String, String)], timeout? : Int32) -&gt; Streaming raise @moonmuse.LlmError</div><p>Ask for an answer and return once its head is in. A failed call is a <code>Stream</code> error, which is retryable; a 4xx or 5xx head is not raised here, because the body that explains it has to be read off the same stream.</p></div>
+</div>
+<div class="item" id="transport-send">
+<div class="name"><span class="kind">fn</span>send</div>
+<div class="body"><div class="sig">pub async fn send(@moonmuse.Call, base~ : String, headers? : Array[(String, String)], timeout? : Int32) -&gt; Response raise @moonmuse.LlmError</div><p>Send one call to <code>base + call.path</code>. A transport failure becomes <code>Stream</code>, which is retryable: a refused connection is worth one more try, a malformed body is not.</p></div>
+</div>
+<div class="item" id="transport-send-binary">
+<div class="name"><span class="kind">fn</span>send_binary</div>
+<div class="body"><div class="sig">pub async fn send_binary(String, base~ : String, path~ : String, content_type~ : String, data~ : Bytes, headers? : Array[(String, String)], timeout? : Int32) -&gt; Response raise @moonmuse.LlmError</div><p>Send a body this library did not encode as JSON: a file, an audio payload.</p></div>
+</div>
+<div class="item" id="transport-send-form">
+<div class="name"><span class="kind">fn</span>send_form</div>
+<div class="body"><div class="sig">pub async fn send_form(Form, base~ : String, path~ : String, headers? : Array[(String, String)], timeout? : Int32) -&gt; Response raise @moonmuse.LlmError</div><p>Send a form body, for the endpoints that take a file.</p></div>
+</div>
+<div class="item" id="transport-stream-reply">
+<div class="name"><span class="kind">fn</span>stream_reply</div>
+<div class="body"><div class="sig">pub async fn stream_reply(&amp;@moonmuse.Dialect, Streaming, framing? : Framing, on_delta~ : (@moonmuse.Delta) -&gt; Unit) -&gt; @moonmuse.Reply raise @moonmuse.LlmError</div><p>Drive a dialect's reader over an open answer, calling <code>on_delta</code> for each event as it arrives, and return the reply those events assemble. A stream that ends without a closing event still yields a reply: the events it did carry are the answer.</p></div>
+</div>
+</section>
+</div>
+<div class="group" id="group-local"><div class="group-head"><h2>A local engine</h2></div><p class="pkg-note">An inference engine and a chat template behind the same contract.</p>
+<section class="pkg" id="pkg-local">
+<div class="pkg-head"><h3>local</h3><span class="path">moonbitstack/moonmuse/local</span></div><p class="pkg-ref">A local model as a provider: a chat template, the text an engine produced, and the tool calls it wrote inside that text. The engine is a contract, so an inference engine can be wired in without this package knowing how weights are read.</p>
+<div class="item" id="local-Engine">
+<div class="name"><span class="kind">trait</span>Engine</div>
+<div class="body"><div class="sig">pub(open) trait Engine {
+  async fn generate(Self, String, Int32) -&gt; String raise LocalError
+  async fn stream(Self, String, Int32, (String) -&gt; Unit) -&gt; String raise LocalError = _
+  async fn embed(Self, String, Array[String]) -&gt; Array[Array[Double]] raise LocalError = _
+  fn models(Self) -&gt; Array[@moonmuse.ModelInfo] = _
+}</div><p>The inference engine this package drives. An engine knows weights, tokens and a context window; it does not know <code>Provider</code>, HTTP, or which chat format a model was trained on — those are this package's job.</p></div>
+</div>
+<div class="item" id="local-Local">
+<div class="name"><span class="kind">type</span>Local</div>
+<div class="body"><div class="sig">pub struct Local {
+  engine : &amp;Engine
+  template : @prompt.Template
+  model : String
+  calls : Calls
+  info : Array[@moonmuse.ModelInfo]
+  limit : Int32
+}</div><p>A provider backed by an inference engine.</p><p class="impls">Implements <code>@moonmuse.Provider</code></p><div class="methods"><div class="sig">pub async fn Local::chat(Self, @moonmuse.Request) -&gt; @moonmuse.Reply raise @moonmuse.LlmError</div><div class="sig">pub async fn Local::embed(Self, String, Array[String]) -&gt; Array[Array[Double]] raise @moonmuse.LlmError</div><div class="sig">pub async fn Local::models(Self) -&gt; Array[@moonmuse.ModelInfo] raise @moonmuse.LlmError</div><div class="sig">pub fn Local::new(&amp;Engine, template? : @prompt.Template, model? : String, calls? : Calls, info? : Array[@moonmuse.ModelInfo], limit? : Int32) -&gt; Self</div><p>A provider for <code>engine</code>. The template defaults to ChatML, the format most open models are tuned on; pass <code>template=@local.llama3()</code> for a Llama 3 model.</p><div class="sig">pub fn Local::prompt(Self, @moonmuse.Request) -&gt; String raise LocalError</div><p>The prompt this request becomes. Rendering is where a template and its values meet, so a bad template reports itself here rather than after a model has been loaded.</p><div class="sig">pub async fn Local::stream(Self, @moonmuse.Request, (@moonmuse.Delta) -&gt; Unit) -&gt; @moonmuse.Reply raise @moonmuse.LlmError</div><p>A streamed answer. With no tools declared the model's text is forwarded as it is produced, so a chat streams token by token. With tools the answer is buffered first: a call is written inside the text, and half of one is not something a caller can act on.</p></div></div>
+</div>
+<div class="item" id="local-Parsed">
+<div class="name"><span class="kind">type</span>Parsed</div>
+<div class="body"><div class="sig">pub struct Parsed {
+  text : String
+  calls : Array[@moonmuse.Part]
+}</div><p>An answer split into what is text and what is a call.</p></div>
+</div>
+<div class="item" id="local-Calls">
+<div class="name"><span class="kind">type</span>Calls</div>
+<div class="body"><div class="sig">pub(all) enum Calls {
+  Tagged
+  Fenced
+  Bare
+}</div><p>How a model writes a tool call.</p></div>
+</div>
+<div class="item" id="local-LocalError">
+<div class="name"><span class="kind">error</span>LocalError</div>
+<div class="body"><div class="sig">pub(all) suberror LocalError {
+  Engine(String)
+  Template(String)
+  Unsupported(String)
+}</div><p>A local generation failure.</p></div>
+</div>
+<div class="item" id="local-chatml">
+<div class="name"><span class="kind">fn</span>chatml</div>
+<div class="body"><div class="sig">pub fn chatml() -&gt; @prompt.Template</div><p>The ChatML template: Qwen, Hermes, Yi and most models fine-tuned on their format.</p></div>
+</div>
+<div class="item" id="local-context">
+<div class="name"><span class="kind">fn</span>context</div>
+<div class="body"><div class="sig">pub fn context(@moonmuse.Request, add_generation_prompt? : Bool) -&gt; Map[String, @json.Json]</div><p>The values a chat template is rendered with: the messages, the tools, and whether the assistant turn is left open for the model to continue.</p></div>
+</div>
+<div class="item" id="local-llama3">
+<div class="name"><span class="kind">fn</span>llama3</div>
+<div class="body"><div class="sig">pub fn llama3() -&gt; @prompt.Template</div><p>The Llama 3 template, which names roles in a header block and ends turns with <code>eot_id</code>.</p></div>
+</div>
+<div class="item" id="local-parse">
+<div class="name"><span class="kind">fn</span>parse</div>
+<div class="body"><div class="sig">pub fn parse(String, calls? : Calls) -&gt; Parsed</div><p>The text and calls of an answer written in <code>calls</code> style. Call ids are <code>call_0</code>, <code>call_1</code>, by position: a local model does not invent ids, and a caller needs something to match the results it sends back.</p></div>
+</div>
+</section>
+</div>
+<div class="group" id="group-observation"><div class="group-head"><h2>Observation</h2></div><p class="pkg-note">Traces and metrics under the OpenTelemetry GenAI names.</p>
+<section class="pkg" id="pkg-otel">
+<div class="pkg-head"><h3>otel</h3><span class="path">moonbitstack/moonmuse/otel</span></div><p class="pkg-ref">Observation for the model layer: a provider that reports what a call was and what it cost, as OpenTelemetry traces and Prometheus metrics. The names come from the semantic conventions in moontel, so a backend sees the same keys it sees from every other client.</p>
+<div class="item" id="otel-Metered">
+<div class="name"><span class="kind">type</span>Metered</div>
+<div class="body"><div class="sig">pub struct Metered {
+  inner : &amp;@moonmuse.Provider
+  duration : @metric.Family[@metric.Histogram]
+  input : @metric.Family[@metric.Counter]
+  output : @metric.Family[@metric.Counter]
+  first : @metric.Family[@metric.Histogram]
+}</div><p>A provider wrapped in metrics.</p><p class="impls">Implements <code>@moonmuse.Provider</code></p><div class="methods"><div class="sig">pub async fn Metered::chat(Self, @moonmuse.Request) -&gt; @moonmuse.Reply raise @moonmuse.LlmError</div><div class="sig">pub async fn Metered::embed(Self, String, Array[String]) -&gt; Array[Array[Double]] raise @moonmuse.LlmError</div><div class="sig">pub async fn Metered::models(Self) -&gt; Array[@moonmuse.ModelInfo] raise @moonmuse.LlmError</div><div class="sig">pub async fn Metered::stream(Self, @moonmuse.Request, (@moonmuse.Delta) -&gt; Unit) -&gt; @moonmuse.Reply raise @moonmuse.LlmError</div></div></div>
+</div>
+<div class="item" id="otel-Traced">
+<div class="name"><span class="kind">type</span>Traced</div>
+<div class="body"><div class="sig">pub struct Traced {
+  inner : &amp;@moonmuse.Provider
+  tracer : @trace.Tracer
+  content : Bool
+}</div><p>A provider wrapped in tracing.</p><p class="impls">Implements <code>@moonmuse.Provider</code></p><div class="methods"><div class="sig">pub async fn Traced::chat(Self, @moonmuse.Request) -&gt; @moonmuse.Reply raise @moonmuse.LlmError</div><div class="sig">pub async fn Traced::embed(Self, String, Array[String]) -&gt; Array[Array[Double]] raise @moonmuse.LlmError</div><div class="sig">pub async fn Traced::models(Self) -&gt; Array[@moonmuse.ModelInfo] raise @moonmuse.LlmError</div><div class="sig">pub async fn Traced::stream(Self, @moonmuse.Request, (@moonmuse.Delta) -&gt; Unit) -&gt; @moonmuse.Reply raise @moonmuse.LlmError</div><p>A streamed call is one span, opened before the first event and closed after the last, with the time to the first event recorded as an event so a trace shows where the wait was.</p></div></div>
+</div>
+<div class="item" id="otel-metered">
+<div class="name"><span class="kind">fn</span>metered</div>
+<div class="body"><div class="sig">pub fn metered(&amp;@moonmuse.Provider, @metric.Registry) -&gt; &amp;@moonmuse.Provider</div><p>Report <code>provider</code>'s calls into <code>registry</code>. The instruments are created once, here, so a registry that already has them refuses the second wrapper rather than mixing two series.</p></div>
+</div>
+<div class="item" id="otel-traced">
+<div class="name"><span class="kind">fn</span>traced</div>
+<div class="body"><div class="sig">pub fn traced(&amp;@moonmuse.Provider, @trace.Tracer, content? : Bool) -&gt; &amp;@moonmuse.Provider</div><p>Observe <code>provider</code> through <code>tracer</code>. Spans are named after the operation and the model, which is how the convention names them.</p></div>
+</div>
+</section>
+</div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="foot wrap">
+  <span>moonmuse · Apache-2.0</span>
+  <span class="links">
+    <a href="guide.html">Guide</a>
+    <a href="formats.html">Formats</a>
+    <a href="api.html">API</a>
+    <a href="https://mooncakes.io/docs/moonbitstack/moonmuse">mooncakes</a>
+    <a href="https://github.com/moonbitstack/moonmuse">Repository</a>
+  </span>
+  <span class="spacer">No trackers, no cookies, no analytics</span>
+</footer>
+
+<button class="totop" id="totop" type="button" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
+</button>
+
+<script src="assets/paper.js"></script>
+</body>
+</html>

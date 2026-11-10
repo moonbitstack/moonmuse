@@ -1,0 +1,619 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" id="theme-color" content="#F2EBDD">
+<meta name="description" content="The same conversation as OpenAI, Anthropic, Gemini and Ollama each put it on the wire — field by field, and editable: change one body and the other three are rewritten by the library in the page.">
+<title>Formats — moonmuse</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/paper.css">
+<script>
+  (function () {
+    var theme = "light";
+    try {
+      var saved = sessionStorage.getItem("moonmuse:theme");
+      theme = saved || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    } catch (error) {
+      theme = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    document.documentElement.setAttribute("data-theme", theme);
+  })();
+</script>
+</head>
+<body>
+
+<a class="skip" href="#bodies">Skip to the editable bodies</a>
+
+<header class="bar">
+  <div class="wrap bar-in">
+    <a class="brand" href="index.html" aria-label="moonmuse, home">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M4 5.5h16M4 12h16M4 18.5h9"/><circle cx="18.5" cy="18.5" r="2.4"/></svg>
+      moonmuse
+    </a>
+    <nav class="nav" aria-label="Site">
+      <a href="guide.html">Guide</a>
+      <a href="formats.html" aria-current="page">Formats</a>
+      <a href="api.html">API</a>
+      <button id="theme" type="button" aria-pressed="false" aria-label="Switch the desk">
+        <svg class="theme-icon moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>
+        <svg class="theme-icon sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg>
+        <span class="theme-word">Desk</span>
+      </button>
+      <a class="icon-link" href="https://github.com/moonbitstack/moonmuse" aria-label="The repository on GitHub">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+      </a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+
+    <div class="head-page">
+      <p class="eyebrow">Formats</p>
+      <h1 style="max-width:900px">The same conversation, four documents</h1>
+      <p class="lede">System prompt “Answer in one sentence.”, one user question, temperature 0.2, a 256-token cap. Below is where each field lands in each specification, then the four bodies themselves — editable, and rewritten from whichever one you touch by this library, running in the page.</p>
+    </div>
+
+    <section id="map">
+      <p class="eyebrow">01 · Field map</p>
+      <h2>Read a row across</h2>
+      <p class="sub">One concept per row; one specification per column. Red marks a value that decides whether the request is accepted at all.</p>
+      <p class="hint">Four columns wide — scroll sideways on a narrow screen.</p>
+      <div class="scrollwrap">
+        <div class="scroller">
+          <table class="sheet">
+            <thead>
+              <tr>
+                <th scope="col" class="corner">Field</th>
+                <th scope="col" style="--tint:var(--ivory);border-top:4px solid var(--bar-1)">OpenAI<span class="path">POST /v1/chat/completions</span></th>
+                <th scope="col" style="--tint:var(--blossom);border-top:4px solid var(--bar-2)">Anthropic<span class="path">POST /v1/messages</span></th>
+                <th scope="col" style="--tint:var(--sky);border-top:4px solid var(--bar-3)">Gemini<span class="path">POST /v1beta/models/{model}:generateContent</span></th>
+                <th scope="col" style="--tint:var(--sage);border-top:4px solid var(--bar-4)">Ollama<span class="path">POST /api/chat</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Model</th>
+                <td><code>"model": "gpt-4o-mini"</code></td>
+                <td><code>"model": "claude-sonnet-4-20250514"</code></td>
+                <td>In the URL: <code>/models/gemini-2.0-flash</code><span class="small">no model field in the body</span></td>
+                <td><code>"model": "qwen2.5"</code></td>
+              </tr>
+              <tr>
+                <th scope="row">System prompt</th>
+                <td><code>messages[0]</code> with <code>role: "system"</code></td>
+                <td>top-level <code>"system": "…"</code><span class="small">kept out of the message list</span></td>
+                <td><code>"systemInstruction": {"parts": [{"text": …}]}</code></td>
+                <td><code>messages[0]</code> with <code>role: "system"</code></td>
+              </tr>
+              <tr>
+                <th scope="row">Messages</th>
+                <td><code>"messages": [{role, content: "…"}]</code><span class="small">content is a string</span></td>
+                <td><code>"messages": [{role, content: [{type:"text", text:"…"}]}]</code><span class="small">content is an array of blocks</span></td>
+                <td><code>"contents": [{role:"user", parts:[{text:"…"}]}]</code></td>
+                <td><code>"messages": [{role, content: "…"}]</code></td>
+              </tr>
+              <tr>
+                <th scope="row">Roles</th>
+                <td><code>system</code> / <code>user</code> / <code>assistant</code></td>
+                <td><code>user</code> / <code>assistant</code><span class="small">no system role at all</span></td>
+                <td><code>user</code> / <code>model</code><span class="small">the assistant is called model</span></td>
+                <td><code>system</code> / <code>user</code> / <code>assistant</code></td>
+              </tr>
+              <tr>
+                <th scope="row">Temperature</th>
+                <td><code>"temperature": 0.2</code></td>
+                <td><code>"temperature": 0.2</code></td>
+                <td><code>generationConfig.temperature</code></td>
+                <td><code>options.temperature</code></td>
+              </tr>
+              <tr>
+                <th scope="row">Output limit</th>
+                <td><code>"max_tokens": 256</code></td>
+                <td><code>"max_tokens": 256</code><span class="only">required — a request without it is rejected</span></td>
+                <td><code>generationConfig.maxOutputTokens</code></td>
+                <td><code>options.num_predict</code></td>
+              </tr>
+              <tr>
+                <th scope="row">Stop sequences</th>
+                <td><code>"stop": ["\n\n"]</code></td>
+                <td><code>"stop_sequences": ["\n\n"]</code></td>
+                <td><code>generationConfig.stopSequences</code></td>
+                <td><code>options.stop</code></td>
+              </tr>
+              <tr>
+                <th scope="row">Streaming</th>
+                <td><code>"stream": true</code></td>
+                <td><code>"stream": true</code></td>
+                <td>a different method: <code>:streamGenerateContent?alt=sse</code><span class="small">not a flag in the body</span></td>
+                <td><code>"stream": false</code> turns it off<span class="small">on by default</span></td>
+              </tr>
+              <tr>
+                <th scope="row">Usage</th>
+                <td><code>usage.prompt_tokens</code> / <code>completion_tokens</code></td>
+                <td><code>usage.input_tokens</code> / <code>output_tokens</code></td>
+                <td><code>usageMetadata.promptTokenCount</code> / <code>candidatesTokenCount</code></td>
+                <td><code>prompt_eval_count</code> / <code>eval_count</code></td>
+              </tr>
+              <tr>
+                <th scope="row">Finish reason</th>
+                <td><code>choices[0].finish_reason</code><span class="small">stop / length / tool_calls</span></td>
+                <td><code>stop_reason</code><span class="small">end_turn / max_tokens / tool_use</span></td>
+                <td><code>candidates[0].finishReason</code><span class="small">STOP / MAX_TOKENS</span></td>
+                <td><code>done_reason</code><span class="small">stop / length</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="bodies">
+      <p class="eyebrow">02 · Four bodies</p>
+      <h2>Edit one, and the rest follow</h2>
+      <p class="sub">Every pane is a text field. Change a value, add a message, or press ↻ to make that pane the source: the other three are read and written by the four dialects, not by this page.</p>
+      <noscript><p class="sub">The panes and the copy buttons are drawn by a small script; the field map above already holds every key they would show.</p></noscript>
+      <div class="bodies" id="bodies-grid"></div>
+      <div class="pane-status"><p id="pane-status" role="status"></p></div>
+      <p class="sub" style="margin-top:9px;font-size:12.5px">The model travels with the request: convert a body and the same model name appears where the target format keeps it — for Gemini, in the URL.</p>
+    </section>
+
+    <section id="rules">
+      <p class="eyebrow">03 · House rules</p>
+      <h2>What breaks a second integration</h2>
+      <p class="sub">Four things, in the order they usually bite. None of them is a bug in either side; each is what the specification decides.</p>
+      <ul class="prose" style="list-style:none;padding:0;display:grid;gap:10px">
+        <li class="note"><b>Anthropic requires max_tokens.</b> Omit it and the request is rejected; there is no default. OpenAI and Ollama fill one in.</li>
+        <li class="note"><b>Gemini puts the model in the path and the knobs under generationConfig.</b> Temperature, output cap and stop sequences are renamed and relocated at the same time.</li>
+        <li class="note"><b>Ollama nests generation options under options, and streams by default.</b> Ask for one response with <code>"stream": false</code>.</li>
+        <li class="note"><b>OpenAI has no top-level system field.</b> The system prompt is the first message, so order carries meaning.</li>
+      </ul>
+    </section>
+
+    <section id="streams">
+      <p class="eyebrow">04 · Streams</p>
+      <h2>Four shapes of the same event</h2>
+      <p class="sub">The deltas are one type. What arrives on the socket is not: a JSON chunk, seven named events, a candidate array, or one object per line.</p>
+      <div class="grid two">
+        <div>
+          <div class="listing narrow">
+            <div class="listing-bar"><span class="label">OpenAI · server-sent events</span><span class="spacer"></span></div>
+<pre>data: {"choices":[{"delta":{"content":"Be"}}]}
+
+data: {"choices":[{"delta":{"content":"cause"}}]}
+
+data: [DONE]</pre>
+          </div>
+          <p class="sub" style="margin-top:9px;font-size:12.5px">One unnamed event per chunk; the stream closes with a sentinel.</p>
+        </div>
+        <div>
+          <div class="listing narrow">
+            <div class="listing-bar"><span class="label">Anthropic · named events</span><span class="spacer"></span></div>
+<pre>event: message_start
+data: {"type":"message_start",...}
+
+event: content_block_delta
+data: {"type":"content_block_delta","index":0,
+       "delta":{"type":"text_delta","text":"Be"}}</pre>
+          </div>
+          <p class="sub" style="margin-top:9px;font-size:12.5px">Seven event names, and a block index that has to be tracked.</p>
+        </div>
+        <div>
+          <div class="listing narrow">
+            <div class="listing-bar"><span class="label">Gemini · candidate array</span><span class="spacer"></span></div>
+<pre>data: {"candidates":[{"content":{"parts":
+       [{"text":"Be"}],"role":"model"}}]}</pre>
+          </div>
+          <p class="sub" style="margin-top:9px;font-size:12.5px">The same SSE frame, with the text nested three levels down.</p>
+        </div>
+        <div>
+          <div class="listing narrow">
+            <div class="listing-bar"><span class="label">Ollama · newline-delimited JSON</span><span class="spacer"></span></div>
+<pre>{"message":{"role":"assistant","content":"Be"},"done":false}
+{"message":{"role":"assistant","content":"cause"},"done":false}
+{"done":true,"done_reason":"stop"}</pre>
+          </div>
+          <p class="sub" style="margin-top:9px;font-size:12.5px">No event names, no sentinel: one object per line, ending with <code>done</code>.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="serving">
+      <p class="eyebrow">05 · Serving</p>
+      <h2>And the same four, outward</h2>
+      <p class="sub">The dialects that write a request also read one, so a provider can answer in all four formats. Two formats claim <code>/v1/models</code>; the <code>anthropic-version</code> header decides which answers.</p>
+      <div class="scrollwrap">
+        <div class="scroller">
+          <table class="sheet" style="min-width:640px">
+            <thead><tr><th scope="col">Format</th><th scope="col">Endpoints</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">OpenAI</th><td><code>/v1/chat/completions</code> <code>/v1/completions</code> <code>/v1/responses</code> <code>/v1/embeddings</code> <code>/v1/models</code></td></tr>
+              <tr><th scope="row">Anthropic</th><td><code>/v1/messages</code> <code>/v1/messages/count_tokens</code> <code>/v1/models</code></td></tr>
+              <tr><th scope="row">Ollama</th><td><code>/api/chat</code> <code>/api/generate</code> <code>/api/embed</code> <code>/api/tags</code> <code>/api/show</code> <code>/api/version</code></td></tr>
+              <tr><th scope="row">Gemini</th><td><code>/v1beta/models/*:generateContent</code> <code>:streamGenerateContent</code> <code>:embedContent</code> <code>:batchEmbedContents</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <p class="sub" style="margin-top:18px;max-width:760px">Writing one more format adds one dialect, and the client and the gateway both have it: the direction you did not write is the one you already had.</p>
+    </section>
+
+  </div>
+</main>
+
+<footer class="foot wrap">
+  <span>moonmuse · Apache-2.0</span>
+  <span class="links">
+    <a href="guide.html">Guide</a>
+    <a href="formats.html">Formats</a>
+    <a href="api.html">API</a>
+    <a href="https://mooncakes.io/docs/moonbitstack/moonmuse">mooncakes</a>
+    <a href="https://github.com/moonbitstack/moonmuse">Repository</a>
+  </span>
+  <span class="spacer">No trackers, no cookies, no analytics</span>
+</footer>
+
+<button class="totop" id="totop" type="button" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
+</button>
+
+<script src="assets/paper.js"></script>
+<script>
+const FORMATS = [
+  {
+    id: "openai", name: "OpenAI", tint: "--ivory", base: "/v1", rel: "/chat/completions",
+    auth: "authorization: Bearer sk-…",
+    json: `{
+  "model": "gpt-4o-mini",
+  "messages": [
+    {"role": "system", "content": "Answer in one sentence."},
+    {"role": "user", "content": "Why is the sky blue?"}
+  ],
+  "temperature": 0.2,
+  "max_tokens": 256
+}`
+  },
+  {
+    id: "anthropic", name: "Anthropic", tint: "--blossom", base: "/v1", rel: "/messages",
+    auth: "x-api-key: sk-ant-…\nanthropic-version: 2023-06-01",
+    json: `{
+  "model": "gpt-4o-mini",
+  "max_tokens": 256,
+  "system": "Answer in one sentence.",
+  "messages": [
+    {"role": "user", "content": [
+      {"type": "text", "text": "Why is the sky blue?"}
+    ]}
+  ],
+  "temperature": 0.2
+}`
+  },
+  {
+    id: "gemini", name: "Gemini", tint: "--sky", base: "/v1beta",
+    rel: "/models/gpt-4o-mini:generateContent",
+    auth: "x-goog-api-key: AIza…",
+    json: `{
+  "systemInstruction": {
+    "parts": [{"text": "Answer in one sentence."}]
+  },
+  "contents": [
+    {"role": "user", "parts": [{"text": "Why is the sky blue?"}]}
+  ],
+  "generationConfig": {
+    "temperature": 0.2,
+    "maxOutputTokens": 256
+  }
+}`
+  },
+  {
+    id: "ollama", name: "Ollama", tint: "--sage", base: "", rel: "/api/chat",
+    auth: "(no auth on localhost)",
+    json: `{
+  "model": "gpt-4o-mini",
+  "messages": [
+    {"role": "system", "content": "Answer in one sentence."},
+    {"role": "user", "content": "Why is the sky blue?"}
+  ],
+  "stream": false,
+  "options": {
+    "temperature": 0.2,
+    "num_predict": 256
+  }
+}`
+  }
+];
+
+/* A body written by JSON.stringify(value, null, 2) is correct and reads badly: a message with
+   one text block becomes eight lines. This lays a value out the way the samples in the source
+   are laid out — a short object stays on one line, a long one breaks — so the panes keep their
+   shape when a conversion rewrites them. */
+let charWidth = 0;
+
+function columns(pane) {
+  if (!charWidth) {
+    const style = getComputedStyle(pane);
+    const probe = document.createElement("span");
+    probe.textContent = "0123456789";
+    probe.style.cssText = "position:absolute;visibility:hidden;white-space:pre";
+    probe.style.fontFamily = style.fontFamily;
+    probe.style.fontSize = style.fontSize;
+    probe.style.fontWeight = style.fontWeight;
+    probe.style.letterSpacing = style.letterSpacing;
+    document.body.appendChild(probe);
+    charWidth = probe.getBoundingClientRect().width / 10 || 7.5;
+    probe.remove();
+  }
+  return Math.max(28, Math.floor((pane.clientWidth - 28) / charWidth));
+}
+
+function quote(value) {
+  return JSON.stringify(value);
+}
+
+function compact(value) {
+  if (Array.isArray(value)) return "[" + value.map(compact).join(", ") + "]";
+  if (value && typeof value === "object") {
+    return "{" + Object.keys(value).map((key) => quote(key) + ": " + compact(value[key])).join(", ") + "}";
+  }
+  return quote(value);
+}
+
+function layout(value, depth, line) {
+  const pad = "  ".repeat(depth);
+  const flat = compact(value);
+  if (pad.length + flat.length <= line || !value || typeof value !== "object") return flat;
+  const step = "  ".repeat(depth + 1);
+  if (Array.isArray(value)) {
+    return "[\n" + value.map((item) => step + layout(item, depth + 1, line)).join(",\n") + "\n" + pad + "]";
+  }
+  return "{\n" +
+    Object.keys(value).map((key) => step + quote(key) + ": " + layout(value[key], depth + 1, line)).join(",\n") +
+    "\n" + pad + "}";
+}
+
+function esc(text) {
+  return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+function paint(text) {
+  let out = "", i = 0;
+  while (i < text.length) {
+    const c = text[i];
+    if (c === '"') {
+      let j = i + 1;
+      while (j < text.length) {
+        if (text[j] === "\\") { j += 2; continue; }
+        if (text[j] === '"') break;
+        j++;
+      }
+      const token = text.slice(i, j + 1);
+      let k = j + 1;
+      while (k < text.length && /\s/.test(text[k])) k++;
+      out += '<span class="' + (text[k] === ":" ? "k" : "s") + '">' + esc(token) + "</span>";
+      i = j + 1;
+    } else if (/[0-9]/.test(c) || (c === "-" && /[0-9]/.test(text[i + 1] || ""))) {
+      let j = i + 1;
+      while (j < text.length && /[0-9.eE+-]/.test(text[j])) j++;
+      out += '<span class="n">' + text.slice(i, j) + "</span>";
+      i = j;
+    } else {
+      out += esc(c);
+      i++;
+    }
+  }
+  return out;
+}
+
+function copyButton(source) {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "copy";
+  button.textContent = "Copy";
+  button.setAttribute("aria-label", "Copy this body");
+  button.addEventListener("click", () => {
+    const text = source().replace(/^\s+|\s+$/g, "");
+    const done = () => {
+      button.textContent = "Copied";
+      button.classList.add("done");
+      clearTimeout(button._t);
+      button._t = setTimeout(() => {
+        button.textContent = "Copy";
+        button.classList.remove("done");
+      }, 1400);
+    };
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(done, () => fallback(text, done));
+    } else {
+      fallback(text, done);
+    }
+  });
+  return button;
+}
+
+function fallback(text, done) {
+  const area = document.createElement("textarea");
+  area.value = text;
+  area.setAttribute("readonly", "");
+  area.style.cssText = "position:fixed;left:-9999px;top:0";
+  document.body.appendChild(area);
+  area.select();
+  try { document.execCommand("copy"); done(); } catch (error) {}
+  area.remove();
+}
+
+const grid = document.getElementById("bodies-grid");
+const status = document.getElementById("pane-status");
+const resetButton = document.createElement("button");
+resetButton.type = "button";
+resetButton.className = "reset";
+resetButton.hidden = true;
+resetButton.textContent = "Reset the samples";
+resetButton.addEventListener("click", () => reset());
+const views = [];
+let converter = null;
+let timer = 0;
+
+function fit(area) {
+  area.style.minHeight = "0px";
+  area.style.minHeight = area.scrollHeight + "px";
+}
+
+function setBody(view, text) {
+  view.area.value = text;
+  view.hl.textContent = "";
+  view.hl.innerHTML = paint(text) + "\n";
+  fit(view.area);
+}
+
+function setPath(view, verb, rel) {
+  if (rel) view.rel = rel;
+  view.path.textContent = (verb || "POST") + " " + view.format.base + view.rel + "\n" + view.format.auth;
+}
+
+function buildPane(format) {
+  const pane = document.createElement("article");
+  pane.className = "pane";
+  pane.style.setProperty("--tint", "var(" + format.tint + ")");
+
+  const head = document.createElement("div");
+  head.className = "pane-head";
+  const name = document.createElement("h3");
+  name.textContent = format.name;
+  const chip = document.createElement("span");
+  chip.className = "chip";
+  chip.textContent = "source";
+  chip.hidden = true;
+  const spacer = document.createElement("span");
+  spacer.className = "spacer";
+
+  const body = document.createElement("div");
+  body.className = "pane-body";
+  const hl = document.createElement("pre");
+  hl.className = "hl";
+  hl.setAttribute("aria-hidden", "true");
+  const area = document.createElement("textarea");
+  area.spellcheck = false;
+  area.setAttribute("aria-label", format.name + " request body");
+  body.append(hl, area);
+
+  const path = document.createElement("p");
+  path.className = "pane-path";
+
+  const error = document.createElement("p");
+  error.className = "pane-error";
+  error.hidden = true;
+
+  const view = { pane, format, path, hl, area, error, chip, rel: format.rel };
+
+  const again = document.createElement("button");
+  again.type = "button";
+  again.className = "mini";
+  again.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 12a8.5 8.5 0 1 1-2.7-6.2"/><path d="M20.5 3.5v5h-5"/></svg>';
+  again.title = "Rewrite the other three bodies from this one";
+  again.setAttribute("aria-label", "Rewrite the other three bodies from " + format.name);
+  again.addEventListener("click", () => convertFrom(view));
+
+  head.append(name, chip, spacer, again, copyButton(() => area.value));
+  pane.append(head, path, body, error);
+
+  area.addEventListener("input", () => {
+    view.hl.innerHTML = paint(area.value) + "\n";
+    fit(area);
+    markSource(view);
+    clearTimeout(timer);
+    timer = setTimeout(() => convertFrom(view), 260);
+  });
+
+  return view;
+}
+
+function markSource(view) {
+  views.forEach((other) => {
+    other.chip.hidden = other !== view;
+    if (other !== view) {
+      other.error.hidden = true;
+      other.error.textContent = "";
+    }
+  });
+}
+
+function say(text) {
+  if (status.firstChild && status.firstChild.nodeType === 3) status.firstChild.nodeValue = text;
+  else status.prepend(document.createTextNode(text));
+}
+
+function reset() {
+  views.forEach((view) => {
+    setBody(view, view.format.json);
+    view.rel = view.format.rel;
+    setPath(view, "POST");
+    view.error.hidden = true;
+    view.chip.hidden = true;
+  });
+  say("Four samples, one per format. Edit a body — or press ↻ — and the other three are rewritten from it.");
+  resetButton.hidden = true;
+}
+
+function convertFrom(view) {
+  markSource(view);
+  if (!converter) {
+    view.error.textContent = "The converter is still loading; over http it appears in a moment.";
+    view.error.hidden = false;
+    return;
+  }
+  let failed = null;
+  views.forEach((other) => {
+    if (other === view) return;
+    let result;
+    try {
+      result = JSON.parse(converter.convert(view.format.id, other.format.id, view.rel, view.area.value));
+    } catch (error) {
+      failed = String(error);
+      return;
+    }
+    if (!result.ok) {
+      failed = result.error;
+      return;
+    }
+    setBody(other, layout(result.body, 0, columns(other.hl)));
+    setPath(other, result.verb, result.path);
+    other.error.hidden = true;
+  });
+  if (failed) {
+    view.error.textContent = failed;
+    view.error.hidden = false;
+    say("That body could not be read as " + view.format.name + ".");
+  } else {
+    view.error.hidden = true;
+    say("Rewritten from the " + view.format.name + " body.");
+    resetButton.hidden = false;
+  }
+}
+
+views.push(...FORMATS.map((format) => {
+  const view = buildPane(format);
+  grid.appendChild(view.pane);
+  return view;
+}));
+reset();
+status.parentNode.appendChild(resetButton);
+
+if (location.protocol === "http:" || location.protocol === "https:") {
+  import("./engine/convert.js").then((module) => {
+    converter = module;
+    say("Four samples, one per format. Edit a body — or press ↻ — and the other three are rewritten from it.");
+  }).catch(() => {
+    say("The four samples are shown as recorded; the converter itself did not load.");
+  });
+} else {
+  say("Open this page over http to convert: a module cannot be imported from a file.");
+}
+</script>
+</body>
+</html>

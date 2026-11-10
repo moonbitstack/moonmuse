@@ -5,6 +5,4 @@ _*
 target/
 tools/
 scripts/difftest/wire/
-
-# Built from src/examples/07-convert at publish time; the published branch carries it.
-site/convert.js
+docs/engine/

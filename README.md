@@ -4,16 +4,20 @@
 
 **One contract for every language model: chat, streaming, tools and embeddings.**
 
+[Home](https://moonbitstack.github.io/moonmuse/) ·
+[Guide](https://moonbitstack.github.io/moonmuse/guide.html) ·
+[API](https://moonbitstack.github.io/moonmuse/api.html) ·
+[mooncakes](https://mooncakes.io/docs/moonbitstack/moonmuse)
+
 [![mooncakes](https://img.shields.io/badge/mooncakes-moonbitstack%2Fmoonmuse-2f6f4e)](https://mooncakes.io/docs/moonbitstack/moonmuse)
 [![license](https://img.shields.io/badge/license-Apache--2.0-2f6f4e)](LICENSE)
-[![ci](https://github.com/moonbitstack/moonmuse/actions/workflows/ci.yml/badge.svg)](https://github.com/moonbitstack/moonmuse/actions/workflows/ci.yml)
 
 </div>
 
-**[A field-by-field comparison of the four API specs →](https://moonbitstack.github.io/moonmuse/)**
-— the same request as OpenAI, Anthropic, Gemini and Ollama each put it on the wire. The four
-bodies on that page are written by this library, compiled to JavaScript and running in the
-browser: edit one and the other three are rewritten from it.
+**[The same request in four formats →](https://moonbitstack.github.io/moonmuse/formats.html)**
+— OpenAI, Anthropic, Gemini and Ollama side by side, field by field. The four bodies are
+written by this library, compiled to JavaScript and running in the page: edit one and the other
+three are rewritten from it.
 
 A model endpoint is a request and an answer. Which vendor answers it, whether it runs in a
 data centre or on the laptop, and whether the caller speaks OpenAI's JSON or Anthropic's is a
