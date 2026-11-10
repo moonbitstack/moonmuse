@@ -84,6 +84,18 @@ jobs:
         if: runner.os == 'Linux'
         run: python3 scripts/openapi/gen_fields.py --check
 
+      # The guide makes a claim about what it prints, so every listing is run and compared
+      # with the line under it.
+      - name: the guide prints what it says
+        if: runner.os == 'Linux'
+        run: python3 scripts/check_guide.py
+
+      - name: the api reference is current
+        if: runner.os == 'Linux'
+        run: |
+          python3 scripts/gen_api.py
+          git diff --exit-code docs/api.html docs/index.html
+
   live:
     permissions:
       contents: read
@@ -163,7 +175,7 @@ jobs:
       - name: compare with what we write
         run: python scripts/difftest/compare.py
 
-  # The page's converter is a build artifact, so a broken export or a dialect that stops
+  # The pages' converter is a build artifact, so a broken export or a dialect that stops
   # reading a body has to fail here rather than in a browser.
   site:
     permissions:

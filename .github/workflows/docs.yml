@@ -1,0 +1,74 @@
+name: Docs
+
+# The site: home, guide, formats and the generated reference. The reference is regenerated
+# here and the build fails when the committed copy is stale; the converter the pages import is
+# compiled from this repository, and the build product is not committed.
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - "docs/**"
+      - "src/**"
+      - "scripts/gen_api.py"
+      - ".github/workflows/docs.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-26.04
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: install moonbit
+        run: |
+          curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash
+          echo "$HOME/.moon/bin" >> "$GITHUB_PATH"
+
+      - name: interface files
+        run: |
+          moon update
+          moon info --target all
+
+      - name: api reference is current
+        run: |
+          python3 scripts/gen_api.py
+          git diff --exit-code docs/api.html docs/index.html
+
+      # The three pages import this: the same dialect code the clients use, compiled to
+      # JavaScript. `docs/engine/` is ignored, so the product never enters the repository.
+      - name: compile the converter
+        run: |
+          mkdir -p docs/engine
+          moon build src/examples/07-convert --target js --release
+          cp _build/js/release/build/examples/07-convert/07-convert.js docs/engine/convert.js
+
+      - uses: actions/configure-pages@v6
+        with:
+          enablement: true
+
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: docs
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-26.04
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5
