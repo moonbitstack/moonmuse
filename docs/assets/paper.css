@@ -302,8 +302,8 @@ footer.foot .spacer{opacity:.8}
 .totop:hover{color:var(--jade)}
 .totop svg{width:15px;height:15px}
 
-@media (max-width:1080px){.doc-shell{grid-template-columns:minmax(0,190px) minmax(0,1fr);gap:30px}}
-@media (max-width:900px){
+@media (width <= 1080px){.doc-shell{grid-template-columns:minmax(0,190px) minmax(0,1fr);gap:30px}}
+@media (width <= 900px){
   .doc-shell{grid-template-columns:1fr;gap:0;margin-top:30px}
   .rail{position:static;margin-bottom:26px;border-bottom:1px dashed var(--line);padding-bottom:14px}
   .rail ol{max-height:none;display:flex;flex-wrap:wrap;gap:4px}
@@ -313,12 +313,12 @@ footer.foot .spacer{opacity:.8}
   .grid.three{grid-template-columns:repeat(2,minmax(0,1fr))}
   .packages{grid-template-columns:1fr}
 }
-@media (max-width:860px){
+@media (width <= 860px){
   .bodies{grid-template-columns:1fr}
   .grid.two{grid-template-columns:1fr}
   .hint{display:block}
 }
-@media (max-width:820px){
+@media (width <= 820px){
   .pane-body .hl,.pane-body textarea{font-size:16px;line-height:1.6}
   .bar-in{padding-top:12px;padding-bottom:10px;gap:8px}
   .brand{font-size:26px}
@@ -337,7 +337,7 @@ footer.foot .spacer{opacity:.8}
   footer.foot{padding-bottom:92px}
   .totop{right:14px;bottom:14px}
 }
-@media (max-width:520px){
+@media (width <= 520px){
   .grid.three{grid-template-columns:1fr}
   .wrap{padding:0 18px}
   footer.foot{padding-left:18px;padding-right:18px}
