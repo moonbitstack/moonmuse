@@ -21,6 +21,8 @@ import {
 import {
   "moonbitstack/moonasgi/testing",
   "moonbitstack/moonmuse/count",
+  "moonbitstack/moonmuse/gemini",
+  "moonbitstack/moonmuse/ollama",
   "moonbitstack/moonmuse/fake",
   "moonbitstack/moontoken",
   "moonbitstack/moontoken/refused",
