@@ -44,7 +44,7 @@ impl @moonmuse.Provider for Echo with fn stream(self, request, on_delta) {
     match part {
       @moonmuse.Part::Call(id~, name~, args~) => {
         on_delta(@moonmuse.Delta::CallStart(id~, name~))
-        on_delta(@moonmuse.Delta::CallArgs(id~, chunk=args.stringify()))
+        on_delta(@moonmuse.Delta::CallArgs(id~, chunk=@json.dumps(args)))
       }
       _ => ()
     }

@@ -6,7 +6,8 @@ import {
   "moonbitstack/moonfetch",
   "moonbitstack/moonhttp/method",
   "moonbitlang/core/encoding/utf8",
-  "moonbitlang/core/json",
+  "moonbitstack/moonjson",
+  "moonbitstack/moonjson/json",
 }
 
 warnings = "-29"

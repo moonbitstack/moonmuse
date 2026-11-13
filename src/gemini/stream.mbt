@@ -65,14 +65,14 @@ pub fn stream_delta(
               key + ":name",
               @moonmuse.json_string_or(call, "name", ""),
             )
-            turn.set_slot(key + ":args", args.stringify())
+            turn.set_slot(key + ":args", @json.dumps(args))
             deltas.push(
               @moonmuse.Delta::CallStart(
                 id~,
                 name=@moonmuse.json_string_or(call, "name", ""),
               ),
             )
-            deltas.push(@moonmuse.Delta::CallArgs(id~, chunk=args.stringify()))
+            deltas.push(@moonmuse.Delta::CallArgs(id~, chunk=@json.dumps(args)))
           }
           None => ()
         }
@@ -184,23 +184,25 @@ pub fn stream_frame(
 /// One streamed chunk.
 fn chunk_frame(parts : Array[Json], finish : Json) -> @moonmuse.Frame {
   @moonmuse.Frame::new(
-    @moonmuse.object_json([
-      (
-        "candidates",
-        Json::array([
-          @moonmuse.object_json([
-            (
-              "content",
-              @moonmuse.object_json([
-                ("role", Json::string("model")),
-                ("parts", Json::array(parts)),
-              ]),
-            ),
-            ("finishReason", finish),
-            ("index", Json::number(0.0)),
+    @json.dumps(
+      @moonmuse.object_json([
+        (
+          "candidates",
+          Json::array([
+            @moonmuse.object_json([
+              (
+                "content",
+                @moonmuse.object_json([
+                  ("role", Json::string("model")),
+                  ("parts", Json::array(parts)),
+                ]),
+              ),
+              ("finishReason", finish),
+              ("index", Json::number(0.0)),
+            ]),
           ]),
-        ]),
-      ),
-    ]).stringify(),
+        ),
+      ]),
+    ),
   )
 }

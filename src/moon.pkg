@@ -2,5 +2,6 @@
 // server-sent-events reader every streaming client needs.
 
 import {
-  "moonbitlang/core/json",
+  "moonbitstack/moonjson",
+  "moonbitstack/moonjson/json",
 }

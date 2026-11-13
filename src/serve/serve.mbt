@@ -185,7 +185,7 @@ async fn respond(
   let payload = if text.trim() == "" {
     Json::empty_object()
   } else {
-    @json.parse(text) catch {
+    @json.loads(text, flavor=@moonjson.strict) catch {
       _ =>
         return error_response(
           @moonmuse.Decode("request body is not JSON"),
@@ -358,7 +358,7 @@ fn first_dialect(dialects : Array[&@moonmuse.Dialect]) -> &@moonmuse.Dialect {
 ///|
 /// A JSON answer.
 fn json_response(body : Json) -> @http.StreamingResponse {
-  @http.StreamingResponse::new(chunks=[@utf8.encode(body.stringify())], headers=[
+  @http.StreamingResponse::new(chunks=[@utf8.encode(@json.dumps(body))], headers=[
     ("content-type", "application/json"),
     ("x-moonmuse", "provider"),
   ])
@@ -373,7 +373,7 @@ fn error_response(
   let (status, body) = @moonmuse.Dialect::error(dialect, error)
   @http.StreamingResponse::new(
     status~,
-    chunks=[@utf8.encode(body.stringify())],
+    chunks=[@utf8.encode(@json.dumps(body))],
     headers=[("content-type", "application/json")],
   )
 }

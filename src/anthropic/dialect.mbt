@@ -216,7 +216,11 @@ pub fn message_reply(
   body : Json,
 ) -> @moonmuse.Reply raise @moonmuse.LlmError {
   if status >= 400 {
-    raise @moonmuse.Status(code=status, body=body.stringify(), retry_after=None)
+    raise @moonmuse.Status(
+      code=status,
+      body=@json.dumps(body),
+      retry_after=None,
+    )
   }
   let parts = []
   for block in @moonmuse.json_array(body, "content") {

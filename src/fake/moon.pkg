@@ -3,4 +3,5 @@
 
 import {
   "moonbitstack/moonmuse",
+  "moonbitstack/moonjson/json",
 }

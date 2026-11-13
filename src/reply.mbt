@@ -184,7 +184,7 @@ pub fn parse_json_lossy(text : String) -> Json {
   if text.trim().is_empty() {
     return Json::object(Map([]))
   }
-  @json.parse(text) catch {
+  @json.loads(text, flavor=@moonjson.strict) catch {
     _ => Json::object(Map([]))
   }
 }

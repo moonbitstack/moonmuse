@@ -4,6 +4,7 @@
 import {
   "moonbitstack/moonmuse",
   "moonbitlang/async",
+  "moonbitstack/moonjson/json",
 }
 
 import {

@@ -170,5 +170,5 @@ pub fn request_key(request : @moonmuse.Request) -> String {
   for key, value in request.extra {
     fields.push(("extra:" + key, value))
   }
-  @moonmuse.object_json(fields).stringify()
+  @json.dumps(@moonmuse.object_json(fields))
 }

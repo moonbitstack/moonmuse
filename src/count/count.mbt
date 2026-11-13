@@ -66,7 +66,7 @@ fn Tokens::tool(
 ) -> Int32 raise @moonmuse.LlmError {
   self.text(tool.name) +
   self.text(tool.description) +
-  self.text(tool.schema.stringify())
+  self.text(@json.dumps(tool.schema))
 }
 
 ///|
@@ -79,7 +79,7 @@ pub impl @moonmuse.Counter for Tokens with fn count(self, request) {
         @moonmuse.Part::Text(text) => total = total + self.text(text)
         @moonmuse.Part::Image(..) => total = total + self.image
         @moonmuse.Part::Call(name~, args~, ..) =>
-          total = total + self.text(name) + self.text(args.stringify())
+          total = total + self.text(name) + self.text(@json.dumps(args))
         @moonmuse.Part::Result(content~, ..) =>
           total = total + self.text(content)
       }

@@ -185,7 +185,7 @@ pub fn responses_answer(reply : @moonmuse.Reply) -> Json {
             ("id", Json::string(id)),
             ("call_id", Json::string(id)),
             ("name", Json::string(name)),
-            ("arguments", Json::string(args.stringify())),
+            ("arguments", Json::string(@json.dumps(args))),
           ]),
         )
       _ => ()

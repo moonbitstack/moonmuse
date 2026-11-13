@@ -29,7 +29,7 @@ pub fn Response::header(self : Response, name : String) -> String? {
 ///|
 /// The body as JSON, or `Decode` when it is not.
 pub fn Response::json(self : Response) -> Json raise @moonmuse.LlmError {
-  @json.parse(self.body) catch {
+  @json.loads(self.body, flavor=@moonjson.strict) catch {
     _ => raise @moonmuse.Decode("response is not JSON: " + self.body)
   }
 }
@@ -63,7 +63,7 @@ pub async fn send(
   let all_headers = [..headers, ..call.headers]
   let body = match call.payload {
     Some(data) => @moonfetch.Body::Bytes(data)
-    None => @moonfetch.Body::Text(call.body.stringify())
+    None => @moonfetch.Body::Text(@json.dumps(call.body))
   }
   let query = if call.query.is_empty() { None } else { Some(call.query) }
   let response = match call.verb {

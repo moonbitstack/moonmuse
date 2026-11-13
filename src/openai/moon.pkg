@@ -6,7 +6,8 @@ import {
   "moonbitstack/moonmuse",
   "moonbitstack/moonmuse/transport",
   "moonbitlang/async",
-  "moonbitlang/core/json",
+  "moonbitstack/moonjson",
+  "moonbitstack/moonjson/json",
 }
 
 warnings = "-29"

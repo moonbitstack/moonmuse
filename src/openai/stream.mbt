@@ -270,5 +270,5 @@ fn chunk_json(delta : Json, finish : Json, usage? : Json) -> String {
     Some(value) => fields.push(("usage", value))
     None => ()
   }
-  @moonmuse.object_json(fields).stringify()
+  @json.dumps(@moonmuse.object_json(fields))
 }

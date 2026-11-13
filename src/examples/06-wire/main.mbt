@@ -52,5 +52,5 @@ fn main raise {
     let (name, dialect, model) = entry
     out[name] = dump(dialect, model)
   }
-  println(Json::object(out).stringify())
+  println(@json.dumps(Json::object(out)))
 }

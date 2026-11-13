@@ -52,7 +52,7 @@ pub fn instruction(name : String, schema : Json) -> String {
   "Reply with one JSON object and nothing else, matching this schema named \"" +
   name +
   "\": " +
-  schema.stringify()
+  @json.dumps(schema)
 }
 
 ///|

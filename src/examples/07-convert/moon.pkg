@@ -8,6 +8,7 @@ import {
   "moonbitstack/moonmuse/anthropic",
   "moonbitstack/moonmuse/gemini",
   "moonbitstack/moonmuse/ollama",
+  "moonbitstack/moonjson/json",
 }
 
 supported_targets = "js"

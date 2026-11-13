@@ -80,5 +80,5 @@ pub fn convert(
         ("error", Json::string(error.describe())),
       ])
   }
-  answer.stringify()
+  @json.dumps(answer)
 }

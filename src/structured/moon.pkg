@@ -4,6 +4,7 @@
 import {
   "moonbitstack/moonmuse",
   "moonbitstack/moonschema",
+  "moonbitstack/moonjson/json",
 }
 
 import {

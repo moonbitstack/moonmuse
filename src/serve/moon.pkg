@@ -15,7 +15,8 @@ import {
   "moonbitstack/moonasgi",
   "moonbitstack/moonasgi/http",
   "moonbitlang/core/encoding/utf8",
-  "moonbitlang/core/json",
+  "moonbitstack/moonjson",
+  "moonbitstack/moonjson/json",
 }
 
 import {
@@ -41,7 +42,8 @@ import {
   "moonbitstack/moonmuse/ollama",
   "moonbitstack/moonnet/tcp",
   "moonbitlang/core/encoding/utf8",
-  "moonbitlang/core/json",
+  "moonbitstack/moonjson",
+  "moonbitstack/moonjson/json",
   "moonbitlang/async",
 } for "wbtest"
 

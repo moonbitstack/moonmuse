@@ -68,12 +68,16 @@ pub fn chat_reply(
   body : Json,
 ) -> @moonmuse.Reply raise @moonmuse.LlmError {
   if status >= 400 {
-    raise @moonmuse.Status(code=status, body=body.stringify(), retry_after=None)
+    raise @moonmuse.Status(
+      code=status,
+      body=@json.dumps(body),
+      retry_after=None,
+    )
   }
   let choices = @moonmuse.json_array(body, "choices")
   guard !choices.is_empty() else {
     raise @moonmuse.Decode(
-      "chat completion has no choices: " + body.stringify(),
+      "chat completion has no choices: " + @json.dumps(body),
     )
   }
   let choice = choices[0]
@@ -168,7 +172,7 @@ pub fn chat_answer(reply : @moonmuse.Reply) -> Json {
                 "function",
                 @moonmuse.object_json([
                   ("name", Json::string(name)),
-                  ("arguments", Json::string(args.stringify())),
+                  ("arguments", Json::string(@json.dumps(args))),
                 ]),
               ),
             ]),

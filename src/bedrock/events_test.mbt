@@ -25,7 +25,7 @@ test "bedrock: a frame decodes to the event it carries" {
   let event = frames[0].event()
   assert_eq(event.kind, "contentBlockDelta")
   assert_eq(
-    @json.parse("{\"delta\":{\"text\":\"hi\"}}") catch {
+    @json.loads("{\"delta\":{\"text\":\"hi\"}}", flavor=@moonjson.strict) catch {
       _ => Json::null()
     },
     event.payload,

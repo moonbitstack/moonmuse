@@ -74,7 +74,10 @@ pub fn Reader::is_empty(self : Reader) -> Bool {
 ///|
 /// A frame's payload as the event it names.
 pub fn Frame::event(self : Frame) -> Event raise @moonmuse.LlmError {
-  let payload = @json.parse(@utf8.decode_lossy(self.payload[:])) catch {
+  let payload = @json.loads(
+    @utf8.decode_lossy(self.payload[:]),
+    flavor=@moonjson.strict,
+  ) catch {
     _ =>
       raise @moonmuse.Decode(
         "an event payload is not JSON: " + @utf8.decode_lossy(self.payload[:]),

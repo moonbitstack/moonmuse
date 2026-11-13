@@ -104,7 +104,7 @@ pub fn messages_json(message : @moonmuse.Message) -> Array[Json] {
                     "function",
                     @moonmuse.object_json([
                       ("name", Json::string(name)),
-                      ("arguments", Json::string(args.stringify())),
+                      ("arguments", Json::string(@json.dumps(args))),
                     ]),
                   ),
                 ]),
@@ -228,7 +228,9 @@ fn of_fields(fields : Array[(String, Json)]) -> Map[String, Json] {
 pub fn error_json(error : @moonmuse.LlmError) -> (Int32, Json) {
   match error {
     @moonmuse.Status(code~, body~, ..) => {
-      let parsed = @json.parse(body) catch { _ => Json::string(body) }
+      let parsed = @json.loads(body, flavor=@moonjson.strict) catch {
+        _ => Json::string(body)
+      }
       let message = match parsed {
         Object(map) =>
           match map.get("error") {

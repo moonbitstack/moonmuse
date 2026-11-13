@@ -53,7 +53,7 @@ async fn Client::call(
   path : String,
   body : Json,
 ) -> @transport.Response raise @moonmuse.LlmError {
-  let payload = @utf8.encode(body.stringify())
+  let payload = @utf8.encode(@json.dumps(body))
   let headers = [("content-type", "application/json"), ..self.headers]
   let signed = sign(
     self.credential,
@@ -94,7 +94,7 @@ pub impl @moonmuse.Provider for Client with fn chat(self, request) {
 /// event carries the usage and arrives after `messageStop`, which is why the reply is
 /// assembled at the end of the stream instead of at the stop event.
 pub impl @moonmuse.Provider for Client with fn stream(self, request, on_delta) {
-  let payload = @utf8.encode(converse_body(request).stringify())
+  let payload = @utf8.encode(@json.dumps(converse_body(request)))
   let headers = [
     ("content-type", "application/json"),
     ("accept", "application/vnd.amazon.eventstream"),

@@ -6,6 +6,7 @@ import {
   "moonbitstack/moonmuse",
   "moonbitstack/moontoken",
   "moonbitstack/moontoken/refused",
+  "moonbitstack/moonjson/json",
 }
 
 import {

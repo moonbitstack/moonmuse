@@ -41,7 +41,7 @@ pub async fn open(
   let all_headers = [..headers, ..call.headers]
   let body = match call.payload {
     Some(data) => @moonfetch.Body::Bytes(data)
-    None => @moonfetch.Body::Text(call.body.stringify())
+    None => @moonfetch.Body::Text(@json.dumps(call.body))
   }
   let query = if call.query.is_empty() { None } else { Some(call.query) }
   let client = @moonfetch.Client::new() catch {

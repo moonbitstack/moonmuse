@@ -229,7 +229,11 @@ pub fn generate_reply(
   body : Json,
 ) -> @moonmuse.Reply raise @moonmuse.LlmError {
   if status >= 400 {
-    raise @moonmuse.Status(code=status, body=body.stringify(), retry_after=None)
+    raise @moonmuse.Status(
+      code=status,
+      body=@json.dumps(body),
+      retry_after=None,
+    )
   }
   let candidates = @moonmuse.json_array(body, "candidates")
   if candidates.is_empty() {
@@ -465,7 +469,7 @@ fn content_of(item : Json) -> @moonmuse.Message {
             let inner = Json::object(fields)
             match @moonmuse.json_string(inner, "content") {
               Some(text) => (text, false)
-              None => (inner.stringify(), false)
+              None => (@json.dumps(inner), false)
             }
           }
           None => ("", false)

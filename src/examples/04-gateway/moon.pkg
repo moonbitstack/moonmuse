@@ -12,6 +12,7 @@ import {
   "moonbitstack/moonmuse/ollama",
   "moonbitstack/mooncat",
   "moonbitlang/async",
+  "moonbitstack/moonjson/json",
 }
 
 pkgtype(kind: "executable")

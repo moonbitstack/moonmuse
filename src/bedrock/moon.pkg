@@ -11,7 +11,8 @@ import {
   "moonbitlang/async",
   "moonbitlang/core/debug",
   "moonbitlang/core/encoding/utf8",
-  "moonbitlang/core/json",
+  "moonbitstack/moonjson",
+  "moonbitstack/moonjson/json",
 }
 
 warnings = "-29"
@@ -20,7 +21,8 @@ import {
   "moonbitstack/moonmuse/fake",
   "moonbitlang/async",
   "moonbitlang/core/encoding/utf8",
-  "moonbitlang/core/json",
+  "moonbitstack/moonjson",
+  "moonbitstack/moonjson/json",
 } for "test"
 
 import {

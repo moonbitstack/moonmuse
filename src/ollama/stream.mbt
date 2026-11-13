@@ -37,14 +37,14 @@ pub fn stream_delta(
           key + ":name",
           @moonmuse.json_string_or(function, "name", ""),
         )
-        turn.set_slot(key + ":args", args.stringify())
+        turn.set_slot(key + ":args", @json.dumps(args))
         deltas.push(
           @moonmuse.Delta::CallStart(
             id~,
             name=@moonmuse.json_string_or(function, "name", ""),
           ),
         )
-        deltas.push(@moonmuse.Delta::CallArgs(id~, chunk=args.stringify()))
+        deltas.push(@moonmuse.Delta::CallArgs(id~, chunk=@json.dumps(args)))
       }
     }
     None => ()
@@ -210,5 +210,5 @@ fn line(
       None => ()
     }
   }
-  @moonmuse.Frame::new(@moonmuse.object_json(fields).stringify())
+  @moonmuse.Frame::new(@json.dumps(@moonmuse.object_json(fields)))
 }

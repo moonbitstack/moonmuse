@@ -121,7 +121,7 @@ pub fn Frame::named(event : String, data : String) -> Frame {
 ///|
 /// The frame's payload as JSON, or `Decode` when it is not JSON.
 pub fn Frame::json(self : Frame) -> Json raise LlmError {
-  @json.parse(self.data) catch {
+  @json.loads(self.data, flavor=@moonjson.strict) catch {
     _ => raise Decode("frame is not JSON: " + self.data)
   }
 }

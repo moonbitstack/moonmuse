@@ -118,7 +118,7 @@ pub fn stream_delta(
       }
       [@moonmuse.Delta::Done(reply_of(turn, finish))]
     }
-    "error" => raise @moonmuse.Stream(body.stringify())
+    "error" => raise @moonmuse.Stream(@json.dumps(body))
     _ => []
   }
 }
@@ -357,5 +357,5 @@ fn open_block(
 ///|
 /// A named event frame.
 fn event(name : String, body : Json) -> @moonmuse.Frame {
-  @moonmuse.Frame::named(name, body.stringify())
+  @moonmuse.Frame::named(name, @json.dumps(body))
 }
