@@ -1,92 +1,66 @@
 ///|
-/// A provider that reports what its calls cost, as Prometheus metrics with the names the
-/// OpenTelemetry GenAI conventions define. A trace answers "what happened to this one call";
-/// a metric answers "how many calls, how long, how many tokens", which is the question an
-/// operator asks when nothing is wrong yet.
+/// A provider that reports what its calls cost, as OpenTelemetry metrics with the
+/// names the semantic conventions define. A trace answers "what happened to this
+/// one call"; a metric answers "how many calls, how long, how many tokens", which
+/// is the question an operator asks when nothing is wrong yet.
 ///
-/// The instrument names are the convention's: `gen_ai.client.operation.duration` for the
-/// time a call took and the token counters for what it spent. The convention's older
-/// `gen_ai.client.token.usage` was retired upstream in favour of one counter per direction,
-/// so that is what is written here — a dashboard that wants the old name can sum them.
+/// The instrument names are the convention's: `gen_ai.client.operation.duration`
+/// for the time a call took and the token counters for what it spent. The
+/// convention's older `gen_ai.client.token.usage` was retired upstream in favour
+/// of one counter per direction, so that is what is written here — a dashboard
+/// that wants the old name can sum them. The dotted names are kept exactly as the
+/// conventions spell them; an exporter translates them to its wire, not this code.
 
 ///|
 /// A provider wrapped in metrics.
 pub struct Metered {
   inner : &@moonmuse.Provider
   /// How long a call took, in seconds.
-  duration : @moonp8s.Family[@moonp8s.Histogram]
+  duration : @moontel.Histogram
   /// Input tokens per call.
-  input : @moonp8s.Family[@moonp8s.Counter]
+  input : @moontel.Counter
   /// Output tokens per call.
-  output : @moonp8s.Family[@moonp8s.Counter]
+  output : @moontel.Counter
   /// The wait before the first event of a streamed call, in seconds.
-  first : @moonp8s.Family[@moonp8s.Histogram]
+  first : @moontel.Histogram
 }
 
 ///|
-/// The exposition's spelling of a convention name: OpenMetrics allows letters, digits,
-/// colons and underscores, so the dots a semantic convention writes become underscores.
-/// This is the same translation the OpenTelemetry Prometheus exporter makes, and it is what
-/// a dashboard written against either one already queries.
-fn prometheus(name : String) -> String {
-  let out = StringBuilder()
-  for char in name {
-    if char == '.' || char == '-' {
-      out.write_char('_')
-    } else {
-      out.write_char(char)
-    }
-  }
-  out.to_string()
-}
-
-///|
-/// Report `provider`'s calls into `registry`. The instruments are created once, here, so a
-/// registry that already has them refuses the second wrapper rather than mixing two series.
+/// Report `provider`'s calls into `meter`. The instruments are created once, here,
+/// named by the GenAI semantic conventions, so a backend matches on the names it
+/// already matches on for every other client — no Prometheus translation, no
+/// renaming at the exporter.
 pub fn metered(
   provider : &@moonmuse.Provider,
-  registry : @moonp8s.Registry,
+  meter : @moontel.Meter,
 ) -> &@moonmuse.Provider {
-  let labels = ["operation", "model"]
-  let duration = @moonp8s.Family::new(labels, () => @moonp8s.Histogram::new()) catch {
-    error => abort("metric refused: " + error.message())
-  }
-  registry.register(
-    prometheus(@semconv.gen_ai_client_operation_duration),
-    "Time a model call took.",
-    duration,
+  let duration_name = @semconv.gen_ai_client_operation_duration
+  let input_name = @semconv.gen_ai_client_inference_operation_input_tokens
+  let output_name = @semconv.gen_ai_client_inference_operation_output_tokens
+  let first_name = @semconv.gen_ai_client_inference_time_to_first_chunk
+  let duration = meter.histogram(
+    duration_name,
+    description="Time a model call took, in seconds.",
   ) catch {
-    error => abort("metric refused: " + error.message())
+    _ => abort("metric refused: " + duration_name)
   }
-  let input = @moonp8s.Family::new(labels, () => @moonp8s.Counter::new()) catch {
-    error => abort("metric refused: " + error.message())
-  }
-  registry.register(
-    prometheus(@semconv.gen_ai_client_inference_operation_input_tokens),
-    "Tokens a model call was given.",
-    input,
+  let input = meter.counter(
+    input_name,
+    description="Tokens a model call was given.",
   ) catch {
-    error => abort("metric refused: " + error.message())
+    _ => abort("metric refused: " + input_name)
   }
-  let output = @moonp8s.Family::new(labels, () => @moonp8s.Counter::new()) catch {
-    error => abort("metric refused: " + error.message())
-  }
-  registry.register(
-    prometheus(@semconv.gen_ai_client_inference_operation_output_tokens),
-    "Tokens a model call produced.",
-    output,
+  let output = meter.counter(
+    output_name,
+    description="Tokens a model call produced.",
   ) catch {
-    error => abort("metric refused: " + error.message())
+    _ => abort("metric refused: " + output_name)
   }
-  let first = @moonp8s.Family::new(labels, () => @moonp8s.Histogram::new()) catch {
-    error => abort("metric refused: " + error.message())
-  }
-  registry.register(
-    prometheus(@semconv.gen_ai_client_inference_time_to_first_chunk),
-    "Time from asking to the first event of a streamed answer.",
-    first,
+  let first = meter.histogram(
+    first_name,
+    description="Time from asking to the first event of a streamed answer, in seconds.",
   ) catch {
-    error => abort("metric refused: " + error.message())
+    _ => abort("metric refused: " + first_name)
   }
   Metered::{ inner: provider, duration, input, output, first, }
 }
@@ -102,36 +76,27 @@ fn Metered::observe(
   first : Double?,
   reply : @moonmuse.Reply?,
 ) -> Unit {
-  let labels = [operation, model]
+  let labels = @moontel.Attributes::new(entries=[
+    (@semconv.gen_ai_operation_name, @trace.Str(operation)),
+    (@semconv.gen_ai_request_model, @trace.Str(model)),
+  ])
   let seconds = elapsed / 1_000_000.0
-  let duration = self.duration.labels(labels) catch { _ => return }
-  duration.observe(seconds)
+  self.duration.record(seconds, attributes=labels)
   match first {
     Some(wait) => {
       let wait = wait / 1_000_000.0
-      let series = self.first.labels(labels) catch { _ => return }
-      series.observe(wait)
+      self.first.record(wait, attributes=labels)
     }
     None => ()
   }
   match reply {
     Some(reply) => {
       match reply.usage.input {
-        Some(value) => {
-          let counter = self.input.labels(labels) catch { _ => return }
-          counter.inc(by=value.to_double()) catch {
-            _ => ()
-          }
-        }
+        Some(value) => self.input.add(value.to_double(), attributes=labels)
         None => ()
       }
       match reply.usage.output {
-        Some(value) => {
-          let counter = self.output.labels(labels) catch { _ => return }
-          counter.inc(by=value.to_double()) catch {
-            _ => ()
-          }
-        }
+        Some(value) => self.output.add(value.to_double(), attributes=labels)
         None => ()
       }
     }

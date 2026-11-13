@@ -3,12 +3,12 @@ package "moonbitstack/moonmuse/otel"
 
 import {
   "moonbitstack/moonmuse",
-  "moonbitstack/moonp8s/metric",
+  "moonbitstack/moontel/meter",
   "moonbitstack/moontel/trace",
 }
 
 // Values
-pub fn metered(&@moonmuse.Provider, @metric.Registry) -> &@moonmuse.Provider
+pub fn metered(&@moonmuse.Provider, @meter.Meter) -> &@moonmuse.Provider
 
 pub fn traced(&@moonmuse.Provider, @trace.Tracer, content? : Bool) -> &@moonmuse.Provider
 
@@ -17,10 +17,10 @@ pub fn traced(&@moonmuse.Provider, @trace.Tracer, content? : Bool) -> &@moonmuse
 // Types and methods
 pub struct Metered {
   inner : &@moonmuse.Provider
-  duration : @metric.Family[@metric.Histogram]
-  input : @metric.Family[@metric.Counter]
-  output : @metric.Family[@metric.Counter]
-  first : @metric.Family[@metric.Histogram]
+  duration : @meter.Histogram
+  input : @meter.Counter
+  output : @meter.Counter
+  first : @meter.Histogram
 }
 pub async fn Metered::chat(Self, @moonmuse.Request) -> @moonmuse.Reply raise @moonmuse.LlmError
 pub async fn Metered::embed(Self, String, Array[String]) -> Array[Array[Double]] raise @moonmuse.LlmError

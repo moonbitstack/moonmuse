@@ -1,17 +1,18 @@
 // Observation for the model layer: a provider that reports what a call was and what it
-// cost, as OpenTelemetry traces and Prometheus metrics. The names come from the semantic
+// cost, as OpenTelemetry traces and metrics. The names come from the semantic
 // conventions in moontel, so a backend sees the same keys it sees from every other client.
 
 import {
   "moonbitstack/moonmuse",
+  "moonbitstack/moontel",
   "moonbitstack/moontel/trace",
   "moonbitstack/moontel/semconv",
-  "moonbitstack/moonp8s",
   "moonbitlang/async",
   "moonbitlang/core/bench",
 }
 
 import {
   "moonbitstack/moonmuse/fake",
+  "moonbitstack/moontel/otlp",
   "moonbitlang/async",
 } for "test"

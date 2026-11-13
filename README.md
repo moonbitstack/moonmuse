@@ -244,7 +244,10 @@ let tracer = @trace.Tracer::new(
   sampler=@trace.parent_based(root=@trace.always),
 )
 let observed = @otel.traced(provider, tracer)
-let measured = @otel.metered(provider, @moonp8s.Registry::new())
+let recorder = @otlp.MetricRecorder::new()
+let provider_meter = @moontel.MeterProvider::new(sink=recorder, now=() => 0L)
+let meter = provider_meter.meter(name="moonmuse")
+let measured = @otel.metered(provider, meter)
 ```
 
 Message bodies are not recorded unless `content=true` is passed: a trace list is a place data

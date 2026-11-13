@@ -310,7 +310,7 @@ for span in recorder.spans() {
         <div class="said output"><b>printed</b>answer: Air scatters blue light.
 spans: 1
 span: chat gpt-4o-mini</div>
-        <p><code>@otel.metered(provider, registry)</code> adds the token and duration instruments to a Prometheus registry; the names are the ones the convention fixes, so a dashboard matches them for this client as it would for any other.</p>
+        <p><code>@otel.metered(provider, meter)</code> records the token and duration instruments through a moontel <code>Meter</code>; the names are the ones the convention fixes, so a backend matches them for this client as it would for any other.</p>
 
         <h2 id="local">A local model</h2>
         <p>An inference engine is a contract, and the text format the model was trained on is data. Nothing here reads weights: an engine turns a prompt into a continuation, and this package turns a request into the prompt and the answer back into text and calls.</p>

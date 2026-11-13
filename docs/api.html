@@ -1363,15 +1363,15 @@
 </div>
 <div class="group" id="group-observation"><div class="group-head"><h2>Observation</h2></div><p class="pkg-note">Traces and metrics under the OpenTelemetry GenAI names.</p>
 <section class="pkg" id="pkg-otel">
-<div class="pkg-head"><h3>otel</h3><span class="path">moonbitstack/moonmuse/otel</span></div><p class="pkg-ref">Observation for the model layer: a provider that reports what a call was and what it cost, as OpenTelemetry traces and Prometheus metrics. The names come from the semantic conventions in moontel, so a backend sees the same keys it sees from every other client.</p>
+<div class="pkg-head"><h3>otel</h3><span class="path">moonbitstack/moonmuse/otel</span></div><p class="pkg-ref">Observation for the model layer: a provider that reports what a call was and what it cost, as OpenTelemetry traces and metrics. The names come from the semantic conventions in moontel, so a backend sees the same keys it sees from every other client.</p>
 <div class="item" id="otel-Metered">
 <div class="name"><span class="kind">type</span>Metered</div>
 <div class="body"><div class="sig">pub struct Metered {
   inner : &amp;@moonmuse.Provider
-  duration : @metric.Family[@metric.Histogram]
-  input : @metric.Family[@metric.Counter]
-  output : @metric.Family[@metric.Counter]
-  first : @metric.Family[@metric.Histogram]
+  duration : @meter.Histogram
+  input : @meter.Counter
+  output : @meter.Counter
+  first : @meter.Histogram
 }</div><p>A provider wrapped in metrics.</p><p class="impls">Implements <code>@moonmuse.Provider</code></p><div class="methods"><div class="sig">pub async fn Metered::chat(Self, @moonmuse.Request) -&gt; @moonmuse.Reply raise @moonmuse.LlmError</div><div class="sig">pub async fn Metered::embed(Self, String, Array[String]) -&gt; Array[Array[Double]] raise @moonmuse.LlmError</div><div class="sig">pub async fn Metered::models(Self) -&gt; Array[@moonmuse.ModelInfo] raise @moonmuse.LlmError</div><div class="sig">pub async fn Metered::stream(Self, @moonmuse.Request, (@moonmuse.Delta) -&gt; Unit) -&gt; @moonmuse.Reply raise @moonmuse.LlmError</div></div></div>
 </div>
 <div class="item" id="otel-Traced">
@@ -1384,7 +1384,7 @@
 </div>
 <div class="item" id="otel-metered">
 <div class="name"><span class="kind">fn</span>metered</div>
-<div class="body"><div class="sig">pub fn metered(&amp;@moonmuse.Provider, @metric.Registry) -&gt; &amp;@moonmuse.Provider</div><p>Report <code>provider</code>'s calls into <code>registry</code>. The instruments are created once, here, so a registry that already has them refuses the second wrapper rather than mixing two series.</p></div>
+<div class="body"><div class="sig">pub fn metered(&amp;@moonmuse.Provider, @meter.Meter) -&gt; &amp;@moonmuse.Provider</div><p>Report <code>provider</code>'s calls into <code>meter</code>. The instruments are created once, here, named by the GenAI semantic conventions, so a backend matches on the names it already matches on for every other client — no Prometheus translation, no renaming at the exporter.</p></div>
 </div>
 <div class="item" id="otel-traced">
 <div class="name"><span class="kind">fn</span>traced</div>

@@ -81,8 +81,7 @@ import {
   "moonbitstack/moonpug@0.1.5",
   "moonbitstack/mooncat@0.19.8",
   "moonbitstack/mooncrypt@0.4.15",
-  "moonbitstack/moonp8s@0.1.2",
-  "moonbitstack/moontel@0.1.2",
+  "moonbitstack/moontel@0.2.0",
   "moonbitstack/moontoken@0.1.3",
   "moonbitstack/moonnet@0.1.12",
 }

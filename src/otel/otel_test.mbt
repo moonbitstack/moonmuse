@@ -161,43 +161,90 @@ async test "otel: a streamed call is one span that notes the first event" {
 }
 
 ///|
-/// The registry's text, which is what a scrape would see.
-async test "otel: metrics carry the conventional names and the model label" {
-  let registry = @moonp8s.Registry::new()
-  let provider = @otel.metered(answer(), registry)
+/// The collected metrics, which is what an exporter would read back from the
+/// provider: the names are the convention's, the attributes are the operation and
+/// the model, and the token counters carry the cost the fake reported.
+async test "otel: metrics carry the conventional names and the model attribute" {
+  let recorder = @otlp.MetricRecorder::new()
+  let provider_meter = @moontel.MeterProvider::new(sink=recorder, now=() => 0L)
+  let meter = provider_meter.meter(name="moonmuse")
+  let provider = @otel.metered(answer(), meter)
   let _ = provider.chat(request())
-  let text = @moonp8s.text(registry.collect())
-  assert_eq(text.contains("gen_ai_client_operation_duration"), true)
+  let metrics = provider_meter.collect(at=1_000_000L)
+  let input = metric(
+    metrics, @semconv.gen_ai_client_inference_operation_input_tokens,
+  )
+  assert_eq(input.kind, @otlp.Sum(temporality=@otlp.Cumulative, monotonic=true))
+  let point = input.points[0]
+  assert_eq(point.point, @otlp.AsDouble(7.0))
   assert_eq(
-    text.contains("gen_ai_client_inference_operation_input_tokens"),
-    true,
+    attribute_value(point.attributes, @semconv.gen_ai_operation_name),
+    Some(@trace.Str("chat")),
   )
   assert_eq(
-    text.contains("gen_ai_client_inference_operation_output_tokens"),
-    true,
+    attribute_value(point.attributes, @semconv.gen_ai_request_model),
+    Some(@trace.Str("gpt-test")),
   )
-  assert_eq(text.contains("model=\"gpt-test\""), true)
-  assert_eq(text.contains("operation=\"chat\""), true)
-  // Seven tokens in, three out, as the provider reported.
-  assert_eq(
-    text.contains(
-      "gen_ai_client_inference_operation_input_tokens_total{model=\"gpt-test\",operation=\"chat\"} 7.0",
-    ),
-    true,
+  let output = metric(
+    metrics, @semconv.gen_ai_client_inference_operation_output_tokens,
   )
-  assert_eq(
-    text.contains(
-      "gen_ai_client_inference_operation_output_tokens_total{model=\"gpt-test\",operation=\"chat\"} 3.0",
-    ),
-    true,
-  )
+  assert_eq(output.points[0].point, @otlp.AsDouble(3.0))
+  let duration = metric(metrics, @semconv.gen_ai_client_operation_duration)
+  assert_eq(duration.kind, @otlp.Histogram(temporality=@otlp.Cumulative))
 }
 
 ///|
 async test "otel: a streamed call records the wait for its first event" {
-  let registry = @moonp8s.Registry::new()
-  let provider = @otel.metered(@fake.Fake::text("abc"), registry)
+  let recorder = @otlp.MetricRecorder::new()
+  let provider_meter = @moontel.MeterProvider::new(sink=recorder, now=() => 0L)
+  let meter = provider_meter.meter(name="moonmuse")
+  let provider = @otel.metered(@fake.Fake::text("abc"), meter)
   let _ = provider.stream(request(), _delta => ())
-  let text = @moonp8s.text(registry.collect())
-  assert_eq(text.contains("gen_ai_client_inference_time_to_first_chunk"), true)
+  let metrics = provider_meter.collect(at=1_000_000L)
+  let first = metric(
+    metrics, @semconv.gen_ai_client_inference_time_to_first_chunk,
+  )
+  let point = first.points[0]
+  assert_eq(
+    attribute_value(point.attributes, @semconv.gen_ai_operation_name),
+    Some(@trace.Str("chat")),
+  )
+  assert_eq(
+    attribute_value(point.attributes, @semconv.gen_ai_request_model),
+    Some(@trace.Str("gpt-test")),
+  )
+}
+
+///|
+/// A metric by its conventional name, or a clear failure if the collection missed it.
+fn metric(metrics : Array[@otlp.Metric], name : String) -> @otlp.Metric {
+  match find(metrics, name) {
+    Some(metric) => metric
+    None => abort("metric not collected: " + name)
+  }
+}
+
+///|
+/// A metric by its conventional name, if the collection has it.
+fn find(metrics : Array[@otlp.Metric], name : String) -> @otlp.Metric? {
+  for metric in metrics {
+    if metric.name == name {
+      return Some(metric)
+    }
+  }
+  None
+}
+
+///|
+/// The value of a metric attribute, by the convention's key.
+fn attribute_value(
+  attributes : Array[(String, @trace.Value)],
+  name : String,
+) -> @trace.Value? {
+  for pair in attributes {
+    if pair.0 == name {
+      return Some(pair.1)
+    }
+  }
+  None
 }
