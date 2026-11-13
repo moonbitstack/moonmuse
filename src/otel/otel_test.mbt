@@ -216,6 +216,34 @@ async test "otel: a streamed call records the wait for its first event" {
 }
 
 ///|
+/// An embed call has no usage to count, so it records only its operation time, and the
+/// label reads `embeddings` rather than `chat`: a metric with a chat label on it would put
+/// the two operations in one series.
+async test "otel: an embed call records its duration but no token counter" {
+  let recorder = @otlp.MetricRecorder::new()
+  let provider_meter = @moontel.MeterProvider::new(sink=recorder, now=() => 0L)
+  let meter = provider_meter.meter(name="moonmuse")
+  let provider = @otel.metered(@fake.Fake::new([]), meter)
+  let vectors = provider.embed("gpt-test", ["hello", "world"])
+  assert_eq(vectors.length(), 2)
+  let metrics = provider_meter.collect(at=1_000_000L)
+  let duration = metric(metrics, @semconv.gen_ai_client_operation_duration)
+  let point = duration.points[0]
+  assert_eq(
+    attribute_value(point.attributes, @semconv.gen_ai_operation_name),
+    Some(@trace.Str("embeddings")),
+  )
+  assert_eq(
+    attribute_value(point.attributes, @semconv.gen_ai_request_model),
+    Some(@trace.Str("gpt-test")),
+  )
+  match find(metrics, @semconv.gen_ai_client_inference_operation_input_tokens) {
+    Some(input) => assert_eq(input.points.length(), 0)
+    None => ()
+  }
+}
+
+///|
 /// A metric by its conventional name, or a clear failure if the collection missed it.
 fn metric(metrics : Array[@otlp.Metric], name : String) -> @otlp.Metric {
   match find(metrics, name) {
