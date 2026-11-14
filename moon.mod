@@ -1,6 +1,6 @@
 name = "moonbitstack/moonmuse"
 
-version = "0.1.1"
+version = "0.2.0"
 
 readme = "README.md"
 
@@ -73,15 +73,15 @@ source = "src"
 
 import {
   "moonbitlang/async@0.22.5",
-  "moonbitstack/moonfetch@0.1.8",
-  "moonbitstack/moonhttp@0.15.10",
-  "moonbitstack/moonasgi@0.10.8",
+  "moonbitstack/moonfetch@0.2.0",
+  "moonbitstack/moonhttp@0.16.0",
+  "moonbitstack/moonasgi@0.11.2",
   "moonbitstack/moonjson@0.5.0",
   "moonbitstack/moonschema@0.2.5",
-  "moonbitstack/moonpug@0.1.5",
-  "moonbitstack/mooncat@0.19.8",
-  "moonbitstack/mooncrypt@0.4.15",
-  "moonbitstack/moontel@0.2.0",
-  "moonbitstack/moontoken@0.1.3",
-  "moonbitstack/moonnet@0.1.12",
+  "moonbitstack/moonpug@0.2.0",
+  "moonbitstack/mooncat@0.20.0",
+  "moonbitstack/mooncrypt@0.5.0",
+  "moonbitstack/moontel@0.2.1",
+  "moonbitstack/moontoken@0.2.0",
+  "moonbitstack/moonnet@0.2.0",
 }
