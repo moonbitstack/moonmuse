@@ -65,7 +65,7 @@ pub async fn open(
     headers: stream.headers(),
     stream,
     client,
-    pending: Bytes::new(0),
+    pending: b"",
     over: false,
   }
 }
@@ -132,7 +132,7 @@ async fn Streaming::take(self : Streaming) -> String? raise @moonmuse.LlmError {
     None => {
       self.over = true
       let rest = self.pending
-      self.pending = Bytes::new(0)
+      self.pending = b""
       if rest.length() > 0 {
         Some(@utf8.decode_lossy(rest[:]))
       } else {

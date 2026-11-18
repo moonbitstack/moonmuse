@@ -39,7 +39,7 @@ pub fn payload_hash(body : BytesView) -> String {
 ///|
 /// The hash of an empty body, which is what a GET sends.
 pub fn empty_hash() -> String {
-  payload_hash(Bytes::new(0)[:])
+  payload_hash(b""[:])
 }
 
 ///|

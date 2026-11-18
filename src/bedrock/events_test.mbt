@@ -8,7 +8,7 @@ test "bedrock: the checksum is the one zlib computes" {
   // The standard check value: CRC-32 of "123456789" is 0xcbf43926, which as a signed 32-bit
   // number is what this returns.
   assert_eq(@bedrock.crc32(@utf8.encode("123456789")[:]), -873_187_034)
-  assert_eq(@bedrock.crc32(Bytes::new(0)[:]), 0)
+  assert_eq(@bedrock.crc32(b""[:]), 0)
 }
 
 ///|
@@ -42,7 +42,7 @@ test "bedrock: a frame split across two reads is one frame" {
   )
   let size = frame.length()
   let reader = @bedrock.Reader::new()
-  let first = Bytes::new(0)
+  let first = b""
   let head = Buffer()
   head.write_bytes(frame[0:7])
   assert_eq(reader.push(head.to_bytes()).length(), 0)

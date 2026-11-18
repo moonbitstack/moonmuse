@@ -28,7 +28,7 @@ pub struct Reader {
 ///|
 /// A decoder with nothing buffered.
 pub fn Reader::new() -> Reader {
-  { buf: Bytes::new(0), }
+  { buf: b"", }
 }
 
 ///|
